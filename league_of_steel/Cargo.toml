@@ -1,0 +1,13 @@
+[package]
+name = "league_of_steel"
+version = "0.4.0"
+authors = ["Krzysztof Grzywocz <kgrzywocz@wp.pl>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+lol-lib = {path = "../lol-lib"}
+steel-lib = {path = "../steel-lib"}
+log = "0.4"
+simple_logger = "1.3.0"
