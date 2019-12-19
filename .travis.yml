@@ -1,0 +1,16 @@
+os: windows
+language: rust
+before_install:
+- choco install nsis
+script:
+- cargo build --target x86_64-pc-windows-msvc --release --verbose --all
+- /c/Program\ Files\ \(x86\)/NSIS/makensis.exe installer_script.nsi
+- cargo test --verbose --all
+deploy:
+  provider: releases
+  api_key:
+    secure: YDnnkHDgfS96H9IRV0byLbdKI7oq74AJzmqRjFTE2NfxvygKXiRTDFIcGTqMHIKHqsbpuISaajFlrvoFnaeyv/QKV3KNvLvo5NDB2hD+eyWjawJpYiFmxAjCdpoxNGH6b3/1t4P1uvVUL3Pw9QnithSN8uMw/R1wIHr/cVcm3HfGvgqCbU2rt29dTaOGlINN2NNLsgFvdnRt6HTQHDKV6HX4pHGICAHMyTcdSEp5BQD1OLRYjDnwyH/CnBg4lAclewnP6nGvFT2d42C9SiJTIis/wp9s98oVAAwj09Gp1eJlWKpYtrBE+2W7lUQlNPqfP7jtX+NTsKvidsmhvgplPMOzOxg2YUwYdG0fQ79gd0q9PY5MJireF5OeYumkMGpuOQ5PK1jUYbp120ZfG/e2Ynsy3sUu5fYWZ2ps2dpCFBXRDZYvsY1zsDBrr9xex0eoNVGRIIBuxrUy7lY17I2V0r8n9hUtJPFnCraGT+ekDI+rF2leUtWh1XNVxVuWby9Yh3KpcvYjeERltlRDujPK4kHFp+aJsB5v4HGz24vqtR1zmYfo9eHXpfXMaFIXsDYKZ+cc2q04wWt47p7vvof0uQt70WM2aiEyiKb8fiE7XHVP9wdg+Ap2seqZZOgs+SawfmnFEVRTspgxgdZswYfd+MUIZqFfv7r+6Om4AeuVNjM=
+  file: ./target/league_of_steel_setup.exe
+  on:
+    repo: kgrzywocz/league_of_steel
+   draft: true
