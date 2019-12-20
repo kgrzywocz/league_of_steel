@@ -25,7 +25,7 @@ fn main() {
             std::thread::sleep(UPDATE_INTERVAL);
         } else {
             if lol_lib.is_some(){
-                on_game_stop(&mut lol_lib, &steel_connector);
+                on_game_stop(&mut lol_lib);
             }
             std::thread::sleep(GAME_SEEK_INTERVAL);
         }
@@ -95,8 +95,7 @@ fn lol_stats_update(lol_lib: &lol_lib::LolLib, steel_connector: &steel_lib::Stee
 }
 
 fn on_game_stop(
-    lol_lib_opt: &mut Option<lol_lib::LolLib>,
-    steel_connector: &steel_lib::SteelConnector,
+    lol_lib_opt: &mut Option<lol_lib::LolLib>
 ) {
     if let Some(lol_lib) = lol_lib_opt{
         lol_lib.destroy();
