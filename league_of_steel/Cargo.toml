@@ -1,6 +1,6 @@
 [package]
 name = "league_of_steel"
-version = "0.4.0"
+version = "0.4.1-alpha.0"
 authors = ["Krzysztof Grzywocz <kgrzywocz@wp.pl>"]
 edition = "2018"
 
