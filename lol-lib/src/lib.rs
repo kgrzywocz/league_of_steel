@@ -7,6 +7,7 @@ pub struct LolStats {
 
 extern "C" {
   fn lollib_init() -> i32;
+  fn lollib_destroy();
   fn lollib_screen_width() -> i32;
   fn lollib_screen_height() -> i32;
   fn lollib_has_mode_changed() -> i32;
@@ -25,6 +26,9 @@ impl LolLib {
 
     log::debug!("Screen {}x{}", width, height);
     Self {}
+  }
+  pub fn destroy(&self) {
+    unsafe { lollib_destroy() };
   }
 
   pub fn has_mode_changed(&self) -> bool {

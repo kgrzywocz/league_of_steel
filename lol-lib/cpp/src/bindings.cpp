@@ -21,6 +21,16 @@ extern "C" int32_t lollib_init()
 
   return 0;
 }
+extern "C" void lollib_destroy()
+{
+  callSafely<int32_t>([]() {
+    if (lollib)
+    {
+      delete lollib;
+    }
+    return 0;
+  });
+}
 
 extern "C" int32_t lollib_screen_width()
 {

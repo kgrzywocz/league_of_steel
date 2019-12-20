@@ -24,6 +24,9 @@ fn main() {
             on_game_running(&mut lol_lib, &steel_connector);
             std::thread::sleep(UPDATE_INTERVAL);
         } else {
+            if lol_lib.is_some(){
+                on_game_stop(&mut lol_lib, &steel_connector);
+            }
             std::thread::sleep(GAME_SEEK_INTERVAL);
         }
     }
@@ -89,4 +92,14 @@ fn lol_stats_update(lol_lib: &lol_lib::LolLib, steel_connector: &steel_lib::Stee
     steel_connector.send_health(stats.health);
     steel_connector.send_mana(stats.mana);
     steel_connector.send_hit(stats.hit);
+}
+
+fn on_game_stop(
+    lol_lib_opt: &mut Option<lol_lib::LolLib>,
+    steel_connector: &steel_lib::SteelConnector,
+) {
+    if let Some(lol_lib) = lol_lib_opt{
+        lol_lib.destroy();
+        *lol_lib_opt=None;
+    }
 }
