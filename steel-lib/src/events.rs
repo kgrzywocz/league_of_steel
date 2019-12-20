@@ -111,7 +111,6 @@ impl Event for RegisterGame {
     }
 }
 
-
 //icon api: https://github.com/SteelSeries/gamesense-sdk/blob/0ec272cbbdc57f1fdba4ddc0173079ad35366591/doc/api/event-icons.md
 
 pub struct RegisterHealthEvent {}

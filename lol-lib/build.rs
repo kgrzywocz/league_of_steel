@@ -1,6 +1,6 @@
-
 fn main() {
-    let src_files = std::fs::read_dir("cpp/src").unwrap()
+    let src_files = std::fs::read_dir("cpp/src")
+        .unwrap()
         .map(|f| f.unwrap().path())
         .filter(|f| f.extension().unwrap() == "cpp");
 

@@ -5,7 +5,7 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new() -> Result<Self, SteelLibError>{
+    pub fn new() -> Result<Self, SteelLibError> {
         let config_path = Self::get_config_file_path()?;
         Self::from_file(&config_path)
     }
@@ -18,11 +18,15 @@ impl Config {
         let address = self
             .config_json
             .get("address")
-            .ok_or(SteelLibError::SSEConfig("coreProps.json - file should have address key".to_string()))?;
+            .ok_or(SteelLibError::SSEConfig(
+                "coreProps.json - file should have address key".to_string(),
+            ))?;
         if let serde_json::Value::String(address) = address {
             Ok(address.to_string())
         } else {
-            Err(SteelLibError::SSEConfig("coreProps.json - invalid file format - missing address".to_string()))
+            Err(SteelLibError::SSEConfig(
+                "coreProps.json - invalid file format - missing address".to_string(),
+            ))
         }
     }
 
@@ -35,7 +39,8 @@ impl Config {
     fn read_json_config(file: &str) -> Result<serde_json::Value, SteelLibError> {
         let file = std::fs::File::open(file)
             .map_err(|_| SteelLibError::SSEConfig("Cannot open coreProps.json!".to_string()))?;
-        serde_json::from_reader(file)
-            .map_err(|_| SteelLibError::SSEConfig("coreProps.json - file should be proper JSON".to_string()))
+        serde_json::from_reader(file).map_err(|_| {
+            SteelLibError::SSEConfig("coreProps.json - file should be proper JSON".to_string())
+        })
     }
 }

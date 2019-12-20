@@ -3,8 +3,8 @@ extern crate reqwest;
 mod config;
 mod server_connector;
 
-pub use server_connector::ServerConnector;
 pub use super::SteelLibError;
+pub use server_connector::ServerConnector;
 
 pub trait Event {
     fn endpoint(&self) -> String;
@@ -12,7 +12,7 @@ pub trait Event {
 }
 
 pub trait EventSender {
-    fn send<E>(&self, event: E)
+    fn send<E>(&self, event: E) -> Result<(), SteelLibError>
     where
         E: Event;
 }

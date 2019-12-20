@@ -14,40 +14,43 @@ impl SteelConnector {
         })
     }
 
-    pub fn register_game(&self) {
+    pub fn register_game(&self) -> Result<(), SteelLibError> {
         log::info!("Game register sent");
-        self.server_connector.send(events::RegisterGame::new());
+        self.server_connector.send(events::RegisterGame::new())
     }
-    pub fn register_game_events(&self) {
+    pub fn register_game_events(&self) -> Result<(), SteelLibError> {
         log::info!("Game events register sent");
         self.server_connector
-            .send(events::RegisterHealthEvent::new());
-        self.server_connector.send(events::RegisterManaEvent::new());
-        self.server_connector.send(events::RegisterHitEvent::new());
+            .send(events::RegisterHealthEvent::new())?;
+        self.server_connector
+            .send(events::RegisterManaEvent::new())?;
+        self.server_connector.send(events::RegisterHitEvent::new())
     }
 
-    pub fn send_health(&self, health: u8) {
+    pub fn send_health(&self, health: u8) -> Result<(), SteelLibError> {
         log::debug!("Health={} send", health);
-        self.server_connector.send(events::Health::new(health));
+        self.server_connector.send(events::Health::new(health))
     }
-    pub fn send_mana(&self, mana: u8) {
+    pub fn send_mana(&self, mana: u8) -> Result<(), SteelLibError> {
         log::debug!("Mana={} send", mana);
-        self.server_connector.send(events::Mana::new(mana));
+        self.server_connector.send(events::Mana::new(mana))
     }
-    pub fn send_hit(&self, hit: u8) {
+    pub fn send_hit(&self, hit: u8) -> Result<(), SteelLibError> {
         log::debug!("Hit={} send", hit);
-        self.server_connector.send(events::Hit::new(hit));
+        self.server_connector.send(events::Hit::new(hit))
     }
 }
 
 #[derive(Debug)]
 pub enum SteelLibError {
     SSEConfig(String),
+    SentError(String),
 }
 impl std::fmt::Display for SteelLibError {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
-            SteelLibError::SSEConfig(problem) => write!(f, "{}!", problem),
+            SteelLibError::SSEConfig(problem) => write!(f, "Problem with SSE3: {}!", problem),
+            SteelLibError::SentError(problem) => write!(f, "Sent error: {}!", problem),
         }
     }
 }

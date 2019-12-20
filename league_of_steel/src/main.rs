@@ -4,6 +4,7 @@ use log;
 use lol_lib;
 use std::time::Duration;
 use steel_lib;
+use steel_lib::SteelLibError;
 
 const SSE_SEEK_INTERVAL: Duration = Duration::from_millis(1000);
 const GAME_SEEK_INTERVAL: Duration = Duration::from_millis(1000);
@@ -24,7 +25,7 @@ fn main() {
             on_game_running(&mut lol_lib, &steel_connector);
             std::thread::sleep(UPDATE_INTERVAL);
         } else {
-            if lol_lib.is_some(){
+            if lol_lib.is_some() {
                 on_game_stop(&mut lol_lib);
             }
             std::thread::sleep(GAME_SEEK_INTERVAL);
@@ -40,23 +41,30 @@ fn activate_logger() {
 }
 
 fn wait_for_steel_connector() -> steel_lib::SteelConnector {
-    let steel_connector;
+    let mut steel_connector;
     loop {
         let res = steel_lib::SteelConnector::new();
         match res {
             Ok(res) => {
                 steel_connector = res;
-                break;
+                if let Err(e) = register_game(&steel_connector) {
+                    log::warn!("{}", e);
+                } else {
+                    break;
+                };
             }
             Err(e) => {
                 log::warn!("{}", e);
-                std::thread::sleep(SSE_SEEK_INTERVAL);
             }
         }
+        std::thread::sleep(SSE_SEEK_INTERVAL);
     }
-    steel_connector.register_game();
-    steel_connector.register_game_events();
     steel_connector
+}
+
+fn register_game(steel_connector: &steel_lib::SteelConnector) -> Result<(), SteelLibError> {
+    steel_connector.register_game()?;
+    steel_connector.register_game_events()
 }
 
 fn on_game_running(
@@ -64,7 +72,10 @@ fn on_game_running(
     steel_connector: &steel_lib::SteelConnector,
 ) {
     let lol_lib = get_lol_lib(lol_lib_opt);
-    lol_stats_update(lol_lib, &steel_connector);
+    let res = lol_stats_update(lol_lib, &steel_connector);
+    if let Err(e) = res {
+        log::warn!("{}", e);
+    }
 }
 
 fn get_lol_lib(lol_lib_opt: &mut Option<lol_lib::LolLib>) -> &lol_lib::LolLib {
@@ -87,18 +98,19 @@ fn optionally_re_init_lol_lib(lol_lib_opt: &mut Option<lol_lib::LolLib>) {
     };
 }
 
-fn lol_stats_update(lol_lib: &lol_lib::LolLib, steel_connector: &steel_lib::SteelConnector) {
+fn lol_stats_update(
+    lol_lib: &lol_lib::LolLib,
+    steel_connector: &steel_lib::SteelConnector,
+) -> Result<(), SteelLibError> {
     let stats = lol_lib.get_stats();
-    steel_connector.send_health(stats.health);
-    steel_connector.send_mana(stats.mana);
-    steel_connector.send_hit(stats.hit);
+    steel_connector.send_health(stats.health)?;
+    steel_connector.send_mana(stats.mana)?;
+    steel_connector.send_hit(stats.hit)
 }
 
-fn on_game_stop(
-    lol_lib_opt: &mut Option<lol_lib::LolLib>
-) {
-    if let Some(lol_lib) = lol_lib_opt{
+fn on_game_stop(lol_lib_opt: &mut Option<lol_lib::LolLib>) {
+    if let Some(lol_lib) = lol_lib_opt {
         lol_lib.destroy();
-        *lol_lib_opt=None;
+        *lol_lib_opt = None;
     }
 }
