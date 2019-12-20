@@ -16,5 +16,5 @@ deploy:
   skip_cleanup: true
   draft: true
   on:
-    tags: true
+    tags: false
     repo: kgrzywocz/league_of_steel
