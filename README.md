@@ -5,10 +5,8 @@ Make [SteelSeries GameSense](https://steelseries.com/engine/apps) work with [Lea
 ## How to run
 
 1. Make sure you have [SteelSeries Engine 3](https://steelseries.com/engine) installed and it is running properly.
-2. Launch ```league_of_steel.exe```.
+2. Launch ```league_of_steel_setup.exe``` - it should install and run.
 3. Enjoy playing LoL with GameSense ;)
-
-For convenience you can put this app in autostart.
 
 ## How to build this app
 
