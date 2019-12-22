@@ -7,9 +7,10 @@ It currently supports events: HEALTH, MANA and HIT.
 ## How to run
 
 1. Make sure you have [SteelSeries Engine 3](https://steelseries.com/engine) installed and it is running properly.
-2. Launch ```league_of_steel_setup.exe``` - it should install and run.
-3. Configure events for your device
-4. Enjoy playing LoL with GameSense ;)
+2. Download ```league_of_steel_setup.exe```. You can find latest [here](https://github.com/kgrzywocz/league_of_steel/releases).
+3. Launch ```league_of_steel_setup.exe``` - it should install and run.
+4. Configure events for your device in the SteelSeries Engine 3.
+5. Enjoy playing LoL with GameSense ;)
 
 ## How to build this app
 
