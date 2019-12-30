@@ -14,6 +14,7 @@ extern "C" int32_t lollib_init()
     if (lollib)
     {
       delete lollib;
+      lollib = nullptr;
     }
     lollib = new LolLib;
     return 0;
@@ -27,6 +28,7 @@ extern "C" void lollib_destroy()
     if (lollib)
     {
       delete lollib;
+      lollib = nullptr;
     }
     return 0;
   });
@@ -46,7 +48,7 @@ extern "C" int32_t lollib_has_mode_changed()
   return callSafely_member<bool>([]() { return lollib->hasModeChanged(); });
 }
 
-extern "C" LolStats lollib_get_stats() //ujednolicenie nazw funkcji
+extern "C" LolStats lollib_get_stats()
 {
   return callSafely_member<LolStats>([]() { return lollib->getCurrentStats(); });
 }
