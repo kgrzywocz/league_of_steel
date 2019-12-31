@@ -4,4 +4,6 @@ members = [
     "lol-lib",
     "steel-lib",
     "league_of_steel",
+    "testlib/app",
+    "testlib"
 ]
