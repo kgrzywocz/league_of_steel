@@ -20,7 +20,9 @@ install:
   - cargo -vV
 
 build_script:
-  - cargo build
+  - cargo build --release --verbose --bin league_of_steel
+  - cargo build --verbose --all
 
 test_script:
-  - cargo test --verbose %cargoflags%
+  - cargo test --verbose --all --exclude testlib
+  - cargo test --verbose -p testlib -- --test-threads=1
