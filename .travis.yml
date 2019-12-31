@@ -7,8 +7,9 @@ before_install:
 script:
 - cargo build --target x86_64-pc-windows-msvc --release --verbose --all
 - "/c/Program\\ Files\\ \\(x86\\)/NSIS/makensis.exe installer_script.nsi"
-- cargo build
-- cargo test --verbose --all -- --test-threads=1
+- cargo test --verbose --all --exclude testlib
+#- cargo build
+#- cargo test --verbose -p testlib -- --test-threads=1
 deploy:
   provider: releases
   api_key:
