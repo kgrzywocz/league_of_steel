@@ -16,6 +16,11 @@ steps:
   displayName: 'Install rust'
 
 - script: |
+    curl -sSf -o install-opengl.ps1 https://raw.githubusercontent.com/opentk/opentk/master/install-opengl.ps1
+    powershell ./install-opengl.ps1
+  displayName: 'Install OpenGL'
+
+- script: |
     cargo build --verbose --all
   displayName: 'Build'
 

@@ -18,6 +18,8 @@ install:
   - set PATH=%PATH%;%USERPROFILE%\.cargo\bin
   - rustc -vV
   - cargo -vV
+  - appveyor DownloadFile https://raw.githubusercontent.com/opentk/opentk/master/install-opengl.ps1 -FileName install-opengl.ps1
+  - "powershell ./install-opengl.ps1"
 
 build_script:
   - cargo build --release --verbose --bin league_of_steel
@@ -26,3 +28,6 @@ build_script:
 test_script:
   - cargo test --verbose --all --exclude testlib
   - cargo test --verbose -p testlib -- --test-threads=1
+
+on_finish:
+  - "powershell ./install-opengl.ps1 uninstall"
