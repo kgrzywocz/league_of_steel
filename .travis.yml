@@ -6,7 +6,7 @@ before_install:
 - choco install nsis
 script:
 - cargo build --target x86_64-pc-windows-msvc --release --verbose --all
-- "/c/Program\\ Files\\ \\(x86\\)/NSIS/makensis.exe installer_script.nsi"
+- "/c/Program\\ Files\\ \\(x86\\)/NSIS/makensis.exe installer\\installer_script.nsi"
 - cargo test --verbose --all --exclude testlib
 #- cargo build
 #- cargo test --verbose -p testlib -- --test-threads=1
