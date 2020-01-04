@@ -13,9 +13,9 @@ impl super::EventSender for ServerConnector {
         let res = self
             .client
             .post(self.get_url(&event.endpoint()))
+            .header("User-Agent", "league_of_steel")
+            .header("Content-Type", "application/json")
             .body(event.body())
-            .header(reqwest::header::USER_AGENT, "league_of_steel")
-            .header(reqwest::header::CONTENT_TYPE, "application/json")
             .send();
 
         log::debug!("{:?}", res);
