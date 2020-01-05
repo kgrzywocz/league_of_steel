@@ -3,6 +3,7 @@ name = "league_of_steel"
 version = "0.4.4"
 authors = ["Krzysztof Grzywocz <kgrzywocz@wp.pl>"]
 edition = "2018"
+default-run = "league_of_steel"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
