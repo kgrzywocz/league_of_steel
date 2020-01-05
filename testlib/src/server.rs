@@ -44,6 +44,11 @@ impl ServerStub {
         let response = tiny_http::Response::from_string("OK");
         request.respond(response).expect("Unable to send response");
     }
+    pub fn ignore_request(&self) {
+        let request = self.server.recv().expect("Unable to receive request");
+        let response = tiny_http::Response::from_string("OK");
+        request.respond(response).expect("Unable to send response");
+    }
 }
 
 impl Drop for ServerStub {
