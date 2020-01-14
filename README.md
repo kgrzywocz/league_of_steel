@@ -2,6 +2,8 @@
 
 Make [SteelSeries GameSense](https://steelseries.com/engine/apps) work with [League of Legends](https://leagueoflegends.com/) !!!
 
+[![How to install league_of_steel_video](http://img.youtube.com/vi/87hzCs3y4Yo/0.jpg)](http://www.youtube.com/watch?v=87hzCs3y4Yo "How to install league_of_steel")
+
 It currently supports events: HEALTH, MANA and HIT.
 
 ## How to run
