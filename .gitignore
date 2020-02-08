@@ -1,4 +1,6 @@
 /target
 **/*.rs.bk
 
+league_of_steel.log
+
 .vscode
