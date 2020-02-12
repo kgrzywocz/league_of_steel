@@ -13,6 +13,7 @@ extern "C" {
     fn lollib_has_mode_changed() -> i32;
     fn lollib_get_stats() -> LolStats;
     fn lollib_is_lol_running() -> i32;
+    fn lollib_set_hud_scaling(hud_global_scale: f32);
 }
 
 pub struct LolLib {}
@@ -44,5 +45,9 @@ impl LolLib {
     pub fn is_lol_running() -> bool {
         let res = unsafe { lollib_is_lol_running() };
         res != 0
+    }
+
+    pub fn set_hud_scaling(&self, hud_global_scale: f32) {
+        unsafe { lollib_set_hud_scaling(hud_global_scale) };
     }
 }

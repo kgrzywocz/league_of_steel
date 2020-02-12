@@ -12,9 +12,9 @@ class LolLib
 public:
     explicit LolLib()
     {
-        m_captureRect = getBarsPosition(m_screenAnalyzer.getMode());
-        m_screenAnalyzer.setCaptureRect(m_captureRect);
+        adjustBarsOnScreen();
     }
+
     D3DDISPLAYMODE getMode()
     {
         return m_screenAnalyzer.getMode();
@@ -30,21 +30,45 @@ public:
         return m_screenAnalyzer.analyzeScreenshot();
     }
 
+    void setHudScaling(float hudGlobalScale)
+    {
+        m_hudScale = 0.333 * hudGlobalScale + 0.666;
+        adjustBarsOnScreen();
+    }
+
 private:
+    void adjustBarsOnScreen()
+    {
+        m_captureRect = getBarsPosition(m_screenAnalyzer.getMode());
+        m_screenAnalyzer.setCaptureRect(m_captureRect);
+    }
+
     RECT getBarsPosition(const D3DDISPLAYMODE &dispMode)
     {
-
         RECT pos;
         //682x1031 1094x1044 on 1920x1080
         //455x688 729x709 on 1280x720
         //415x985 748x1011 on 1280x1024
+        //729x1038 1071x1067 on 1920x1080 - hud 50% -> 0.83
+        //776x1047 1049x1069 on 1920x1080 - hud 0%(0.01) -> 0.66
 
         pos.left = LONG(0.355 * dispMode.Width);
         pos.right = LONG(0.57 * dispMode.Width);
         pos.top = LONG(0.962 * dispMode.Height);
         pos.bottom = LONG(0.98 * dispMode.Height);
 
+        reScaleForHudScaling(pos, dispMode);
+
         return pos;
+    }
+
+    void reScaleForHudScaling(RECT &pos, const D3DDISPLAYMODE &dispMode)
+    {
+        auto midWidth = dispMode.Width / 2;
+        pos.left = LONG(midWidth - m_hudScale * (midWidth - pos.left));
+        pos.right = LONG(midWidth + m_hudScale * (pos.right - midWidth));
+        pos.top = LONG(dispMode.Height - m_hudScale * (dispMode.Height - pos.top));
+        pos.bottom = LONG(dispMode.Height - m_hudScale * (dispMode.Height - pos.bottom));
     }
 
     LolStats analyzeScreenshot(const D3DLOCKED_RECT &rc)
@@ -100,4 +124,5 @@ private:
 private:
     ScreenAnalyzer<LolStats> m_screenAnalyzer{std::bind(&LolLib::analyzeScreenshot, this, std::placeholders::_1)};
     RECT m_captureRect;
+    double m_hudScale = 1.0;
 };

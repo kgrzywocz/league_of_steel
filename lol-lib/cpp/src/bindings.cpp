@@ -57,3 +57,8 @@ extern "C" int32_t lollib_is_lol_running()
 {
   return callSafely<int32_t>([]() { return isProcessRunning("League of Legends.exe"); });
 }
+
+extern "C" void lollib_set_hud_scaling(float hudGlobalScale)
+{
+  callSafely_member<bool>([=]() { lollib->setHudScaling(hudGlobalScale); return true; });
+}
