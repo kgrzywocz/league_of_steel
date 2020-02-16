@@ -3,7 +3,7 @@
 #include <windows.h>
 #include <tlhelp32.h>
 
-bool isProcessRunning(const std::string &processName)
+HANDLE getSnapshot(const std::string &processName)
 {
     bool exists = false;
     PROCESSENTRY32 entry;
@@ -20,7 +20,40 @@ bool isProcessRunning(const std::string &processName)
                 break;
             }
         }
+    
+    if (!exists)
+    {
+        CloseHandle(snapshot);
+        return NULL;
+    }
+    return snapshot;
+}
 
-    CloseHandle(snapshot);
-    return exists;
+bool isProcessRunning(const std::string &processName)
+{
+    auto snapshot = getSnapshot(processName);
+
+    if (snapshot)
+    {
+        CloseHandle(snapshot);
+        return true;
+    }
+    return false;
+}
+
+
+std::string getProcessRunningPath(const std::string &exeName)
+{
+    auto snapshot = getSnapshot(exeName);
+    MODULEENTRY32 moduleEntry;
+
+    if (snapshot)
+    {
+        if (Module32First(snapshot, &moduleEntry))
+        {
+            return moduleEntry.szExePath;
+        }
+        CloseHandle(snapshot);
+    }
+    return "";
 }
