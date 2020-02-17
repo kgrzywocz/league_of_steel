@@ -2,12 +2,11 @@
 
 #include <windows.h>
 #include <tlhelp32.h>
+#include <psapi.h>
 
-HANDLE getSnapshot(const std::string &processName)
+DWORD getProcessId(const std::string &processName)
 {
-    bool exists = false;
     PROCESSENTRY32 entry;
-    entry.dwSize = sizeof(PROCESSENTRY32);
 
     HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
 
@@ -16,44 +15,38 @@ HANDLE getSnapshot(const std::string &processName)
         {
             if (!strcmp(entry.szExeFile, processName.c_str()))
             {
-                exists = true;
-                break;
+                CloseHandle(snapshot);
+                return entry.th32ProcessID;
             }
         }
-    
-    if (!exists)
-    {
-        CloseHandle(snapshot);
-        return NULL;
-    }
-    return snapshot;
+    CloseHandle(snapshot);
+    return NULL;
 }
 
 bool isProcessRunning(const std::string &processName)
 {
-    auto snapshot = getSnapshot(processName);
-
-    if (snapshot)
-    {
-        CloseHandle(snapshot);
-        return true;
-    }
-    return false;
+    return getProcessId(processName) != NULL;
 }
-
 
 std::string getProcessRunningPath(const std::string &exeName)
 {
-    auto snapshot = getSnapshot(exeName);
-    MODULEENTRY32 moduleEntry;
+    int pid;
+    TCHAR filename[MAX_PATH];
+    
+    pid = getProcessId(exeName);
+    printf("%d\n", pid);
+    //std::string res;
 
-    if (snapshot)
+    HANDLE processHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
+    
+    if (processHandle != NULL)
     {
-        if (Module32First(snapshot, &moduleEntry))
+        if (GetModuleFileNameEx(processHandle, NULL, filename, MAX_PATH) != 0)
         {
-            return moduleEntry.szExePath;
+            //res =filename;
+            return filename;
         }
-        CloseHandle(snapshot);
+        CloseHandle(processHandle);
     }
     return "";
 }
