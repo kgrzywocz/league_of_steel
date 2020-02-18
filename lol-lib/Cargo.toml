@@ -12,3 +12,4 @@ cc = "1.0"
 [dependencies]
 log = "0.4"
 libc = "0.2"
+regex = "1.0"

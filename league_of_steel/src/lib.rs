@@ -37,7 +37,9 @@ pub fn on_game_running(
     steel_connector: &steel_lib::SteelConnector,
 ) {
     let lol_lib = get_lol_lib(lol_lib_opt);
-    // lol_lib.set_hud_scaling(0.01);
+    let hud_scale = lol_lib::get_hud_global_scale(&lol_lib::LolLib::lol_exe_path()).unwrap_or(1.0);
+    log::debug!("hud_scale={}", hud_scale);
+    lol_lib.set_hud_scaling(hud_scale);
     let res = lol_stats_update(lol_lib, &steel_connector);
     if let Err(e) = res {
         log::warn!("{}", e);

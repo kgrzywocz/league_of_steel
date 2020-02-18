@@ -1,5 +1,8 @@
 extern crate libc;
 
+pub mod config;
+pub use config::get_hud_global_scale;
+
 #[repr(C)]
 pub struct LolStats {
     pub health: u8,
