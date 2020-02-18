@@ -1,7 +1,6 @@
 extern crate libc;
 
-pub mod config;
-pub use config::get_hud_global_scale;
+mod config;
 
 #[repr(C)]
 pub struct LolStats {
@@ -53,13 +52,17 @@ impl LolLib {
         res != 0
     }
 
-    pub fn lol_exe_path() -> String {
+    pub fn set_hud_scaling(&self, hud_global_scale: f32) {
+        unsafe { lollib_set_hud_scaling(hud_global_scale) };
+    }
+
+    pub fn get_hud_global_scale_from_config(&self) -> Option<f32>{
+        config::get_hud_global_scale(&Self::lol_exe_path())
+    }
+
+    fn lol_exe_path() -> String {
         let mut buf = [0u8;255];
         unsafe { lollib_lol_exe_path(buf.as_mut_ptr(), buf.len()) };
         String::from_utf8(buf.to_vec()).expect("Invalid path formating")
-    }
-
-    pub fn set_hud_scaling(&self, hud_global_scale: f32) {
-        unsafe { lollib_set_hud_scaling(hud_global_scale) };
     }
 }
