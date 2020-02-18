@@ -6,6 +6,8 @@ const CORE_PROPS_FILE: &str = "C:\\ProgramData\\SteelSeries\\SteelSeries Engine 
 
 impl ServerStub {
     pub fn new() -> Self {
+        let res = Self { server: tiny_http::Server::http("127.0.0.1:51248").unwrap() };
+
         use std::io::Write;
 
         std::fs::create_dir_all("C:\\ProgramData\\SteelSeries\\SteelSeries Engine 3")
@@ -15,14 +17,12 @@ impl ServerStub {
         file.write_all(r#"{ "address": "127.0.0.1:51248" }"#.as_bytes())
             .expect("Unable to write to coreProps.json");
 
-        Self {
-            server: tiny_http::Server::http("127.0.0.1:51248").unwrap(),
-        }
+        res
     }
 
     pub fn expect_request(&self, url: &str, body_regex: &str) {
         let mut request = self.server.recv().expect("Unable to receive request");
-        assert_eq!(request.url(), url);
+        assert_eq!(url, request.url());
         let mut content = String::new();
         request
             .as_reader()

@@ -18,11 +18,9 @@ fn test_resolution(width: u32, height: u32, file: &str) {
     let gamesensestub = server::ServerStub::new();
 
     let _sut = start_sut();
-
-    expect_game_register(&gamesensestub);
-
+    
     let _lol = start_lol();
-
+    expect_game_register(&gamesensestub);
     expect_game_events(&gamesensestub, [100, 100, 0]);
 }
 
