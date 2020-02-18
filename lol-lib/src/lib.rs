@@ -1,3 +1,5 @@
+extern crate libc;
+
 #[repr(C)]
 pub struct LolStats {
     pub health: u8,
@@ -13,6 +15,7 @@ extern "C" {
     fn lollib_has_mode_changed() -> i32;
     fn lollib_get_stats() -> LolStats;
     fn lollib_is_lol_running() -> i32;
+    fn lollib_lol_exe_path(output: *mut u8, output_length: libc::size_t);
     fn lollib_set_hud_scaling(hud_global_scale: f32);
 }
 
@@ -45,6 +48,12 @@ impl LolLib {
     pub fn is_lol_running() -> bool {
         let res = unsafe { lollib_is_lol_running() };
         res != 0
+    }
+
+    pub fn lol_exe_path() -> String {
+        let mut buf = [0u8;255];
+        unsafe { lollib_lol_exe_path(buf.as_mut_ptr(), buf.len()) };
+        String::from_utf8(buf.to_vec()).expect("Invalid path formating")
     }
 
     pub fn set_hud_scaling(&self, hud_global_scale: f32) {
