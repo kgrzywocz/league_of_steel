@@ -30,5 +30,5 @@ impl Drop for Process {
 }
 
 pub fn start_lol() -> Process {
-    Process::start("../target/League of Legends.exe")
+    Process::start("../target/Game/League of Legends.exe")
 }
