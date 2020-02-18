@@ -1,5 +1,4 @@
-pub fn get_hud_global_scale(exe_path:&str) -> Option<f32>
-{
+pub fn get_hud_global_scale(exe_path: &str) -> Option<f32> {
     let exe_path = std::path::Path::new(exe_path);
     let lol_root = exe_path.parent()?.parent()?;
     let config_path = lol_root.join("Config").join("game.cfg");

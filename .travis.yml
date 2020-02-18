@@ -9,7 +9,7 @@ script:
 - "/c/Program\\ Files\\ \\(x86\\)/NSIS/makensis.exe installer\\\\installer_script.nsi"
 - cargo test --verbose --all --exclude testlib
 #- cargo build
-#- cargo test --verbose -p testlib -- --test-threads=1
+#- cargo test --verbose -p testlib -- --test-threads=1 --nocapture
 deploy:
   provider: releases
   api_key:

@@ -30,10 +30,10 @@ bool isProcessRunning(const std::string &processName)
 
 std::string getProcessRunningPath(const std::string &exeName)
 {
-    TCHAR filename[MAX_PATH] = "";    
+    TCHAR filename[MAX_PATH] = "";
     auto pid = getProcessId(exeName);
 
-    HANDLE processHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);    
+    HANDLE processHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
     if (processHandle != NULL)
     {
         GetModuleFileNameEx(processHandle, NULL, filename, MAX_PATH);

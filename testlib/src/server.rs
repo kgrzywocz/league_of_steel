@@ -6,7 +6,9 @@ const CORE_PROPS_FILE: &str = "C:\\ProgramData\\SteelSeries\\SteelSeries Engine 
 
 impl ServerStub {
     pub fn new() -> Self {
-        let res = Self { server: tiny_http::Server::http("127.0.0.1:51248").unwrap() };
+        let res = Self {
+            server: tiny_http::Server::http("127.0.0.1:51248").unwrap(),
+        };
 
         use std::io::Write;
 
