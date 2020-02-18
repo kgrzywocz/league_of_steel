@@ -7,7 +7,7 @@ fn main() {
     let src = outdir.join("app.exe");
     outdir.pop();
     let mut dst = outdir.join("Game");
-    std::fs::create_dir_all(dst.clone());
+    std::fs::create_dir_all(dst.clone()).expect("Could not crate Game dir in target");
     dst = dst.join("League of Legends.exe");
 
     println!("Coping {:?} -> {:?}", src, dst);
