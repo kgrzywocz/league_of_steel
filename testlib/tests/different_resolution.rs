@@ -19,6 +19,12 @@ fn test_1920x1080_hud_50() {
     test_resolution(1920, 1080, "screens/1920x1080_hud_globalScale_0_5000.png");
 }
 
+#[test]
+fn test_1920x1080_hud_0() {
+    let _config = LolConfig::create_with_hud_scale("0.0100");
+    test_resolution(1920, 1080, "screens/1920x1080_hud_globalScale_0_0100.png");
+}
+
 fn test_resolution(width: u32, height: u32, file: &str) {
     let _window = image::ImageWindow::new(width, height, file);
     let gamesensestub = server::ServerStub::new();
