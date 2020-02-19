@@ -1,6 +1,6 @@
 [package]
 name = "league_of_steel"
-version = "0.5.0-pre"
+version = "0.5.0-pre2"
 authors = ["Krzysztof Grzywocz <kgrzywocz@wp.pl>"]
 edition = "2018"
 default-run = "league_of_steel"
