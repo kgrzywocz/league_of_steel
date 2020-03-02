@@ -28,15 +28,15 @@ impl SteelConnector {
     }
 
     pub fn send_health(&self, health: u8) -> Result<(), SteelLibError> {
-        log::debug!("Health={} send", health);
+        log::info!("Health={} send", health);
         self.server_connector.send(events::Health::new(health))
     }
     pub fn send_mana(&self, mana: u8) -> Result<(), SteelLibError> {
-        log::debug!("Mana={} send", mana);
+        log::info!("Mana={} send", mana);
         self.server_connector.send(events::Mana::new(mana))
     }
     pub fn send_hit(&self, hit: u8) -> Result<(), SteelLibError> {
-        log::debug!("Hit={} send", hit);
+        log::info!("Hit={} send", hit);
         self.server_connector.send(events::Hit::new(hit))
     }
 }

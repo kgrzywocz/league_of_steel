@@ -32,7 +32,7 @@ fn main() {
 
 #[cfg(debug_assertions)]
 fn activate_logger() {
-    if simple_logging::log_to_file("league_of_steel.log", log::LevelFilter::Debug).is_err() {
+    if simple_logging::log_to_file("league_of_steel.log", log::LevelFilter::Info).is_err() {
         eprintln!("Unable to activate logger!");
     }
 }
