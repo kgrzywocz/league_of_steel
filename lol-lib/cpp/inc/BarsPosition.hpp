@@ -15,8 +15,12 @@ public:
         //776x1047 1049x1069 on 1920x1080 - hud 0%(0.01) -> 0.66
         //381x744 575x761 on 1024x768 - hud 0%(0.01) -> 0.66
 
-        pos.left = LONG(0.355 * dispMode.Width);
-        pos.right = LONG(0.57 * dispMode.Width);
+        auto ratio = ((double)dispMode.Width / dispMode.Height) / 1.77777777777;
+        ratio = (ratio +2)/3;
+
+        pos.left = LONG(ratio * 0.356 * dispMode.Width);
+        pos.right = LONG(ratio * 0.57 * dispMode.Width);
+        pos.right = LONG(dispMode.Width - (ratio * (dispMode.Width - pos.right)));
         pos.top = LONG(0.962 * dispMode.Height);
         pos.bottom = LONG(0.98 * dispMode.Height);
 
@@ -33,7 +37,7 @@ public:
 private:
     void reScaleForHudScaling(RECT &pos, const D3DDISPLAYMODE &dispMode)
     {
-        auto midWidth = dispMode.Width / 2;
+        int midWidth = dispMode.Width / 2;
         pos.left = LONG(midWidth - m_hudScale * (midWidth - pos.left));
         pos.right = LONG(midWidth + m_hudScale * (pos.right - midWidth));
         pos.top = LONG(dispMode.Height - m_hudScale * (dispMode.Height - pos.top));
