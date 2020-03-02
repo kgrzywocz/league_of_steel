@@ -33,7 +33,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "app"
-version = "0.1.0"
+version = "0.2.0"
 
 [[package]]
 name = "approx"
@@ -770,10 +770,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "league_of_steel"
-version = "0.5.0-pre2"
+version = "0.5.0"
 dependencies = [
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
- "lol-lib 0.6.0",
+ "lol-lib 0.6.1",
  "simple-logging 2.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "steel-lib 0.4.3",
 ]
@@ -827,7 +827,7 @@ dependencies = [
 
 [[package]]
 name = "lol-lib"
-version = "0.6.0"
+version = "0.6.1"
 dependencies = [
  "cc 1.0.48 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1849,7 +1849,7 @@ dependencies = [
 name = "testlib"
 version = "0.1.0"
 dependencies = [
- "app 0.1.0",
+ "app 0.2.0",
  "piston_window 0.98.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "regex 1.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "tiny_http 0.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
