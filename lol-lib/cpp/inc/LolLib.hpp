@@ -3,10 +3,10 @@
 #include "ScreenAnalyzer.hpp"
 #include "BarsPosition.hpp"
 #include "PixelRow.hpp"
+#include "PixelRect.hpp"
 #include "Color.hpp"
 #include "LolStats.h"
 #include <stdint.h>
-#include <d3d9.h>
 
 class LolLib
 {
@@ -16,9 +16,13 @@ public:
         adjustBarsOnScreen();
     }
 
-    D3DDISPLAYMODE getMode()
+    int32_t getScreenWidth()
     {
-        return m_screenAnalyzer.getMode();
+        return m_screenAnalyzer.getMode().Width;
+    }
+    int32_t getScreenHeight()
+    {
+        return m_screenAnalyzer.getMode().Height;
     }
 
     bool hasModeChanged()
@@ -44,17 +48,16 @@ private:
         m_screenAnalyzer.setCaptureRect(m_captureRect);
     }
 
-    LolStats analyzeScreenshot(const D3DLOCKED_RECT &rc)
+    LolStats analyzeScreenshot(const PixelRect &rect)
     {
         LolStats stats;
 
-        auto len = m_captureRect.right - m_captureRect.left;
         auto h = m_captureRect.bottom - m_captureRect.top;
 
-        PixelRow hp{rc.pBits, len};
+        auto hp = rect.getPixelRow(0);
         stats.health = analyzeHealth(hp);
 
-        PixelRow mana{rc.pBits, len, rc.Pitch * h};
+        auto mana = rect.getPixelRow(h);
         stats.mana = analyzeMana(mana);
 
         stats.hit = analyzeHit(hp, stats.health);
@@ -85,7 +88,7 @@ private:
         int last = offset;
         for (int j = offset; j < len; j++)
         {
-            if (predicate(p.get(j)))
+            if (predicate(Color(p.get(j))))
                 last = j;
             else if (j > last + max_gap)
                 break;
@@ -95,7 +98,7 @@ private:
     }
 
 private:
-    ScreenAnalyzer<LolStats> m_screenAnalyzer{std::bind(&LolLib::analyzeScreenshot, this, std::placeholders::_1)};
+    ScreenAnalyzer m_screenAnalyzer{std::bind(&LolLib::analyzeScreenshot, this, std::placeholders::_1)};
     BarsPosition m_barsPosition;
-    RECT m_captureRect;
+    BackendCaptureRect m_captureRect;
 };

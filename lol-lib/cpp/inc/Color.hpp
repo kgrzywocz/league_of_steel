@@ -1,17 +1,19 @@
 #pragma once
 
+#include "backend_interface.h"
+
 #include <stdint.h>
 #include <cstdlib>
 
 class Color
 {
 public:
-  explicit Color(uint8_t bytes[4])
+  explicit Color(const BackendColor& color)
   {
-    B = bytes[0];
-    G = bytes[1];
-    R = bytes[2];
-    A = bytes[3];
+    B = color.B;
+    G = color.G;
+    R = color.R;
+    A = color.A;
   }
 
   bool isRed() const

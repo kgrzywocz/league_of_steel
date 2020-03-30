@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LolLibError.hpp"
+#include <exception>
 #include <functional>
 
 template <typename T>
@@ -10,7 +10,7 @@ T callSafely(std::function<T()> cpp_fun) throw()
     {
         return cpp_fun();
     }
-    catch (LolLibError &e)
+    catch (std::exception &e)
     {
         printf("%s\n", e.what());
     }

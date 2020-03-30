@@ -36,11 +36,11 @@ extern "C" void lollib_destroy()
 
 extern "C" int32_t lollib_screen_width()
 {
-  return callSafely_member<int32_t>([]() { return lollib->getMode().Width; });
+  return callSafely_member<int32_t>([]() { return lollib->getScreenWidth(); });
 }
 extern "C" int32_t lollib_screen_height()
 {
-  return callSafely_member<int32_t>([]() { return lollib->getMode().Height; });
+  return callSafely_member<int32_t>([]() { return lollib->getScreenHeight(); });
 }
 
 extern "C" int32_t lollib_has_mode_changed()

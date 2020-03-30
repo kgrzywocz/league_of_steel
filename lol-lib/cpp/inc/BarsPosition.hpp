@@ -1,13 +1,13 @@
 #pragma once
 
-#include <d3d9.h>
+#include "backend_interface.h"
 
 class BarsPosition
 {
 public:
-    RECT get(const D3DDISPLAYMODE &dispMode)
+    BackendCaptureRect get(const BackendScreenResolution &dispMode)
     {
-        RECT pos;
+        BackendCaptureRect pos;
         //682x1031 1094x1044 on 1920x1080
         //455x688 729x709 on 1280x720
         //415x985 748x1011 on 1280x1024
@@ -35,7 +35,7 @@ public:
     }
 
 private:
-    void reScaleForHudScaling(RECT &pos, const D3DDISPLAYMODE &dispMode)
+    void reScaleForHudScaling(BackendCaptureRect &pos, const BackendScreenResolution &dispMode)
     {
         int midWidth = dispMode.Width / 2;
         pos.left = LONG(midWidth - m_hudScale * (midWidth - pos.left));
