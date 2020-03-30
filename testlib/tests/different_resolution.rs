@@ -32,7 +32,6 @@ fn test_1024x768_hud_0() {
     test_resolution(1024, 768, "screens/1024x768_hud_globalScale_0_0100.png");
 }
 
-#[test]
 fn test_1600x1024_hud_0() {
     let _config = LolConfig::create_with_hud_scale("0.0100");
     test_resolution(1600, 1024, "screens/1600x1024_hud_globalScale_0_0100.png");
