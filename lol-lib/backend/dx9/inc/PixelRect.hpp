@@ -18,6 +18,11 @@ public:
     return PixelRow{m_rc.pBits, len, m_rc.Pitch * row};
   }
 
+  int getNumberOfRows() const
+  {
+    return m_captureRect.bottom - m_captureRect.top;
+  }
+
 private:
   const D3DLOCKED_RECT &m_rc;
   const RECT &m_captureRect;

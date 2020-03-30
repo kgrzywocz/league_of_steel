@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "LolStats.h"
 
 extern "C" {
 
@@ -24,5 +25,18 @@ typedef struct _BackendColor
   uint8_t R = 0;
   uint8_t A = 0;
 } BackendColor;
+
+
+struct BackendScreenAnalyzer;
+struct BackendPixelRect;
+
+typedef LolStats(*FrontendAnalysisFunction)(const BackendPixelRect *);
+
+BackendScreenAnalyzer* lollib_backend_createBackendScreenAnalyzer(FrontendAnalysisFunction analyzeFunction);
+void lollib_backend_destroyBackendScreenAnalyzer(BackendScreenAnalyzer*);
+BackendScreenResolution lollib_backend_getMode(BackendScreenAnalyzer*);
+int32_t lollib_backend_hasModeChanged(BackendScreenAnalyzer*);
+void lollib_backend_setCaptureRect(BackendScreenAnalyzer*, const BackendCaptureRect *captureRect);
+LolStats lollib_backend_analyzeScreenshot(BackendScreenAnalyzer*);
 
 } //extern "C" 

@@ -18,11 +18,11 @@ public:
         auto ratio = ((double)dispMode.Width / dispMode.Height) / 1.77777777777;
         ratio = (ratio +2)/3;
 
-        pos.left = LONG(ratio * 0.356 * dispMode.Width);
-        pos.right = LONG(ratio * 0.57 * dispMode.Width);
-        pos.right = LONG(dispMode.Width - (ratio * (dispMode.Width - pos.right)));
-        pos.top = LONG(0.962 * dispMode.Height);
-        pos.bottom = LONG(0.98 * dispMode.Height);
+        pos.left = int32_t(ratio * 0.356 * dispMode.Width);
+        pos.right = int32_t(ratio * 0.57 * dispMode.Width);
+        pos.right = int32_t(dispMode.Width - (ratio * (dispMode.Width - pos.right)));
+        pos.top = int32_t(0.962 * dispMode.Height);
+        pos.bottom = int32_t(0.98 * dispMode.Height);
 
         reScaleForHudScaling(pos, dispMode);
 
@@ -38,10 +38,10 @@ private:
     void reScaleForHudScaling(BackendCaptureRect &pos, const BackendScreenResolution &dispMode)
     {
         int midWidth = dispMode.Width / 2;
-        pos.left = LONG(midWidth - m_hudScale * (midWidth - pos.left));
-        pos.right = LONG(midWidth + m_hudScale * (pos.right - midWidth));
-        pos.top = LONG(dispMode.Height - m_hudScale * (dispMode.Height - pos.top));
-        pos.bottom = LONG(dispMode.Height - m_hudScale * (dispMode.Height - pos.bottom));
+        pos.left = int32_t(midWidth - m_hudScale * (midWidth - pos.left));
+        pos.right = int32_t(midWidth + m_hudScale * (pos.right - midWidth));
+        pos.top = int32_t(dispMode.Height - m_hudScale * (dispMode.Height - pos.top));
+        pos.bottom = int32_t(dispMode.Height - m_hudScale * (dispMode.Height - pos.bottom));
     }
 
     double m_hudScale = 1.0;

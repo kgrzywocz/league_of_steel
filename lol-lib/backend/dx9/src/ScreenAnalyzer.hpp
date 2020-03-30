@@ -15,6 +15,9 @@ public:
   typedef std::function<LolStats(const PixelRect &)> AnalysisFunction;
 
   explicit ScreenAnalyzer(AnalysisFunction analyzeFunction);
+  explicit ScreenAnalyzer(ScreenAnalyzer&) =delete;
+  explicit ScreenAnalyzer(ScreenAnalyzer&&) =delete;
+  ScreenAnalyzer& operator=(ScreenAnalyzer) =delete;
 
   BackendScreenResolution getMode()
   {
