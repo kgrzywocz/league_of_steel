@@ -1,63 +1,65 @@
 #pragma once
 
 #include "Color.hpp"
-#include "PixelRow.hpp"
-#include "PixelRect.hpp"
+#include "PixelRectWrapper.hpp"
 #include "LolStats.h"
 #include <functional>
 
 class PixelRectAnalyzer
 {
 public:
-    explicit PixelRectAnalyzer(){}
-
-    LolStats getStats(const BackendPixelRect &p_rect)
+    explicit PixelRectAnalyzer(const BackendPixelRect &rect)
+    : m_rect(rect),
+    m_rowLen(m_rect.getWidth())
     {
-        const auto & rect = reinterpret_cast<const PixelRect &>(p_rect);
+    }
 
+    LolStats getStats()
+    {
         LolStats stats;
 
-        auto hp = rect.getPixelRow(0);
-        stats.health = analyzeHealth(hp);
+        auto hp = 0;
+        auto mana = m_rect.getHight();
 
-        auto mana = rect.getPixelRow(rect.getNumberOfRows());
+        stats.health = analyzeHealth(hp);        
         stats.mana = analyzeMana(mana);
-
         stats.hit = analyzeHit(hp, stats.health);
 
         return stats;
     }
 
 private:
-    uint8_t analyzeHealth(const PixelRow &p)
+    const PixelRectWrapper m_rect;
+    const int m_rowLen;
+
+    uint8_t analyzeHealth(const int row)
     {
-        return analyzeBar(p, [](const Color &c) { return c.isGreen(); });
+        return analyzeBar(row, [](const Color &c) { return c.isGreen(); });
     }
-    uint8_t analyzeHit(const PixelRow &p, uint8_t startFromPercent)
+    uint8_t analyzeHit(const int row, uint8_t startFromPercent)
     {
-        return analyzeBar(p, [](const Color &c) { return c.isRed(); }, startFromPercent);
+        return analyzeBar(row, [](const Color &c) { return c.isRed(); }, startFromPercent);
     }
-    uint8_t analyzeMana(const PixelRow &p)
+    uint8_t analyzeMana(const int row)
     {
-        return analyzeBar(p, [](const Color &c) { return c.isBlue() || c.isYellow(); });
+        return analyzeBar(row, [](const Color &c) { return c.isBlue() || c.isYellow(); });
     }
 
-    uint8_t analyzeBar(const PixelRow &p, std::function<bool(const Color &)> predicate, uint8_t startFromPercent = 0)
+    uint8_t analyzeBar(const int row, std::function<bool(const Color &)> predicate, uint8_t startFromPercent = 0)
     {
         const int max_gap = 20;
 
-        auto len = p.getLen();
-        int offset = startFromPercent * len / 100;
+        int offset = startFromPercent * m_rowLen / 100;
 
         int last = offset;
-        for (int j = offset; j < len; j++)
+        for (int j = offset; j < m_rowLen; j++)
         {
-            if (predicate(Color(p.get(j))))
+            if (predicate(Color(m_rect.getColor(row, j))))
                 last = j;
             else if (j > last + max_gap)
                 break;
         }
 
-        return uint8_t(100 * (last + 1) / len) - startFromPercent;
+        return uint8_t(100 * (last + 1) / m_rowLen) - startFromPercent;
     }
 };

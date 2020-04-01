@@ -39,4 +39,8 @@ int32_t lollib_backend_hasModeChanged(BackendScreenAnalyzer*);
 void lollib_backend_setCaptureRect(BackendScreenAnalyzer*, const BackendCaptureRect *captureRect);
 LolStats lollib_backend_analyzeScreenshot(BackendScreenAnalyzer*);
 
+int32_t lollib_backend_pixelRect_getHight(const BackendPixelRect *);
+int32_t lollib_backend_pixelRect_getWidth(const BackendPixelRect *);
+BackendColor lollib_backend_pixelRect_getColor(const BackendPixelRect *, int32_t row, int32_t column);
+
 } //extern "C" 

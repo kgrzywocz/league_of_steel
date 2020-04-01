@@ -50,8 +50,8 @@ private:
 
     static LolStats analyzeScreenshot(const BackendPixelRect *rect)
     {
-        PixelRectAnalyzer pixelRectAnalyzer;
-        return pixelRectAnalyzer.getStats(*rect);
+        PixelRectAnalyzer pixelRectAnalyzer{*rect};
+        return pixelRectAnalyzer.getStats();
     }
 
 

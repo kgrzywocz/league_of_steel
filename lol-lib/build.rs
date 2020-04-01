@@ -9,7 +9,6 @@ fn main() {
         //.warnings_into_errors(true)
         .include("cpp/inc")
         .include("backend/interface")
-        .include("backend/dx9/inc")
         .files(src_files)
         .compile("lollib");
 
