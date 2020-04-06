@@ -6,6 +6,7 @@ fn main() {
     cc::Build::new()
         .cpp(true)
         //.warnings_into_errors(true)
+        .flag_if_supported("--std=c++14")
         .include("cpp/inc")
         .include("backend_interface")
         .files(src_files)
