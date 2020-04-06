@@ -1,8 +1,7 @@
 extern crate libc;
+use backend;
 
 mod lolconfig;
-
-use backend_win as backend;
 
 #[repr(C)]
 pub struct LolStats {

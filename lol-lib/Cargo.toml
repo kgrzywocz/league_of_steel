@@ -16,4 +16,4 @@ regex = "1.0"
 
 [target.'cfg(windows)'.dependencies]
 winapi = { version = "0.3", features = ["d3d9"] }
-backend_win = { path = "backend_win" }
+backend = { path = "backend_win" }
