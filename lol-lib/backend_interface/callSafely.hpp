@@ -1,5 +1,6 @@
 #pragma once
 
+#include <typeinfo>
 #include <exception>
 #include <functional>
 
@@ -21,12 +22,12 @@ T callSafely(std::function<T()> cpp_fun) throw()
     return T{};
 }
 
-template <typename T>
-T callSafely_member(std::function<T()> cpp_fun) throw()
+template <typename T, typename Klass>
+T callSafely_member(Klass obj, std::function<T()> cpp_fun) throw()
 {
-    if (!lollib)
+    if (!obj)
     {
-        printf("lollib not initialized\n");
+        printf("%s not initialized in call of %s\n", typeid(Klass).name(), typeid(T).name());
         return T{};
     }
     return callSafely(cpp_fun);

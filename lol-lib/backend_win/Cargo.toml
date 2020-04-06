@@ -1,6 +1,6 @@
 [package]
-name = "lol-lib"
-version = "0.6.1"
+name = "backend_win"
+version = "0.1.0"
 authors = ["Krzysztof Grzywocz <kgrzywocz@wp.pl>"]
 edition = "2018"
 
@@ -10,10 +10,7 @@ edition = "2018"
 cc = "1.0"
 
 [dependencies]
-log = "0.4"
 libc = "0.2"
-regex = "1.0"
 
 [target.'cfg(windows)'.dependencies]
-winapi = { version = "0.3", features = ["d3d9"] }
-backend_win = { path = "backend_win" }
+winapi = { version = "0.3" }

@@ -2,8 +2,6 @@
 
 #include "LolLib.hpp"
 
-#include "ProcessHelper.hpp"
-
 static LolLib *lollib;
 
 #include "callSafely.hpp"
@@ -36,35 +34,24 @@ extern "C" void lollib_destroy()
 
 extern "C" int32_t lollib_screen_width()
 {
-  return callSafely_member<int32_t>([]() { return lollib->getScreenWidth(); });
+  return callSafely_member<int32_t>(lollib, []() { return lollib->getScreenWidth(); });
 }
 extern "C" int32_t lollib_screen_height()
 {
-  return callSafely_member<int32_t>([]() { return lollib->getScreenHeight(); });
+  return callSafely_member<int32_t>(lollib, []() { return lollib->getScreenHeight(); });
 }
 
 extern "C" int32_t lollib_has_mode_changed()
 {
-  return callSafely_member<bool>([]() { return lollib->hasModeChanged(); });
+  return callSafely_member<bool>(lollib, []() { return lollib->hasModeChanged(); });
 }
 
 extern "C" LolStats lollib_get_stats()
 {
-  return callSafely_member<LolStats>([]() { return lollib->getCurrentStats(); });
-}
-
-extern "C" int32_t lollib_is_lol_running()
-{
-  return callSafely<int32_t>([]() { return isProcessRunning("League of Legends.exe"); });
-}
-
-extern "C" void lollib_lol_exe_path(char *output, size_t output_length)
-{
-  auto path = callSafely<std::string>([]() { return getProcessRunningPath("League of Legends.exe"); });
-  path.copy(output, output_length);
+  return callSafely_member<LolStats>(lollib, []() { return lollib->getCurrentStats(); });
 }
 
 extern "C" void lollib_set_hud_scaling(float hudGlobalScale)
 {
-  callSafely_member<bool>([=]() { lollib->setHudScaling(hudGlobalScale); return true; });
+  callSafely_member<bool>(lollib, [=]() { lollib->setHudScaling(hudGlobalScale); return true; });
 }

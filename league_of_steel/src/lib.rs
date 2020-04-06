@@ -37,7 +37,7 @@ pub fn on_game_running(
     steel_connector: &steel_lib::SteelConnector,
 ) {
     let lol_lib = get_lol_lib(lol_lib_opt);
-    lol_set_hud_scale(lol_lib);
+    lol_adjust_hud_scale(lol_lib);
     let res = lol_stats_update(lol_lib, &steel_connector);
     if let Err(e) = res {
         log::warn!("{}", e);
@@ -64,7 +64,7 @@ fn optionally_re_init_lol_lib(lol_lib_opt: &mut Option<lol_lib::LolLib>) {
     };
 }
 
-fn lol_set_hud_scale(lol_lib: &lol_lib::LolLib) {
+fn lol_adjust_hud_scale(lol_lib: &lol_lib::LolLib) {
     let hud_scale = lol_lib.get_hud_global_scale_from_config().unwrap_or(1.0);
     log::debug!("hud_scale={}", hud_scale);
     lol_lib.set_hud_scaling(hud_scale);
