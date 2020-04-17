@@ -1,5 +1,3 @@
-extern crate reqwest;
-
 mod config;
 mod server_connector;
 
