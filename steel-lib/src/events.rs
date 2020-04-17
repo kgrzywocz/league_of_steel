@@ -212,19 +212,3 @@ impl Event for RegisterHitEvent {
         )
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn get_health_event_string() {
-        let event = r#"{
-            "game": "LEAGUE_OF_STEEL",
-            "event": "HEALTH",
-            "data": {
-                "value": 75
-            }
-        }"#;
-        assert_eq!(event, Health::new(75).body());
-    }
-}
