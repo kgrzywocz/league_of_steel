@@ -137,7 +137,5 @@ fn expect_game_events(gamesensestub: &server::ServerStub, stats: [u8; 3]) {
 }
 
 fn ignore_game_events(gamesensestub: &server::ServerStub) {
-    gamesensestub.expect_request("/game_event", "");
-    gamesensestub.expect_request("/game_event", "");
-    gamesensestub.expect_request("/game_event", "");
+    gamesensestub.expect_request("/multiple_game_events", "");
 }
