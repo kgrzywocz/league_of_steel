@@ -9,7 +9,7 @@ impl LolConfig {
             .expect("Unable to create config game.cfg");
         file.write_all(
             format!(
-r#"
+                r#"
 [General]
 Colors=32
 Height=720

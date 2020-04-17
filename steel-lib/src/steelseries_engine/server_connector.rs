@@ -9,22 +9,22 @@ impl super::EventSender for ServerConnector {
     where
         Event: super::Event,
     {
-    let mut writer = Vec::new();
-    let body = event.body();
-    let bytes = body.as_bytes();
+        let mut writer = Vec::new();
+        let body = event.body();
+        let bytes = body.as_bytes();
 
-    let mut headers = http_req::response::Headers::new();
-    headers.insert("User-Agent", "league_of_steel");
-    headers.insert("Content-Type", "application/json");
-    headers.insert("Host", &self.address);
-    headers.insert("Content-Length",  &bytes.len());
-    headers.insert("Connection", "Close");
+        let mut headers = http_req::response::Headers::new();
+        headers.insert("User-Agent", "league_of_steel");
+        headers.insert("Content-Type", "application/json");
+        headers.insert("Host", &self.address);
+        headers.insert("Content-Length", &bytes.len());
+        headers.insert("Connection", "Close");
 
-    let res = http_req::request::Request::new(&self.get_url(&event.endpoint()))
-        .method(http_req::request::Method::POST)
-        .headers(headers)
-        .body(bytes)
-        .send(&mut writer);
+        let res = http_req::request::Request::new(&self.get_url(&event.endpoint()))
+            .method(http_req::request::Method::POST)
+            .headers(headers)
+            .body(bytes)
+            .send(&mut writer);
 
         log::debug!("{:?}", res);
         if let Ok(res) = res {

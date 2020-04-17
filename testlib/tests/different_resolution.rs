@@ -25,7 +25,6 @@ fn test_1920x1080_hud_0() {
     test_resolution(1920, 1080, "screens/1920x1080_hud_globalScale_0_0100.png");
 }
 
-
 #[test]
 fn test_1024x768_hud_0() {
     let _config = LolConfig::create_with_hud_scale("0.0100");
@@ -42,7 +41,6 @@ fn test_1680x1050_hud_0() {
     let _config = LolConfig::create_with_hud_scale("0.0100");
     test_resolution(1680, 1050, "screens/1680x1050_hud_globalScale_0_0100.png");
 }
-
 
 fn test_resolution(width: u32, height: u32, file: &str) {
     let _window = image::ImageWindow::new(width, height, file);
@@ -129,9 +127,13 @@ fn expect_game_register(gamesensestub: &server::ServerStub) {
 }
 
 fn expect_game_events(gamesensestub: &server::ServerStub, stats: [u8; 3]) {
-    gamesensestub.expect_request("/game_event", &format!("HEALTH.*value.* {}", stats[0]));
-    gamesensestub.expect_request("/game_event", &format!("MANA.*value.* {}", stats[1]));
-    gamesensestub.expect_request("/game_event", &format!("HIT.*value.* {}", stats[2]));
+    gamesensestub.expect_request(
+        "/multiple_game_events",
+        &format!(
+            "HEALTH.*value.* {}.*MANA.*value.* {}.*HIT.*value.* {}",
+            stats[0], stats[1], stats[2]
+        ),
+    );
 }
 
 fn ignore_game_events(gamesensestub: &server::ServerStub) {

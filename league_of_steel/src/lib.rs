@@ -75,9 +75,8 @@ fn lol_stats_update(
     steel_connector: &steel_lib::SteelConnector,
 ) -> Result<(), SteelLibError> {
     let stats = lol_lib.get_stats();
-    steel_connector.send_health(stats.health)?;
-    steel_connector.send_mana(stats.mana)?;
-    steel_connector.send_hit(stats.hit)
+
+    steel_connector.send_stats(stats.health, stats.mana, stats.hit)
 }
 
 pub fn on_game_stop(lol_lib_opt: &mut Option<lol_lib::LolLib>) {

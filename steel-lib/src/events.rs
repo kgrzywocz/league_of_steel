@@ -13,20 +13,13 @@ impl Event for Health {
         String::from("game_event")
     }
     fn body(&self) -> String {
-        let mut res = String::from(
-            r#"{
+        format!(
+            r#"{{
             "game": "LEAGUE_OF_STEEL",
-            "event": "HEALTH",
-            "data": {
-                "value": "#,
-        );
-        res.push_str(&self.health.to_string());
-        res.push_str(
-            r#"
-            }
-        }"#,
-        );
-        res
+            {}
+            }}"#,
+            event_str("HEALTH", self.health)
+        )
     }
 }
 
@@ -43,20 +36,13 @@ impl Event for Mana {
         String::from("game_event")
     }
     fn body(&self) -> String {
-        let mut res = String::from(
-            r#"{
+        format!(
+            r#"{{
             "game": "LEAGUE_OF_STEEL",
-            "event": "MANA",
-            "data": {
-                "value": "#,
-        );
-        res.push_str(&self.mana.to_string());
-        res.push_str(
-            r#"
-            }
-        }"#,
-        );
-        res
+            {}
+            }}"#,
+            event_str("MANA", self.mana)
+        )
     }
 }
 
@@ -73,21 +59,63 @@ impl Event for Hit {
         String::from("game_event")
     }
     fn body(&self) -> String {
-        let mut res = String::from(
-            r#"{
+        format!(
+            r#"{{
             "game": "LEAGUE_OF_STEEL",
-            "event": "HIT",
-            "data": {
-                "value": "#,
-        );
-        res.push_str(&self.hit.to_string());
-        res.push_str(
-            r#"
-            }
-        }"#,
+            {}
+            }}"#,
+            event_str("HIT", self.hit)
+        )
+    }
+}
+
+pub struct MultipleStats {
+    health: u8,
+    mana: u8,
+    hit: u8,
+}
+impl MultipleStats {
+    pub fn new(health: u8, mana: u8, hit: u8) -> Self {
+        Self { health, mana, hit }
+    }
+}
+impl Event for MultipleStats {
+    fn endpoint(&self) -> String {
+        String::from("multiple_game_events")
+    }
+    fn body(&self) -> String {
+        let res = format!(
+            r#"{{
+            "game": "LEAGUE_OF_STEEL",
+            "events": [
+            {{
+                 {}
+            }},
+            {{
+                 {}
+            }},
+            {{
+                 {}
+            }}
+            ]
+        }}"#,
+            event_str("HEALTH", self.health),
+            event_str("MANA", self.mana),
+            event_str("HIT", self.hit),
         );
         res
     }
+}
+
+fn event_str(name: &str, value: u8) -> String {
+    format!(
+        r#""event": "{}",
+                "data": {{
+                    "value": {}
+                }}"#,
+        name,
+        value.to_string()
+    )
 }
 
 pub struct RegisterGame {}

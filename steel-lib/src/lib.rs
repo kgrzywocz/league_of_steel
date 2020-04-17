@@ -39,6 +39,11 @@ impl SteelConnector {
         log::info!("Hit={} send", hit);
         self.server_connector.send(events::Hit::new(hit))
     }
+    pub fn send_stats(&self, health: u8, mana: u8, hit: u8) -> Result<(), SteelLibError> {
+        log::info!("Health={} Mana={} Hit={} send", health, mana, hit);
+        self.server_connector
+            .send(events::MultipleStats::new(health, mana, hit))
+    }
 }
 
 #[derive(Debug)]

@@ -12,7 +12,6 @@ fn main() {
         .files(src_files)
         .compile("lollib");
 
-
     if std::env::var("CARGO_CFG_WINDOWS").is_ok() {
         let src_files = std::fs::read_dir("backend_dx9/cpp")
             .unwrap()
