@@ -3,12 +3,12 @@ language: rust
 rust:
 - stable-x86_64-pc-windows-msvc
 before_install:
-- choco install nsis
+- choco install nsis --version=3.05
 script:
-- cargo build --target x86_64-pc-windows-msvc --release --verbose --all
+- cargo build --target x86_64-pc-windows-msvc --release --verbose -p league_of_steel
 - "/c/Program\\ Files\\ \\(x86\\)/NSIS/makensis.exe installer\\\\installer_script.nsi"
 - cargo test --verbose --all --exclude testlib
-#- cargo build
+- cargo build
 #- cargo test --verbose -p testlib -- --test-threads=1 --nocapture
 deploy:
   provider: releases
@@ -16,7 +16,7 @@ deploy:
     secure: sARwWmAKysDOMPFjNvdvba7wBO/On2ozXwyfwKvKHqkfDAagl/2J94BTj5tW8PTFh26em7F9QNPBSTL83ID9+O/q2o/F4WSZi0v8UanJD2PXj9OfvtiwHmZn46l9s+aL+llJ148nDz4Bs/ghdJpymWE9sxd5hhoBjhV+uBB4vY6DT2A8EFfz4WhCaMklDA1Oore6LQn8enyh0v2Y/X+Bq0EVKKR17kKYLIT2c2QQvlf/RaruHl5ysUxCd2P3DikLfmjnz7nTNeKxVFCsdrbcz2VciMl8n1rVcTlrkXQ6Nj0D5C+7PC7pTiJMgIhXzZWPQQR2K9aien1+Xb/Z5rQxnuerd6HQppwkGsmlgN8jvikw6LLoLboSANVLycvGkbxpdR97Ll5WldxFOVoN3eiXXTTLeGJ59hsA+pd3rxqIWekFPvfKg+XpDxcfpCarE//2XPvi/+aRFL2a5JtINS8qtDynUdFZoZg2+i7WdukwcwjdqzUo+LD4ogDh//EDkIf7pz3iVJc4Axj1QJYwMbSbZqGfWmcOBYyXbGrn8SX1nUeKZUVUabZX0m/583z1s9aCHBye2aIgBv7qK1frIEZCMofA3ouWigiQ56VBt9ba76luY6saoTtaGEVUiVIDlgwppP5htYBdLUFcquJzb2yVQc2xZjmUfWwX8HAS3pZ0bU0=
   file_glob: true
   file:
-    - "./target/league_of_steel_setup.exe"
+    - "target/league_of_steel_setup.exe"
   skip_cleanup: true
   draft: true
   on:
