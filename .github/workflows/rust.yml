@@ -31,22 +31,9 @@ jobs:
       with:
         name: league_of_steel_setup.exe
         path: "target/league_of_steel_setup.exe"
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: GH Release
+      uses: softprops/action-gh-release@v0.1.5
+      if: startsWith(github.ref, 'refs/tags/')
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
-    - name: Upload Release Asset
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: "target/league_of_steel_setup.exe"
-        asset_name: league_of_steel_setup.exe
+        draft: true
+        files: "target/league_of_steel_setup.exe"
