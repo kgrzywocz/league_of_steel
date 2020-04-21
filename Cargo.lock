@@ -520,7 +520,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "league_of_steel"
-version = "0.5.2"
+version = "0.5.3"
 dependencies = [
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "lol-lib 0.7.0",
