@@ -31,3 +31,8 @@ jobs:
       with:
         name: league_of_steel_setup.exe
         path: "target/league_of_steel_setup.exe"
+    - name: GH Release
+      uses: softprops/action-gh-release@v0.1.5
+      with:
+        draft: true
+        files: "target/league_of_steel_setup.exe"
