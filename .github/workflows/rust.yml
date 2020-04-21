@@ -25,10 +25,10 @@ jobs:
     - name: Unit tests
       run: cargo test --verbose --all --exclude testlib
 
-    - name: Binary tests
+    - name: Binary tests (build only)
       run: |
         cargo build
-        cargo test --verbose -p testlib -- --test-threads=1 --nocapture
+        # cargo test --verbose -p testlib -- --test-threads=1 --nocapture
 
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
