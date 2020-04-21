@@ -1,0 +1,33 @@
+name: Rust
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: cargo build --target x86_64-pc-windows-msvc --release --verbose -p league_of_steel
+    - name: Create installer
+      uses: joncloud/makensis-action@v1
+      with:
+        script-file: "installer/installer_script.nsi"
+    - name: Run unit tests
+      run: cargo test --verbose --all --exclude testlib
+    - name: Build binary tests
+      run: cargo build
+    - name: Run binary test
+      run: cargo test --verbose -p testlib -- --test-threads=1 --nocapture
+      if: 1==0
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: league_of_steel_setup.exe
+        path: "target/league_of_steel_setup.exe"
