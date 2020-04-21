@@ -19,7 +19,7 @@ jobs:
       uses: joncloud/makensis-action@v1
       with:
         script-file: "installer/installer_script.nsi"
-    - name: Run unit tests
+    - name: Run UT
       run: cargo test --verbose --all --exclude testlib
     - name: Build binary tests
       run: cargo build
