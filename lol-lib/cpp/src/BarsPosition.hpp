@@ -8,21 +8,23 @@ public:
     BackendCaptureRect get(const BackendScreenResolution &dispMode)
     {
         BackendCaptureRect pos;
-        //682x1031 1094x1044 on 1920x1080
+        //682x1031 1094x1065 on 1920x1080
         //455x688 729x709 on 1280x720
         //415x985 748x1011 on 1280x1024
         //729x1038 1071x1067 on 1920x1080 - hud 50% -> 0.83
         //776x1047 1049x1069 on 1920x1080 - hud 0%(0.01) -> 0.66
         //381x744 575x761 on 1024x768 - hud 0%(0.01) -> 0.66
+        //245x572 474x591 on 800x600
+        //297x581 449x594 on 800x600 hud 0
 
         auto ratio = ((double)dispMode.Width / dispMode.Height) / 1.77777777777;
-        ratio = (ratio +2)/3;
+        ratio = (ratio + 2) / 3;
 
         pos.left = int32_t(ratio * 0.356 * dispMode.Width);
-        pos.right = int32_t(ratio * 0.57 * dispMode.Width);
-        pos.right = int32_t(dispMode.Width - (ratio * (dispMode.Width - pos.right)));
-        pos.top = int32_t(0.962 * dispMode.Height);
-        pos.bottom = int32_t(0.98 * dispMode.Height);
+        pos.right = int32_t(ratio * 0.57 * dispMode.Width);                           //bar len
+        pos.right = int32_t(dispMode.Width - (ratio * (dispMode.Width - pos.right))); //space on rigth
+        pos.bottom = int32_t((1 - 0.015 * ratio) * dispMode.Height);
+        pos.top = pos.bottom - int32_t(ratio * ratio * ratio * 0.025 * dispMode.Height);
 
         reScaleForHudScaling(pos, dispMode);
 
