@@ -1,5 +1,7 @@
 /target
 **/*.rs.bk
+**/*.obj
+**/*.exe
 
 league_of_steel.log
 

@@ -7,5 +7,6 @@ members = [
     "steel-lib",
     "league_of_steel",
     "testlib/app",
-    "testlib"
+    "testlib/ssestub",
+    "testlib",
 ]
