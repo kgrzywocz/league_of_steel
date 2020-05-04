@@ -17,14 +17,14 @@ public:
         //245x572 474x591 on 800x600
         //297x581 449x594 on 800x600 hud 0
 
-        auto ratio = ((double)dispMode.Width / dispMode.Height) / 1.77777777777;
+        auto ratio = ((double)dispMode.width / dispMode.height) / 1.77777777777;
         ratio = (ratio + 2) / 3;
 
-        pos.left = int32_t(ratio * 0.356 * dispMode.Width);
-        pos.right = int32_t(ratio * 0.57 * dispMode.Width);                           //bar len
-        pos.right = int32_t(dispMode.Width - (ratio * (dispMode.Width - pos.right))); //space on rigth
-        pos.bottom = int32_t((1 - 0.015 * ratio) * dispMode.Height);
-        pos.top = pos.bottom - int32_t(ratio * ratio * ratio * 0.025 * dispMode.Height);
+        pos.left = int32_t(ratio * 0.356 * dispMode.width);
+        pos.right = int32_t(ratio * 0.57 * dispMode.width);                           //bar len
+        pos.right = int32_t(dispMode.width - (ratio * (dispMode.width - pos.right))); //space on rigth
+        pos.bottom = int32_t((1 - 0.015 * ratio) * dispMode.height);
+        pos.top = pos.bottom - int32_t(ratio * ratio * ratio * 0.025 * dispMode.height);
 
         reScaleForHudScaling(pos, dispMode);
 
@@ -39,11 +39,11 @@ public:
 private:
     void reScaleForHudScaling(BackendCaptureRect &pos, const BackendScreenResolution &dispMode)
     {
-        int midWidth = dispMode.Width / 2;
+        int midWidth = dispMode.width / 2;
         pos.left = int32_t(midWidth - m_hudScale * (midWidth - pos.left));
         pos.right = int32_t(midWidth + m_hudScale * (pos.right - midWidth));
-        pos.top = int32_t(dispMode.Height - m_hudScale * (dispMode.Height - pos.top));
-        pos.bottom = int32_t(dispMode.Height - m_hudScale * (dispMode.Height - pos.bottom));
+        pos.top = int32_t(dispMode.height - m_hudScale * (dispMode.height - pos.top));
+        pos.bottom = int32_t(dispMode.height - m_hudScale * (dispMode.height - pos.bottom));
     }
 
     double m_hudScale = 1.0;

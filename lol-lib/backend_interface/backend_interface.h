@@ -1,46 +1,66 @@
 #pragma once
 
-#include <stdint.h>
-#include "LolStats.h"
+#include <cstdarg>
+#include <cstdint>
+#include <cstdlib>
+#include <new>
+
+struct LolStats {
+  uint8_t health;
+  uint8_t mana;
+  uint8_t hit;
+};
+
+struct BackendScreenAnalyzer {
+  uint8_t phantom_data;
+};
+
+struct BackendPixelRect {
+  uint8_t phantom_data;
+};
+
+using FrontendAnalysisFunction = LolStats(*)(const BackendPixelRect*);
+
+struct BackendScreenResolution {
+  uint32_t width;
+  uint32_t height;
+};
+
+struct BackendColor {
+  uint8_t b;
+  uint8_t g;
+  uint8_t r;
+  uint8_t a;
+};
+
+struct BackendCaptureRect {
+  int32_t left;
+  int32_t top;
+  int32_t right;
+  int32_t bottom;
+};
 
 extern "C" {
 
-typedef struct _BackendCaptureRectTag
-{
-    int32_t    left;
-    int32_t    top;
-    int32_t    right;
-    int32_t    bottom;
-} BackendCaptureRect;
+extern LolStats lollib_backend_analyzeScreenshot(BackendScreenAnalyzer *s);
 
-typedef struct _BackendScreenResolutionTag{
-    uint32_t Width;
-    uint32_t Height;
-}BackendScreenResolution;
+extern BackendScreenAnalyzer *lollib_backend_createBackendScreenAnalyzer(FrontendAnalysisFunction analyzeFunction);
 
-typedef struct _BackendColor
-{
-  uint8_t B = 0;
-  uint8_t G = 0;
-  uint8_t R = 0;
-  uint8_t A = 0;
-} BackendColor;
+extern void lollib_backend_destroyBackendScreenAnalyzer(BackendScreenAnalyzer *s);
 
+extern BackendScreenResolution lollib_backend_getMode(BackendScreenAnalyzer *s);
 
-struct BackendScreenAnalyzer;
-struct BackendPixelRect;
+extern int32_t lollib_backend_hasModeChanged(BackendScreenAnalyzer *s);
 
-typedef LolStats(*FrontendAnalysisFunction)(const BackendPixelRect *);
+extern BackendColor lollib_backend_pixelRect_getColor(const BackendPixelRect *rect,
+                                                      int32_t row,
+                                                      int32_t column);
 
-BackendScreenAnalyzer* lollib_backend_createBackendScreenAnalyzer(FrontendAnalysisFunction analyzeFunction);
-void lollib_backend_destroyBackendScreenAnalyzer(BackendScreenAnalyzer*);
-BackendScreenResolution lollib_backend_getMode(BackendScreenAnalyzer*);
-int32_t lollib_backend_hasModeChanged(BackendScreenAnalyzer*);
-void lollib_backend_setCaptureRect(BackendScreenAnalyzer*, const BackendCaptureRect *captureRect);
-LolStats lollib_backend_analyzeScreenshot(BackendScreenAnalyzer*);
+extern int32_t lollib_backend_pixelRect_getHight(const BackendPixelRect *rect);
 
-int32_t lollib_backend_pixelRect_getHight(const BackendPixelRect *);
-int32_t lollib_backend_pixelRect_getWidth(const BackendPixelRect *);
-BackendColor lollib_backend_pixelRect_getColor(const BackendPixelRect *, int32_t row, int32_t column);
+extern int32_t lollib_backend_pixelRect_getWidth(const BackendPixelRect *rect);
 
-} //extern "C" 
+extern void lollib_backend_setCaptureRect(BackendScreenAnalyzer *s,
+                                          const BackendCaptureRect *captureRect);
+
+} // extern "C"

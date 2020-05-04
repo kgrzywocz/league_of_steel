@@ -1,7 +1,6 @@
 #pragma once
 
 #include "backend_interface.h"
-#include "LolStats.h"
 
 #include "DxObj.hpp"
 #include <functional>
@@ -22,8 +21,8 @@ public:
   BackendScreenResolution getMode()
   {
     BackendScreenResolution mode;
-    mode.Width = m_mode.Width;
-    mode.Height = m_mode.Height;
+    mode.width = m_mode.Width;
+    mode.height = m_mode.Height;
     return mode;
   }
 

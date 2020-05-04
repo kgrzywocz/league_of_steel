@@ -4,7 +4,7 @@
 #include "PixelRectAnalyzer.hpp"
 #include "Color.hpp"
 #include "ScreenAnalyzerWrapper.hpp"
-#include "LolStats.h"
+#include "backend_interface.h"
 #include <stdint.h>
 
 
@@ -18,11 +18,11 @@ public:
 
     int32_t getScreenWidth()
     {
-        return m_screenAnalyzer.getMode().Width;
+        return m_screenAnalyzer.getMode().width;
     }
     int32_t getScreenHeight()
     {
-        return m_screenAnalyzer.getMode().Height;
+        return m_screenAnalyzer.getMode().height;
     }
 
     bool hasModeChanged()

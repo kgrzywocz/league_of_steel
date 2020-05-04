@@ -2,6 +2,7 @@
 
 members = [
     "lol-lib",
+    "lol-lib/backend_interface",
     "lol-lib/backend_win",
     "steel-lib",
     "league_of_steel",

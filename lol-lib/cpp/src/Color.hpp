@@ -10,10 +10,10 @@ class Color
 public:
   explicit Color(const BackendColor& color)
   {
-    B = color.B;
-    G = color.G;
-    R = color.R;
-    A = color.A;
+    B = color.b;
+    G = color.g;
+    R = color.r;
+    A = color.a;
   }
 
   bool isRed() const

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LolStats.h"
+#include "backend_interface.h"
 #include <stdint.h>
 
 extern "C" int32_t lollib_init();

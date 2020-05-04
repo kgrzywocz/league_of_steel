@@ -1,7 +1,3 @@
-#[crate_type = "staticlib"]
-
-extern crate libc;
-
 #[repr(C)]
 pub struct LolStats {
     pub health: u8,
@@ -19,25 +15,28 @@ pub struct BackendCaptureRect {
 
 #[repr(C)]
 pub struct BackendScreenResolution {
-    pub Width: u32,
-    pub Height: u32,
+    pub width: u32,
+    pub height: u32,
 }
 
 #[repr(C)]
 pub struct BackendColor {
-    pub B: u8,
-    pub G: u8,
-    pub R: u8,
-    pub A: u8,
+    pub b: u8,
+    pub g: u8,
+    pub r: u8,
+    pub a: u8,
 }
 
 #[repr(C)]
-pub struct BackendScreenAnalyzer;
+pub struct BackendScreenAnalyzer{
+    phantom_data : u8,
+}
 #[repr(C)]
-pub struct BackendPixelRect;
+pub struct BackendPixelRect{
+    phantom_data : u8,
+}
 
-//typedef LolStats(*FrontendAnalysisFunction)(const BackendPixelRect *);
-pub type FrontendAnalysisFunction = *const extern "C" fn(*const BackendPixelRect) -> LolStats;
+pub type FrontendAnalysisFunction = extern "C" fn(*const BackendPixelRect) -> LolStats;
 
 #[no_mangle]
 extern "C" {

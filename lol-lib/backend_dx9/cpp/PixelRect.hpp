@@ -43,10 +43,10 @@ private:
   static BackendColor makeColor(const uint8_t bytes[4])
   {
     BackendColor res;
-    res.B = bytes[0];
-    res.G = bytes[1];
-    res.R = bytes[2];
-    res.A = bytes[3];
+    res.b = bytes[0];
+    res.g = bytes[1];
+    res.r = bytes[2];
+    res.a = bytes[3];
     return res;
   }
 };

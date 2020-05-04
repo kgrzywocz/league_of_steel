@@ -2,7 +2,7 @@
 
 #include "Color.hpp"
 #include "PixelRectWrapper.hpp"
-#include "LolStats.h"
+#include "backend_interface.h"
 #include <functional>
 
 class PixelRectAnalyzer
