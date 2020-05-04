@@ -53,12 +53,13 @@ fn get_lol_lib(lol_lib_opt: &mut Option<lol_lib::LolLib>) -> &lol_lib::LolLib {
 }
 fn optionally_re_init_lol_lib(lol_lib_opt: &mut Option<lol_lib::LolLib>) {
     match lol_lib_opt {
-        None => *lol_lib_opt = Some(lol_lib::LolLib::init()),
+        None => *lol_lib_opt = Some(lol_lib::LolLib::new()),
         Some(lol_lib) => {
             let mode_has_changed = lol_lib.has_mode_changed();
             if mode_has_changed {
                 log::info!("Mode changed reinitialize lol lib");
-                *lol_lib_opt = Some(lol_lib::LolLib::init());
+                *lol_lib_opt = None;
+                *lol_lib_opt = Some(lol_lib::LolLib::new());
             }
         }
     };
@@ -80,8 +81,5 @@ fn lol_stats_update(
 }
 
 pub fn on_game_stop(lol_lib_opt: &mut Option<lol_lib::LolLib>) {
-    if let Some(lol_lib) = lol_lib_opt {
-        lol_lib.destroy();
         *lol_lib_opt = None;
-    }
 }

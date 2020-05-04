@@ -16,6 +16,8 @@ public:
         //381x744 575x761 on 1024x768 - hud 0%(0.01) -> 0.66
         //245x572 474x591 on 800x600
         //297x581 449x594 on 800x600 hud 0
+        //314x732 607x757 on 1024x768
+        //354x824 684x851 on 1152x864
 
         auto ratio = ((double)dispMode.width / dispMode.height) / 1.77777777777;
         ratio = (ratio + 2) / 3;
@@ -23,8 +25,8 @@ public:
         pos.left = int32_t(ratio * 0.356 * dispMode.width);
         pos.right = int32_t(ratio * 0.57 * dispMode.width);                           //bar len
         pos.right = int32_t(dispMode.width - (ratio * (dispMode.width - pos.right))); //space on rigth
-        pos.bottom = int32_t((1 - 0.015 * ratio) * dispMode.height);
-        pos.top = pos.bottom - int32_t(ratio * ratio * ratio * 0.025 * dispMode.height);
+        pos.bottom = int32_t((1 - 0.015 * ratio) * dispMode.height)-1;
+        pos.top = pos.bottom - int32_t(ratio * ratio * 0.025 * dispMode.height)+1;
 
         reScaleForHudScaling(pos, dispMode);
 

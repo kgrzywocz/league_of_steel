@@ -23,17 +23,14 @@ extern "C" {
 pub struct LolLib {}
 
 impl LolLib {
-    pub fn init() -> Self {
+    pub fn new() -> Self {
         unsafe { lollib_init() };
 
         let width = unsafe { lollib_screen_width() };
         let height = unsafe { lollib_screen_height() };
 
-        log::debug!("Screen {}x{}", width, height);
+        log::info!("Screen {}x{}", width, height);
         Self {}
-    }
-    pub fn destroy(&self) {
-        unsafe { lollib_destroy() };
     }
 
     pub fn has_mode_changed(&self) -> bool {
@@ -56,5 +53,12 @@ impl LolLib {
 
     pub fn get_hud_global_scale_from_config(&self) -> Option<f32> {
         lolconfig::get_hud_global_scale(&backend::lol_exe_path())
+    }
+}
+
+impl Drop for LolLib {
+    fn drop(&mut self) {
+        log::info!("Lollib drop");
+        unsafe { lollib_destroy() };
     }
 }
