@@ -1,5 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use game_connector::*;
+use hw_connector::wait_for_steel_connector;
 use league_of_steel::*;
 use std::time::Duration;
 
@@ -12,19 +14,17 @@ fn main() {
     activate_logger();
 
     let steel_connector = wait_for_steel_connector(SSE_SEEK_INTERVAL);
-    let mut lol_lib = None;
+    let mut game_connector = GameConnector::new();
 
     loop {
-        let is_lol_running = lol_lib::LolLib::is_lol_running();
-        log::debug!("lol running:{}", is_lol_running);
+        let is_game_running = game_connector.is_game_running();
+        log::debug!("game running:{}", is_game_running);
 
-        if is_lol_running {
-            on_game_running(&mut lol_lib, &steel_connector);
+        if is_game_running {
+            game_connector.on_game_running(&steel_connector);
             std::thread::sleep(UPDATE_INTERVAL);
         } else {
-            if lol_lib.is_some() {
-                on_game_stop(&mut lol_lib);
-            }
+            game_connector.on_game_stop();
             std::thread::sleep(GAME_SEEK_INTERVAL);
         }
     }

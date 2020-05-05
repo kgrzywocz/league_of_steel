@@ -39,6 +39,7 @@ impl LolLib {
     }
 
     pub fn get_stats(&self) -> LolStats {
+        self.lol_adjust_hud_scale();
         let res = unsafe { lollib_get_stats() };
         res
     }
@@ -53,6 +54,12 @@ impl LolLib {
 
     pub fn get_hud_global_scale_from_config(&self) -> Option<f32> {
         lolconfig::get_hud_global_scale(&backend::lol_exe_path())
+    }
+
+    fn lol_adjust_hud_scale(&self) {
+        let hud_scale = self.get_hud_global_scale_from_config().unwrap_or(1.0);
+        log::debug!("hud_scale={}", hud_scale);
+        self.set_hud_scaling(hud_scale);
     }
 }
 
