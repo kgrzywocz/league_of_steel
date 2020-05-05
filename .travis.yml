@@ -7,8 +7,8 @@ before_install:
 script:
 - cargo build --target x86_64-pc-windows-msvc --release --verbose -p league_of_steel
 - "/c/Program\\ Files\\ \\(x86\\)/NSIS/makensis.exe installer\\\\installer_script.nsi"
-- cargo test --verbose --all --exclude testlib
 - cargo build
+- cargo test --verbose --all --exclude testlib
 #- cargo test --verbose -p testlib -- --test-threads=1 --nocapture
 deploy:
   provider: releases
