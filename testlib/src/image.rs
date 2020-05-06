@@ -9,7 +9,7 @@ pub struct ImageWindow {
 impl ImageWindow {
     pub fn new(width: u32, height: u32, file: &str) -> Self {
         super::resolution::set_resolution(width, height);
-        let mut window = Self::create_window();
+        let mut window = Self::create_window(width, height);
         let picture = Self::create_picture(&mut window, file);
         window.set_lazy(true);
 
@@ -24,8 +24,8 @@ impl ImageWindow {
         self.window.next()
     }
 
-    fn create_window() -> PistonWindow {
-        WindowSettings::new("League of Legends (TM) Client", [640, 480])
+    fn create_window(width: u32, height: u32) -> PistonWindow {
+        WindowSettings::new("League of Legends (TM) Client", [width, height])
             .exit_on_esc(true)
             .fullscreen(true)
             .build()
