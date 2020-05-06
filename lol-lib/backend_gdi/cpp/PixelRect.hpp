@@ -18,7 +18,7 @@ public:
 
   BackendColor getColor(int row, int column) const
   {
-    printf("%d,%d=", column + m_x, row + m_y);
+    //printf("%d,%d=", column + m_x, row + m_y);
     auto pixel = GetPixel(m_hdc, column + m_x, row + m_y);
 
     return makeColor(pixel);
@@ -51,7 +51,7 @@ private:
     res.r = (int)(pixel & 0x000000FF);
     res.a = 0;
 
-    printf("%2x%2x%2x ", res.r, res.g, res.b);
+    //printf("%2x%2x%2x ", res.r, res.g, res.b);
 
     return res;
   }

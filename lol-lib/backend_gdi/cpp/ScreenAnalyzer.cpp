@@ -16,7 +16,7 @@ ScreenAnalyzer::ScreenAnalyzer(AnalysisFunction analyzeFunction)
 LolStats ScreenAnalyzer::analyzeScreenshot()
 {
     auto hwnd = FindWindow(NULL, "League of Legends (TM) Client");
-    printf("LOL window = %d\n", hwnd);
+    //printf("LOL window = %d\n", hwnd);
 
     auto hdc = GetDC(hwnd);
     const auto &res = m_analyzeFunction(PixelRect{hdc, m_captureRect});

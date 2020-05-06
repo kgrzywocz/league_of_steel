@@ -15,7 +15,7 @@ impl ImageWindow {
 
         let mut iw = Self { window, picture };
         iw.run_till_on_screen();
-
+        
         super::resolution::refocus();
         iw.run_till_on_screen();
         iw
@@ -25,7 +25,7 @@ impl ImageWindow {
     }
 
     fn create_window() -> PistonWindow {
-        WindowSettings::new("Hello Piston!", [640, 480])
+        WindowSettings::new("League of Legends (TM) Client", [640, 480])
             .exit_on_esc(true)
             .fullscreen(true)
             .build()

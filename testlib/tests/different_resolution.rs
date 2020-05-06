@@ -16,6 +16,14 @@ fn test_1280x1024() {
 fn test_800x600() {
     test_resolution(800, 600, "screens/800x600_hp100_mana100.png");
 }
+#[test]
+fn test_1024x768() {
+    test_resolution(1024, 768, "screens/1024x768_hp100_mana100.png");
+}
+#[test]
+fn test_1152x864() {
+    test_resolution(1152, 864, "screens/1152x864_hp100_mana100.png");
+}
 
 #[test]
 fn test_1920x1080_hud_50() {
@@ -28,18 +36,16 @@ fn test_1920x1080_hud_0() {
     let _config = LolConfig::create_with_hud_scale("0.0100");
     test_resolution(1920, 1080, "screens/1920x1080_hud_globalScale_0_0100.png");
 }
-
 #[test]
 fn test_1024x768_hud_0() {
     let _config = LolConfig::create_with_hud_scale("0.0100");
     test_resolution(1024, 768, "screens/1024x768_hud_globalScale_0_0100.png");
 }
-
+#[test]
 fn test_1600x1024_hud_0() {
     let _config = LolConfig::create_with_hud_scale("0.0100");
     test_resolution(1600, 1024, "screens/1600x1024_hud_globalScale_0_0100.png");
 }
-
 #[test]
 fn test_1680x1050_hud_0() {
     let _config = LolConfig::create_with_hud_scale("0.0100");
