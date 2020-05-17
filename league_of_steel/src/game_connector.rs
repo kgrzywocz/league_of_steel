@@ -1,7 +1,7 @@
 use log;
 use lol_lib;
-use steel_lib;
 use std::borrow::BorrowMut;
+use steel_lib;
 
 pub struct GameConnector {
     game_lib_opt: Option<lol_lib::LolLib>,
@@ -16,8 +16,8 @@ impl GameConnector {
     }
 
     pub fn on_game_running(&mut self, steel_connector: &steel_lib::SteelConnector) {
-        let stats = self.do_with_game_lib(|lib:&mut lol_lib::LolLib| lib.get_stats());
-        let res = steel_connector.send_stats(stats.health, stats.mana, stats.hit);
+        let events = self.do_with_game_lib(|lib: &mut lol_lib::LolLib| lib.pool_events());
+        let res = steel_connector.send_events(events);
         if let Err(e) = res {
             log::warn!("{}", e);
         }
@@ -26,9 +26,11 @@ impl GameConnector {
     pub fn on_game_stop(&mut self) {
         self.game_lib_opt = None;
     }
-    
-    fn do_with_game_lib<F,T>(&mut self, fun :F)  -> T
-    where F: Fn(&mut lol_lib::LolLib)->T{
+
+    fn do_with_game_lib<F, T>(&mut self, fun: F) -> T
+    where
+        F: Fn(&mut lol_lib::LolLib) -> T,
+    {
         self.optionally_re_init_game_lib();
         if let Some(game_lib) = &mut self.game_lib_opt.borrow_mut() {
             return fun(game_lib);

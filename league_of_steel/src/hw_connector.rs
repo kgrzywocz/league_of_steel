@@ -1,5 +1,4 @@
 use steel_lib;
-use steel_lib::SteelLibError;
 
 pub fn wait_for_steel_connector(
     sse_seek_interval: std::time::Duration,
@@ -10,7 +9,7 @@ pub fn wait_for_steel_connector(
         match res {
             Ok(res) => {
                 steel_connector = res;
-                if let Err(e) = register_game(&steel_connector) {
+                if let Err(e) = steel_connector.register_game() {
                     log::warn!("{}", e);
                 } else {
                     break;
@@ -23,9 +22,4 @@ pub fn wait_for_steel_connector(
         std::thread::sleep(sse_seek_interval);
     }
     steel_connector
-}
-
-fn register_game(steel_connector: &steel_lib::SteelConnector) -> Result<(), SteelLibError> {
-    steel_connector.register_game()?;
-    steel_connector.register_game_events()
 }

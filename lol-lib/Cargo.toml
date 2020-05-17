@@ -1,6 +1,6 @@
 [package]
 name = "lol-lib"
-version = "0.7.1"
+version = "0.8.0"
 authors = ["Krzysztof Grzywocz <kgrzywocz@wp.pl>"]
 edition = "2018"
 
@@ -9,6 +9,7 @@ log = "0.4"
 regex = "1.0"
 
 [target.'cfg(windows)'.dependencies]
+game-lib = { path = "../game-lib"}
 backend_interface = { path = "backend_interface" }
 backend_win = { path = "backend_win" }
 backend = { path = "backend_dx9" }

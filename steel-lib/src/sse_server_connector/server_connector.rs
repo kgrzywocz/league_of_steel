@@ -1,14 +1,13 @@
 use super::SteelLibError;
+use crate::SSEEvent;
+use crate::SSEEventSender;
 
 pub struct ServerConnector {
     address: String,
 }
 
-impl super::EventSender for ServerConnector {
-    fn send<Event>(&self, event: Event) -> Result<(), SteelLibError>
-    where
-        Event: super::Event,
-    {
+impl SSEEventSender for ServerConnector {
+    fn send(&self, event: &dyn SSEEvent) -> Result<(), SteelLibError> {
         let mut writer = Vec::new();
         let body = event.body();
         let bytes = body.as_bytes();

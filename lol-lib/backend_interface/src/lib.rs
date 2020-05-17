@@ -1,11 +1,7 @@
-mod bindings;
 mod backend;
+mod bindings;
 pub use backend::*;
 pub use bindings::{
-    LolStats,
-    BackendCaptureRect,
-    BackendScreenResolution,
-    BackendColor,
-    BackendScreenAnalyzer,
-    BackendPixelRect,
+    BackendCaptureRect, BackendColor, BackendPixelRect, BackendScreenAnalyzer,
+    BackendScreenResolution, LolStats,
 };

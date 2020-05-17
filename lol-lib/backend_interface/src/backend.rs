@@ -1,6 +1,5 @@
 use crate::bindings::*;
 
-
 fn dummy_analyze_function(_rect: PixelRect) -> LolStats {
     LolStats {
         health: 0,
@@ -10,14 +9,14 @@ fn dummy_analyze_function(_rect: PixelRect) -> LolStats {
 }
 
 pub type AnalyzeFunction = fn(PixelRect) -> LolStats;
-static mut ANALYZE_FUNCTION : AnalyzeFunction = dummy_analyze_function;
+static mut ANALYZE_FUNCTION: AnalyzeFunction = dummy_analyze_function;
 
 pub struct Backend {
     backend_screen_analyzer: *mut BackendScreenAnalyzer,
 }
 impl Backend {
     pub fn new(analyze_function: AnalyzeFunction) -> Self {
-        unsafe{ANALYZE_FUNCTION = analyze_function};
+        unsafe { ANALYZE_FUNCTION = analyze_function };
         Self::new_low_lewel(Self::frontend_analysis_function)
     }
 
@@ -45,7 +44,7 @@ impl Backend {
         unsafe { lollib_backend_getMode(self.backend_screen_analyzer) }
     }
     pub fn has_mode_changed(&self) -> bool {
-        unsafe { lollib_backend_hasModeChanged(self.backend_screen_analyzer) !=0  }
+        unsafe { lollib_backend_hasModeChanged(self.backend_screen_analyzer) != 0 }
     }
     pub fn set_capture_rect(&mut self, capture_rect: &BackendCaptureRect) {
         unsafe {
@@ -81,38 +80,35 @@ impl PixelRect {
         unsafe { lollib_backend_pixelRect_getWidth(self.rect) }
     }
     pub fn get_color(&self, row: i32, column: i32) -> Color {
-        Color::from_backend(
-            unsafe { lollib_backend_pixelRect_getColor(self.rect, row, column) }
-        )
+        Color::from_backend(unsafe { lollib_backend_pixelRect_getColor(self.rect, row, column) })
     }
 }
 
-pub struct Color{
-    color : BackendColor
+pub struct Color {
+    color: BackendColor,
 }
 
-impl Color{
-    fn from_backend(backend_color:BackendColor) ->Self{
-        Self{color: backend_color}
+impl Color {
+    fn from_backend(backend_color: BackendColor) -> Self {
+        Self {
+            color: backend_color,
+        }
     }
-    pub fn is_red(&self) ->bool
-    {
-      return self.color.r as i32 > self.color.b  as i32 + 50 && 
-      self.color.r as i32 >self.color.g as i32 + 50;
+    pub fn is_red(&self) -> bool {
+        return self.color.r as i32 > self.color.b as i32 + 50
+            && self.color.r as i32 > self.color.g as i32 + 50;
     }
-    pub fn is_green(&self) ->bool
-    {
-      return self.color.g as i32 > self.color.b as i32 + 50 && 
-      self.color.g as i32 > self.color.r as i32 + 50;
+    pub fn is_green(&self) -> bool {
+        return self.color.g as i32 > self.color.b as i32 + 50
+            && self.color.g as i32 > self.color.r as i32 + 50;
     }
-    pub fn is_blue(&self) ->bool
-    {
-      return self.color.b as i32 > self.color.g as i32 + 50 && 
-      self.color.b as i32 >self.color.r as i32  + 50;
+    pub fn is_blue(&self) -> bool {
+        return self.color.b as i32 > self.color.g as i32 + 50
+            && self.color.b as i32 > self.color.r as i32 + 50;
     }
-    pub fn is_yellow(&self) ->bool
-    {
-      return self.color.r as i32 > self.color.b as i32 + 50 && 
-      self.color.g as i32 > self.color.b as i32 + 50 && (self.color.r as i8 -self.color.g as i8).abs() < 50;
+    pub fn is_yellow(&self) -> bool {
+        return self.color.r as i32 > self.color.b as i32 + 50
+            && self.color.g as i32 > self.color.b as i32 + 50
+            && (self.color.r as i8 - self.color.g as i8).abs() < 50;
     }
 }

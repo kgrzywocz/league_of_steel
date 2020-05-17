@@ -1,5 +1,9 @@
+use game_lib::game_events::*;
+
 use backend_interface::*;
 use backend_win::*;
+
+const GAME_NAME: &str = "LEAGUE_OF_STEEL";
 
 pub struct LolLib {
     backend: Backend,
@@ -25,17 +29,39 @@ impl LolLib {
         PixelRectAnalyzer::get_stats(&rect)
     }
 
-    pub fn has_mode_changed(&self) -> bool {
-        self.backend.has_mode_changed()
-    }
-
-    pub fn get_stats(&mut self) -> LolStats {
-        self.adjust_hud_scale();
-        self.backend.analyze_screenshot()
+    pub fn get_game_info() -> GameInfo {
+        GameInfo::new(
+            GAME_NAME,
+            "League of Legends",
+            "Riot Games",
+            vec![
+                GameEventInfo::new("HEALTH").set_type(GameEventType::Health),
+                GameEventInfo::new("MANA").set_type(GameEventType::Mana),
+                GameEventInfo::new("HIT").set_type(GameEventType::Boom),
+            ],
+        )
     }
 
     pub fn is_running() -> bool {
         is_process_running("League of Legends.exe")
+    }
+
+    pub fn has_mode_changed(&self) -> bool {
+        self.backend.has_mode_changed()
+    }
+
+    pub fn pool_events(&mut self) -> MultipleGameEvents {
+        self.adjust_hud_scale();
+        let stats = self.backend.analyze_screenshot();
+
+        MultipleGameEvents::new(
+            GAME_NAME,
+            vec![
+                GameEvent::new("HEALTH", stats.health),
+                GameEvent::new("MANA", stats.mana),
+                GameEvent::new("HIT", stats.hit),
+            ],
+        )
     }
 
     fn adjust_hud_scale(&mut self) {
@@ -49,7 +75,7 @@ impl LolLib {
     }
 
     fn get_hud_global_scale_from_config(&self) -> Option<f32> {
-        let lol_path=get_process_exe_path("League of Legends.exe");
+        let lol_path = get_process_exe_path("League of Legends.exe");
         log::debug!("lol_path={}", lol_path);
         crate::lolconfig::get_hud_global_scale(&lol_path)
     }
