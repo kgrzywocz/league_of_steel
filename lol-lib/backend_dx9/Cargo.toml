@@ -1,0 +1,13 @@
+[package]
+name = "backend"
+version = "0.1.0"
+authors = ["Krzysztof Grzywocz <kgrzywocz@wp.pl>"]
+edition = "2018"
+
+[build-dependencies]
+cc = "1.0"
+
+[target.'cfg(windows)'.dependencies]
+libc = "0.2"
+winapi = { version = "0.3", features = ["d3d9"] }
+backend_interface = { path = "../backend_interface" }

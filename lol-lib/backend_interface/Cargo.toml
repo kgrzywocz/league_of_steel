@@ -1,16 +1,11 @@
 [package]
 name = "backend_interface"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Krzysztof Grzywocz <kgrzywocz@wp.pl>"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
 cbindgen = "0.14"
 
 [dependencies]
-
-[lib]
-name = "backend_interface"
-path = "lib.rs"
+libc = "0.2"

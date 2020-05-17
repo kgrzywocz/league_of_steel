@@ -15,7 +15,7 @@ impl ImageWindow {
 
         let mut iw = Self { window, picture };
         iw.run_till_on_screen();
-        
+
         super::resolution::refocus();
         iw.run_till_on_screen();
         iw
