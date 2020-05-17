@@ -47,7 +47,7 @@ bool ScreenAnalyzer::hasModeChanged()
 {
     D3DDISPLAYMODE mode;
     RES_CHECK(m_d3d->GetAdapterDisplayMode(adapter, &mode));
-    return mode.Height != m_mode.Height && mode.Width != m_mode.Width;
+    return mode.Height != m_mode.Height || mode.Width != m_mode.Width;
 }
 
 LolStats ScreenAnalyzer::analyzeScreenshot()

@@ -1,7 +1,6 @@
 use log;
 use lol_lib;
 use steel_lib;
-use steel_lib::SteelLibError;
 
 pub struct GameConnector {
     game_lib_opt: Option<lol_lib::LolLib>,
