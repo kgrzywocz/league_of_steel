@@ -13,8 +13,9 @@ fn main() {
     #[cfg(debug_assertions)]
     activate_logger();
 
-    let steel_connector = wait_for_steel_connector(SSE_SEEK_INTERVAL);
     let mut game_connector = GameConnector::new();
+    let game_infos = game_connector.get_games();
+    let steel_connector = wait_for_steel_connector(SSE_SEEK_INTERVAL, &game_infos);
 
     loop {
         let is_game_running = game_connector.is_game_running();

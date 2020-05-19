@@ -1,7 +1,9 @@
+use game_lib;
 use steel_lib;
 
 pub fn wait_for_steel_connector(
     sse_seek_interval: std::time::Duration,
+    games: &Vec<game_lib::game_events::GameInfo>,
 ) -> steel_lib::SteelConnector {
     let mut steel_connector;
     loop {
@@ -9,7 +11,7 @@ pub fn wait_for_steel_connector(
         match res {
             Ok(res) => {
                 steel_connector = res;
-                if let Err(e) = steel_connector.register_game() {
+                if let Err(e) = steel_connector.register_games(games) {
                     log::warn!("{}", e);
                 } else {
                     break;

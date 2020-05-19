@@ -16,21 +16,11 @@ impl SteelSeriesEngineConnector {
         })
     }
 
-    pub fn register_game(&self) -> Result<(), SteelLibError> {
-        let game_info = GameInfo::new(
-            "LEAGUE_OF_STEEL",
-            "League of Legends",
-            "Riot Games",
-            vec![
-                game_lib::game_events::GameEventInfo::new("HEALTH")
-                    .set_type(game_lib::game_events::GameEventType::Health),
-                game_lib::game_events::GameEventInfo::new("MANA")
-                    .set_type(game_lib::game_events::GameEventType::Mana),
-                game_lib::game_events::GameEventInfo::new("HIT")
-                    .set_type(game_lib::game_events::GameEventType::Boom),
-            ],
-        );
-        self.register(&game_info)
+    pub fn register_games(&self, game_infos: &Vec<GameInfo>) -> Result<(), SteelLibError> {
+        for game in game_infos {
+            self.register(game)?;
+        }
+        Ok(())
     }
 
     pub fn register(&self, game_info: &GameInfo) -> Result<(), SteelLibError> {
@@ -156,7 +146,51 @@ mod tests {
     }
 
     #[test]
-    fn test_lol_events() {}
+    fn test_lol_events() {
+        let mut mock_server = MockServerConnector::new();
+        expect_event(
+            &mut mock_server,
+            String::from("multiple_game_events"),
+            String::from(
+                r#"{
+            "game": "LEAGUE_OF_STEEL",
+            "events": [
+                {
+                     "event": "HEALTH",
+                "data": {
+                    "value": 80
+                }
+                },
+ {
+                     "event": "MANA",
+                "data": {
+                    "value": 50
+                }
+                },
+ {
+                     "event": "HIT",
+                "data": {
+                    "value": 4
+                }
+                }
+            ]
+        }"#,
+            ),
+        );
+
+        let sut = SteelSeriesEngineConnector {
+            server_connector: Box::new(mock_server),
+        };
+        sut.send_events(MultipleGameEvents::new(
+            "LEAGUE_OF_STEEL",
+            vec![
+                GameEvent::new("HEALTH", 80),
+                GameEvent::new("MANA", 50),
+                GameEvent::new("HIT", 4),
+            ],
+        ))
+        .expect("register_game failed");
+    }
 
     mock! {
         ServerConnector{}
@@ -182,6 +216,7 @@ mod tests {
                         x.body(),
                         body
                     );
+                    println!("{} vs {}", x.body().len(), body.len());
                     return false;
                 }
                 return true;

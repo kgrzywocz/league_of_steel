@@ -43,3 +43,25 @@ impl SSEEvent for RegisterGameEvent {
         self.body.clone()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn register_game_event() {
+        let sut = RegisterGameEvent::from("LEAGUE_OF_STEEL", &GameEventInfo::new("HEALTH"));
+        assert_eq!(sut.endpoint(), "register_game_event");
+        assert_eq!(
+            sut.body(),
+            r#"{
+            "game": "LEAGUE_OF_STEEL",
+            "event": "HEALTH",
+            "min_value": 0,
+            "max_value": 100,
+            "icon_id": 0,
+            "value_optional": false
+          }"#
+        );
+    }
+}

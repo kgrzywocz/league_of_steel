@@ -1,3 +1,4 @@
+use game_lib;
 use log;
 use lol_lib;
 use std::borrow::BorrowMut;
@@ -11,6 +12,10 @@ impl GameConnector {
     pub fn new() -> Self {
         Self { game_lib_opt: None }
     }
+    pub fn get_games(&self) -> Vec<game_lib::game_events::GameInfo> {
+        vec![lol_lib::LolLib::get_game_info()]
+    }
+
     pub fn is_game_running(&self) -> bool {
         lol_lib::LolLib::is_running()
     }

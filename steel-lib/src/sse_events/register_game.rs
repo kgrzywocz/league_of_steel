@@ -26,3 +26,29 @@ impl SSEEvent for RegisterGame {
         self.body.clone()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn register_game() {
+        let sut = RegisterGame::from(&GameInfo::new(
+            "LEAGUE_OF_STEEL",
+            "League of Legends",
+            "Riot Games",
+            vec![],
+        ));
+        assert_eq!(sut.endpoint(), "game_metadata");
+        assert_eq!(
+            sut.body(),
+            String::from(
+                r#"{
+            "game": "LEAGUE_OF_STEEL",
+            "game_display_name": "League of Legends",
+            "developer": "Riot Games / SSE3 plugin Krzysztof Grzywocz"
+            }"#
+            )
+        );
+    }
+}

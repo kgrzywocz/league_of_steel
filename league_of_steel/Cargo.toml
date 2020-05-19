@@ -8,6 +8,7 @@ default-run = "league_of_steel"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+game-lib ={path = "../game-lib"}
 lol-lib = {path = "../lol-lib"}
 steel-lib = {path = "../steel-lib"}
 log = "0.4"
