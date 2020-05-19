@@ -1,5 +1,4 @@
-mod lolconfig;
-mod lollib;
-pub use lollib::LolLib;
+mod lol;
+pub use lol::LolLib;
 
 //testy func

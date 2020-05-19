@@ -1,6 +1,6 @@
 use game_lib::*;
-use log;
 use games;
+use log;
 use std::borrow::BorrowMut;
 use std::ops::DerefMut;
 use steel_lib;
