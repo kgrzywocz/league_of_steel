@@ -1,5 +1,5 @@
 [package]
-name = "lol-lib"
+name = "games"
 version = "0.8.0"
 authors = ["Krzysztof Grzywocz <kgrzywocz@wp.pl>"]
 edition = "2018"

@@ -9,7 +9,7 @@ default-run = "league_of_steel"
 
 [dependencies]
 game-lib ={path = "../game-lib"}
-lol-lib = {path = "../lol-lib"}
+games = {path = "../games"}
 steel-lib = {path = "../steel-lib"}
 log = "0.4"
 simple-logging = "2.0"

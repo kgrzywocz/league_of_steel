@@ -1,6 +1,6 @@
 use game_lib::*;
 use log;
-use lol_lib;
+use games;
 use std::borrow::BorrowMut;
 use std::ops::DerefMut;
 use steel_lib;
@@ -13,7 +13,7 @@ pub struct GameConnector {
 impl GameConnector {
     pub fn new() -> Self {
         Self {
-            game_lib: Box::new(lol_lib::LolLib::new()),
+            game_lib: Box::new(games::LolLib::new()),
             game_analyzer_opt: None,
         }
     }
