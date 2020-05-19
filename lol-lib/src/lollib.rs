@@ -2,27 +2,24 @@ use game_lib::game_events::*;
 
 use backend_interface::*;
 use backend_win::*;
+use game_lib::{GameAnalyzer, GameTrait};
 
 const GAME_NAME: &str = "LEAGUE_OF_STEEL";
 
-pub struct LolLib {
+pub struct LolLib {}
+pub struct LolGameAnalyzer {
     backend: Backend,
     bars_position: BarsPosition,
 }
 
 impl LolLib {
     pub fn new() -> Self {
-        Self {
-            backend: Backend::new(Self::analyze_function),
-            bars_position: BarsPosition::new(),
-        }
+        Self {}
     }
+}
 
-    fn analyze_function(rect: PixelRect) -> LolStats {
-        PixelRectAnalyzer::get_stats(&rect)
-    }
-
-    pub fn get_game_info() -> GameInfo {
+impl GameTrait for LolLib {
+    fn get_game_info(&self) -> GameInfo {
         GameInfo::new(
             GAME_NAME,
             "League of Legends",
@@ -34,12 +31,19 @@ impl LolLib {
             ],
         )
     }
-
-    pub fn is_running() -> bool {
+    fn is_running(&self) -> bool {
         is_process_running("League of Legends.exe")
     }
 
-    pub fn pool_events(&mut self) -> MultipleGameEvents {
+    fn create_game_analyzer(&self) -> Box<dyn GameAnalyzer> {
+        Box::new(LolGameAnalyzer {
+            backend: Backend::new(LolGameAnalyzer::analyze_function),
+            bars_position: BarsPosition::new(),
+        })
+    }
+}
+impl GameAnalyzer for LolGameAnalyzer {
+    fn pool_events(&mut self) -> MultipleGameEvents {
         self.adjust_hud_scale();
         let stats = self.backend.analyze_screenshot();
 
@@ -51,6 +55,12 @@ impl LolLib {
                 GameEvent::new("HIT", stats.hit),
             ],
         )
+    }
+}
+
+impl LolGameAnalyzer {
+    fn analyze_function(rect: PixelRect) -> LolStats {
+        PixelRectAnalyzer::get_stats(&rect)
     }
 
     fn adjust_hud_scale(&mut self) {

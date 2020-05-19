@@ -1,27 +1,32 @@
-use game_lib;
+use game_lib::*;
 use log;
 use lol_lib;
 use std::borrow::BorrowMut;
+use std::ops::DerefMut;
 use steel_lib;
 
 pub struct GameConnector {
-    game_lib_opt: Option<lol_lib::LolLib>,
+    game_lib: Box<dyn GameTrait>,
+    game_analyzer_opt: Option<Box<dyn GameAnalyzer>>,
 }
 
 impl GameConnector {
     pub fn new() -> Self {
-        Self { game_lib_opt: None }
+        Self {
+            game_lib: Box::new(lol_lib::LolLib::new()),
+            game_analyzer_opt: None,
+        }
     }
-    pub fn get_games(&self) -> Vec<game_lib::game_events::GameInfo> {
-        vec![lol_lib::LolLib::get_game_info()]
+    pub fn get_games(&self) -> Vec<game_events::GameInfo> {
+        vec![self.game_lib.get_game_info()]
     }
 
     pub fn is_game_running(&self) -> bool {
-        lol_lib::LolLib::is_running()
+        self.game_lib.is_running()
     }
 
     pub fn on_game_running(&mut self, steel_connector: &steel_lib::SteelConnector) {
-        let events = self.do_with_game_lib(|lib: &mut lol_lib::LolLib| lib.pool_events());
+        let events = self.do_with_game(|analyzer: &mut dyn GameAnalyzer| analyzer.pool_events());
         let res = steel_connector.send_events(events);
         if let Err(e) = res {
             log::warn!("{}", e);
@@ -29,27 +34,27 @@ impl GameConnector {
     }
 
     pub fn on_game_stop(&mut self) {
-        self.game_lib_opt = None;
+        self.game_analyzer_opt = None;
     }
 
-    fn do_with_game_lib<F, T>(&mut self, fun: F) -> T
+    fn do_with_game<F, T>(&mut self, fun: F) -> T
     where
-        F: Fn(&mut lol_lib::LolLib) -> T,
+        F: Fn(&mut dyn GameAnalyzer) -> T,
     {
         self.optionally_re_init_game_lib();
-        if let Some(game_lib) = &mut self.game_lib_opt.borrow_mut() {
-            return fun(game_lib);
+        if let Some(game) = &mut self.game_analyzer_opt.borrow_mut() {
+            return fun(game.deref_mut());
         };
         panic!("Unable to init game lib!")
     }
     fn optionally_re_init_game_lib(&mut self) {
-        match &self.game_lib_opt {
+        match &self.game_analyzer_opt {
             None => self.re_init_game_lib(),
             Some(_) => {}
         };
     }
     fn re_init_game_lib(&mut self) {
-        self.game_lib_opt = None;
-        self.game_lib_opt = Some(lol_lib::LolLib::new());
+        self.game_analyzer_opt = None;
+        self.game_analyzer_opt = Some(self.game_lib.create_game_analyzer());
     }
 }
