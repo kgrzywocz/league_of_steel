@@ -29,12 +29,7 @@ public:
 
   BackendScreenResolution getMode()
   {
-    return m_mode;
-  }
-
-  bool hasModeChanged()
-  {
-    return getDisplayMode().height != m_mode.height || getDisplayMode().height != m_mode.height;
+    return getDisplayMode();
   }
 
   void setCaptureRect(const BackendCaptureRect &captureRect)
@@ -48,8 +43,6 @@ public:
   LolStats analyzeScreenshot();
 
 private:
-  BackendScreenResolution m_mode;
-
   AnalysisFunction m_analyzeFunction;
   RECT m_captureRect{0};
 };

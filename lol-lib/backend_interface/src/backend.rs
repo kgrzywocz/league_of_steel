@@ -43,9 +43,7 @@ impl Backend {
     pub fn get_mode(&self) -> BackendScreenResolution {
         unsafe { lollib_backend_getMode(self.backend_screen_analyzer) }
     }
-    pub fn has_mode_changed(&self) -> bool {
-        unsafe { lollib_backend_hasModeChanged(self.backend_screen_analyzer) != 0 }
-    }
+
     pub fn set_capture_rect(&mut self, capture_rect: &BackendCaptureRect) {
         unsafe {
             lollib_backend_setCaptureRect(self.backend_screen_analyzer, capture_rect);
@@ -109,6 +107,6 @@ impl Color {
     pub fn is_yellow(&self) -> bool {
         return self.color.r as i32 > self.color.b as i32 + 50
             && self.color.g as i32 > self.color.b as i32 + 50
-            && (self.color.r as i8 - self.color.g as i8).abs() < 50;
+            && (self.color.r as i32 - self.color.g as i32).abs() < 50;
     }
 }

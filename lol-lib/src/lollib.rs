@@ -12,16 +12,9 @@ pub struct LolLib {
 
 impl LolLib {
     pub fn new() -> Self {
-        let backend = Backend::new(Self::analyze_function);
-
-        let mode = backend.get_mode();
-        log::info!("Screen {}x{}", mode.width, mode.height);
-
-        let bars_position = BarsPosition::new();
-
         Self {
-            backend,
-            bars_position,
+            backend: Backend::new(Self::analyze_function),
+            bars_position: BarsPosition::new(),
         }
     }
 
@@ -46,10 +39,6 @@ impl LolLib {
         is_process_running("League of Legends.exe")
     }
 
-    pub fn has_mode_changed(&self) -> bool {
-        self.backend.has_mode_changed()
-    }
-
     pub fn pool_events(&mut self) -> MultipleGameEvents {
         self.adjust_hud_scale();
         let stats = self.backend.analyze_screenshot();
@@ -66,12 +55,25 @@ impl LolLib {
 
     fn adjust_hud_scale(&mut self) {
         let hud_scale = self.get_hud_global_scale_from_config().unwrap_or(1.0);
-        log::debug!("hud_scale={}", hud_scale);
-
         self.bars_position.set_hud_scaling(hud_scale);
 
         let capture_rect = self.bars_position.get(&self.backend.get_mode());
         self.backend.set_capture_rect(&capture_rect);
+
+        self.log_analizie_params(hud_scale, &capture_rect);
+    }
+    fn log_analizie_params(&self, hud_scale: f32, capture_rect: &BackendCaptureRect) {
+        let mode = self.backend.get_mode();
+        log::info!(
+            "Screen {}x{} hud_scale={} capture={}x{} {}x{}",
+            mode.width,
+            mode.height,
+            hud_scale,
+            capture_rect.left,
+            capture_rect.top,
+            capture_rect.right,
+            capture_rect.bottom
+        );
     }
 
     fn get_hud_global_scale_from_config(&self) -> Option<f32> {

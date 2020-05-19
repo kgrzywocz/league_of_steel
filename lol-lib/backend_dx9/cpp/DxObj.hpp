@@ -7,7 +7,14 @@ class DxObj
 {
 public:
   DxObj() {}
-  void set(T obj) { m_obj = obj; }
+  void set(T obj)
+  {
+    if (m_obj)
+    {
+      m_obj->Release();
+    }
+    m_obj = obj;
+  }
   DxObj(DxObj &) = delete;
   DxObj(DxObj &&) = delete;
   DxObj operator=(DxObj) = delete;

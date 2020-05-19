@@ -27,12 +27,6 @@ extern "C" BackendScreenResolution lollib_backend_getMode(BackendScreenAnalyzer 
         return reinterpret_cast<ScreenAnalyzer *>(screenAnalyzer)->getMode();
     });
 }
-extern "C" int32_t lollib_backend_hasModeChanged(BackendScreenAnalyzer *screenAnalyzer)
-{
-    return callSafely_member<int32_t>(screenAnalyzer, [=]() {
-        return reinterpret_cast<ScreenAnalyzer *>(screenAnalyzer)->hasModeChanged();
-    });
-}
 extern "C" void lollib_backend_setCaptureRect(BackendScreenAnalyzer *screenAnalyzer, const BackendCaptureRect *captureRect)
 {
     callSafely_member<int32_t>(screenAnalyzer, [=]() {

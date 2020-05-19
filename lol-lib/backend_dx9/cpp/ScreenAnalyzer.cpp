@@ -23,6 +23,23 @@ ScreenAnalyzer::ScreenAnalyzer(AnalysisFunction analyzeFunction)
     IDirect3D9Ex *d3d;
     RES_CHECK(Direct3DCreate9Ex(D3D_SDK_VERSION, &d3d));
     m_d3d.set(d3d);
+
+    initDxDevice();
+}
+
+BackendScreenResolution ScreenAnalyzer::getMode()
+{
+    D3DDISPLAYMODE dx_mode;
+    RES_CHECK(m_d3d->GetAdapterDisplayMode(adapter, &dx_mode));
+
+    BackendScreenResolution mode;
+    mode.width = dx_mode.Width;
+    mode.height = dx_mode.Height;
+    return mode;
+}
+
+void ScreenAnalyzer::initDxDevice()
+{
     RES_CHECK(m_d3d->GetAdapterDisplayMode(adapter, &m_mode));
     if (m_mode.Format != D3DFMT_X8R8G8B8)
         throw LolLibDx9Error(-1, __FILE__, __LINE__, "display mode.Format != D3DFMT_X8R8G8B8");
@@ -43,6 +60,17 @@ ScreenAnalyzer::ScreenAnalyzer(AnalysisFunction analyzeFunction)
     m_surface.set(surface);
 }
 
+void ScreenAnalyzer::releaseDxDevice()
+{
+    m_surface.set(NULL);
+    m_device.set(NULL);
+}
+
+void ScreenAnalyzer::reinitDxDevice()
+{
+    releaseDxDevice();
+    initDxDevice();
+}
 bool ScreenAnalyzer::hasModeChanged()
 {
     D3DDISPLAYMODE mode;
@@ -52,6 +80,9 @@ bool ScreenAnalyzer::hasModeChanged()
 
 LolStats ScreenAnalyzer::analyzeScreenshot()
 {
+    if (hasModeChanged())
+        reinitDxDevice();
+
     D3DLOCKED_RECT rc;
 
     RES_CHECK(m_device->GetFrontBufferData(0, m_surface));

@@ -10,7 +10,6 @@
 ScreenAnalyzer::ScreenAnalyzer(AnalysisFunction analyzeFunction)
     : m_analyzeFunction{analyzeFunction}
 {
-    m_mode=getDisplayMode();
 }
 
 LolStats ScreenAnalyzer::analyzeScreenshot()

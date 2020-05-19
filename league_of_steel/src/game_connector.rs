@@ -45,13 +45,7 @@ impl GameConnector {
     fn optionally_re_init_game_lib(&mut self) {
         match &self.game_lib_opt {
             None => self.re_init_game_lib(),
-            Some(game_lib) => {
-                let mode_has_changed = game_lib.has_mode_changed();
-                if mode_has_changed {
-                    log::info!("Mode changed reinitialize game lib");
-                    self.re_init_game_lib();
-                }
-            }
+            Some(_) => {}
         };
     }
     fn re_init_game_lib(&mut self) {

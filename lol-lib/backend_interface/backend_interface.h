@@ -50,8 +50,6 @@ extern void lollib_backend_destroyBackendScreenAnalyzer(BackendScreenAnalyzer *s
 
 extern BackendScreenResolution lollib_backend_getMode(BackendScreenAnalyzer *s);
 
-extern int32_t lollib_backend_hasModeChanged(BackendScreenAnalyzer *s);
-
 extern BackendColor lollib_backend_pixelRect_getColor(const BackendPixelRect *rect,
                                                       int32_t row,
                                                       int32_t column);

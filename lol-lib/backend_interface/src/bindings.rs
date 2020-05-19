@@ -45,7 +45,6 @@ extern "C" {
     ) -> *mut BackendScreenAnalyzer;
     pub fn lollib_backend_destroyBackendScreenAnalyzer(s: *mut BackendScreenAnalyzer);
     pub fn lollib_backend_getMode(s: *mut BackendScreenAnalyzer) -> BackendScreenResolution;
-    pub fn lollib_backend_hasModeChanged(s: *mut BackendScreenAnalyzer) -> i32;
     pub fn lollib_backend_setCaptureRect(
         s: *mut BackendScreenAnalyzer,
         captureRect: *const BackendCaptureRect,
