@@ -5,15 +5,24 @@ use backend_win::*;
 use game_lib::game_events::*;
 use game_lib::GameAnalyzer;
 
+pub struct LolStats {
+    pub health: u8,
+    pub mana: u8,
+    pub hit: u8,
+}
+
 pub struct LolGameAnalyzer {
+    lol_pixel_rect_analyzer: LolPixelRectAnalyzer,
     backend: Backend,
     bars_position: BarsPosition,
 }
 
 impl GameAnalyzer for LolGameAnalyzer {
     fn pool_events(&mut self) -> MultipleGameEvents {
-        self.adjust_hud_scale();
-        let stats = self.backend.analyze_screenshot();
+        self.adjust_hud_position();
+        self.backend
+            .analyze_screenshot(&mut self.lol_pixel_rect_analyzer);
+        let stats = &self.lol_pixel_rect_analyzer.lol_stats;
 
         MultipleGameEvents::new(
             GAME_NAME,
@@ -29,15 +38,13 @@ impl GameAnalyzer for LolGameAnalyzer {
 impl LolGameAnalyzer {
     pub fn new() -> Self {
         Self {
-            backend: Backend::new(LolGameAnalyzer::analyze_function),
+            lol_pixel_rect_analyzer: LolPixelRectAnalyzer::new(),
+            backend: Backend::new(),
             bars_position: BarsPosition::new(),
         }
     }
-    fn analyze_function(rect: PixelRect) -> LolStats {
-        PixelRectAnalyzer::get_stats(&rect)
-    }
 
-    fn adjust_hud_scale(&mut self) {
+    fn adjust_hud_position(&mut self) {
         let hud_scale = self.get_hud_global_scale_from_config().unwrap_or(1.0);
         self.bars_position.set_hud_scaling(hud_scale);
 
@@ -67,9 +74,26 @@ impl LolGameAnalyzer {
     }
 }
 
-struct PixelRectAnalyzer;
+struct LolPixelRectAnalyzer {
+    lol_stats: LolStats,
+}
 
-impl PixelRectAnalyzer {
+impl PixelRectAnalyzer for LolPixelRectAnalyzer {
+    fn analyze_function(&mut self, rect: &PixelRect) {
+        self.lol_stats = Self::get_stats(rect)
+    }
+}
+
+impl LolPixelRectAnalyzer {
+    fn new() -> Self {
+        Self {
+            lol_stats: LolStats {
+                health: 0,
+                mana: 0,
+                hit: 0,
+            },
+        }
+    }
     fn get_stats(rect: &PixelRect) -> LolStats {
         let health = Self::analyze_bar(rect, 0, |c| c.is_green(), 0);
         LolStats {

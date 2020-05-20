@@ -4,14 +4,11 @@
 #include "PixelRect.hpp"
 #include "callSafely.hpp"
 
-extern "C" BackendScreenAnalyzer *lollib_backend_createBackendScreenAnalyzer(FrontendAnalysisFunction analyzeFunction)
+extern "C" BackendScreenAnalyzer *lollib_backend_createBackendScreenAnalyzer()
 {
     return callSafely<BackendScreenAnalyzer *>([=]() {
         return reinterpret_cast<BackendScreenAnalyzer *>(
-            new ScreenAnalyzer(
-                [=](const PixelRect &rect) {
-                    return analyzeFunction(reinterpret_cast<const BackendPixelRect *>(&rect));
-                }));
+            new ScreenAnalyzer());
     });
 }
 extern "C" void lollib_backend_destroyBackendScreenAnalyzer(BackendScreenAnalyzer *screenAnalyzer)
@@ -34,10 +31,15 @@ extern "C" void lollib_backend_setCaptureRect(BackendScreenAnalyzer *screenAnaly
         return 0;
     });
 }
-extern "C" LolStats lollib_backend_analyzeScreenshot(BackendScreenAnalyzer *screenAnalyzer)
+extern "C" void lollib_backend_analyzeScreenshot(BackendScreenAnalyzer *screenAnalyzer,
+                                                 AnalyzerHolder *analyzer_holder,
+                                                 FrontendAnalysisFunction analyzeFunction)
 {
-    return callSafely_member<LolStats>(screenAnalyzer, [=]() {
-        return reinterpret_cast<ScreenAnalyzer *>(screenAnalyzer)->analyzeScreenshot();
+    callSafely_member<int32_t>(screenAnalyzer, [=]() {
+        reinterpret_cast<ScreenAnalyzer *>(screenAnalyzer)->analyzeScreenshot([=](const PixelRect &rect) {
+            analyzeFunction(analyzer_holder, reinterpret_cast<const BackendPixelRect *>(&rect));
+        });
+        return 0;
     });
 }
 

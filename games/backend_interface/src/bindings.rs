@@ -1,11 +1,4 @@
 #[repr(C)]
-pub struct LolStats {
-    pub health: u8,
-    pub mana: u8,
-    pub hit: u8,
-}
-
-#[repr(C)]
 pub struct BackendCaptureRect {
     pub left: i32,
     pub top: i32,
@@ -36,20 +29,27 @@ pub struct BackendPixelRect {
     phantom_data: u8,
 }
 
-pub type FrontendAnalysisFunction = extern "C" fn(*const BackendPixelRect) -> LolStats;
+use crate::backend::PixelRectAnalyzer;
+#[repr(C)]
+pub struct AnalyzerHolder<'a> {
+    pub pixel_rect_analyzer: &'a mut dyn PixelRectAnalyzer,
+}
+pub type FrontendAnalysisFunction = extern "C" fn(*mut AnalyzerHolder, *const BackendPixelRect);
 
 #[no_mangle]
 extern "C" {
-    pub fn lollib_backend_createBackendScreenAnalyzer(
-        analyzeFunction: FrontendAnalysisFunction,
-    ) -> *mut BackendScreenAnalyzer;
+    pub fn lollib_backend_createBackendScreenAnalyzer() -> *mut BackendScreenAnalyzer;
     pub fn lollib_backend_destroyBackendScreenAnalyzer(s: *mut BackendScreenAnalyzer);
     pub fn lollib_backend_getMode(s: *mut BackendScreenAnalyzer) -> BackendScreenResolution;
     pub fn lollib_backend_setCaptureRect(
         s: *mut BackendScreenAnalyzer,
         captureRect: *const BackendCaptureRect,
     );
-    pub fn lollib_backend_analyzeScreenshot(s: *mut BackendScreenAnalyzer) -> LolStats;
+    pub fn lollib_backend_analyzeScreenshot(
+        s: *mut BackendScreenAnalyzer,
+        analyzer_holder: *mut AnalyzerHolder,
+        analyzeFunction: FrontendAnalysisFunction,
+    );
 
     pub fn lollib_backend_pixelRect_getHight(rect: *const BackendPixelRect) -> i32;
     pub fn lollib_backend_pixelRect_getWidth(rect: *const BackendPixelRect) -> i32;

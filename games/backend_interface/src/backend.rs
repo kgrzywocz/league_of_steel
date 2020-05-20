@@ -1,42 +1,23 @@
 use crate::bindings::*;
 
-fn dummy_analyze_function(_rect: PixelRect) -> LolStats {
-    LolStats {
-        health: 0,
-        mana: 0,
-        hit: 0,
-    }
+pub trait PixelRectAnalyzer {
+    fn analyze_function(&mut self, rect: &PixelRect);
 }
-
-pub type AnalyzeFunction = fn(PixelRect) -> LolStats;
-static mut ANALYZE_FUNCTION: AnalyzeFunction = dummy_analyze_function;
 
 pub struct Backend {
     backend_screen_analyzer: *mut BackendScreenAnalyzer,
 }
 impl Backend {
-    pub fn new(analyze_function: AnalyzeFunction) -> Self {
-        unsafe { ANALYZE_FUNCTION = analyze_function };
-        Self::new_low_lewel(Self::frontend_analysis_function)
-    }
-
-    extern "C" fn frontend_analysis_function(
-        backend_pixel_rect: *const BackendPixelRect,
-    ) -> LolStats {
-        let pixel_rect = PixelRect::new(backend_pixel_rect);
-        unsafe { ANALYZE_FUNCTION(pixel_rect) }
-    }
-
-    fn new_low_lewel(analyze_function: FrontendAnalysisFunction) -> Self {
-        unsafe {
-            let backend_screen_analyzer =
-                lollib_backend_createBackendScreenAnalyzer(analyze_function);
+    pub fn new() -> Self {
+        let backend_screen_analyzer = unsafe {
+            let backend_screen_analyzer = lollib_backend_createBackendScreenAnalyzer();
             if std::ptr::null() == backend_screen_analyzer {
                 panic!("lollib_backend not correctly initialized!");
             }
-            Self {
-                backend_screen_analyzer,
-            }
+            backend_screen_analyzer
+        };
+        Self {
+            backend_screen_analyzer,
         }
     }
 
@@ -49,8 +30,34 @@ impl Backend {
             lollib_backend_setCaptureRect(self.backend_screen_analyzer, capture_rect);
         }
     }
-    pub fn analyze_screenshot(&self) -> LolStats {
-        unsafe { lollib_backend_analyzeScreenshot(self.backend_screen_analyzer) }
+    pub fn analyze_screenshot(&self, pixel_rect_analyzer: &mut dyn PixelRectAnalyzer) {
+        let mut analyzer_holder = AnalyzerHolder {
+            pixel_rect_analyzer,
+        };
+
+        unsafe {
+            lollib_backend_analyzeScreenshot(
+                self.backend_screen_analyzer,
+                &mut analyzer_holder,
+                Self::frontend_analysis_function,
+            )
+        }
+    }
+
+    extern "C" fn frontend_analysis_function(
+        analyzer_holder_raw_ptr: *mut AnalyzerHolder,
+        backend_pixel_rect: *const BackendPixelRect,
+    ) {
+        let analyzer_holder = unsafe {
+            analyzer_holder_raw_ptr
+                .as_mut()
+                .expect("analyzer_holder_raw_ptr is NULL")
+        };
+
+        let pixel_rect = PixelRect::new(backend_pixel_rect);
+        analyzer_holder
+            .pixel_rect_analyzer
+            .analyze_function(&pixel_rect);
     }
 }
 impl Drop for Backend {

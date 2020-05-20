@@ -9,9 +9,9 @@ class PixelRect;
 class ScreenAnalyzer
 {
 public:
-  typedef std::function<LolStats(const PixelRect &)> AnalysisFunction;
+  typedef std::function<void(const PixelRect &)> AnalysisFunction;
 
-  explicit ScreenAnalyzer(AnalysisFunction analyzeFunction);
+  explicit ScreenAnalyzer();
   explicit ScreenAnalyzer(ScreenAnalyzer &) = delete;
   explicit ScreenAnalyzer(ScreenAnalyzer &&) = delete;
   ScreenAnalyzer &operator=(ScreenAnalyzer) = delete;
@@ -19,7 +19,7 @@ public:
   BackendScreenResolution getDisplayMode()
   {
     RECT rect;
-    GetWindowRect(GetDesktopWindow(),&rect);
+    GetWindowRect(GetDesktopWindow(), &rect);
 
     BackendScreenResolution mode;
     mode.width = rect.right;
@@ -40,9 +40,8 @@ public:
     m_captureRect.right = captureRect.right;
   }
 
-  LolStats analyzeScreenshot();
+  void analyzeScreenshot(AnalysisFunction analyzeFunction);
 
 private:
-  AnalysisFunction m_analyzeFunction;
   RECT m_captureRect{0};
 };

@@ -5,11 +5,7 @@
 #include <cstdlib>
 #include <new>
 
-struct LolStats {
-  uint8_t health;
-  uint8_t mana;
-  uint8_t hit;
-};
+struct AnalyzerHolder;
 
 struct BackendScreenAnalyzer {
   uint8_t phantom_data;
@@ -19,7 +15,7 @@ struct BackendPixelRect {
   uint8_t phantom_data;
 };
 
-using FrontendAnalysisFunction = LolStats(*)(const BackendPixelRect*);
+using FrontendAnalysisFunction = void(*)(AnalyzerHolder*, const BackendPixelRect*);
 
 struct BackendScreenResolution {
   uint32_t width;
@@ -42,9 +38,11 @@ struct BackendCaptureRect {
 
 extern "C" {
 
-extern LolStats lollib_backend_analyzeScreenshot(BackendScreenAnalyzer *s);
+extern void lollib_backend_analyzeScreenshot(BackendScreenAnalyzer *s,
+                                             AnalyzerHolder *analyzer_holder,
+                                             FrontendAnalysisFunction analyzeFunction);
 
-extern BackendScreenAnalyzer *lollib_backend_createBackendScreenAnalyzer(FrontendAnalysisFunction analyzeFunction);
+extern BackendScreenAnalyzer *lollib_backend_createBackendScreenAnalyzer();
 
 extern void lollib_backend_destroyBackendScreenAnalyzer(BackendScreenAnalyzer *s);
 

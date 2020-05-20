@@ -17,8 +17,7 @@
         }                                                          \
     }
 
-ScreenAnalyzer::ScreenAnalyzer(AnalysisFunction analyzeFunction)
-    : m_analyzeFunction{analyzeFunction}
+ScreenAnalyzer::ScreenAnalyzer()
 {
     IDirect3D9Ex *d3d;
     RES_CHECK(Direct3DCreate9Ex(D3D_SDK_VERSION, &d3d));
@@ -78,7 +77,7 @@ bool ScreenAnalyzer::hasModeChanged()
     return mode.Height != m_mode.Height || mode.Width != m_mode.Width;
 }
 
-LolStats ScreenAnalyzer::analyzeScreenshot()
+void ScreenAnalyzer::analyzeScreenshot(AnalysisFunction analyzeFunction)
 {
     if (hasModeChanged())
         reinitDxDevice();
@@ -88,9 +87,7 @@ LolStats ScreenAnalyzer::analyzeScreenshot()
     RES_CHECK(m_device->GetFrontBufferData(0, m_surface));
     RES_CHECK(m_surface->LockRect(&rc, &m_captureRect, 0));
 
-    const auto &res = m_analyzeFunction(PixelRect{rc, m_captureRect});
+    analyzeFunction(PixelRect{rc, m_captureRect});
 
     RES_CHECK(m_surface->UnlockRect());
-
-    return res;
 }
