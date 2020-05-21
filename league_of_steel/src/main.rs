@@ -1,6 +1,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use game_connector::*;
+use game_lib::GameTrait;
+use games::*;
+use games_connector::*;
 use hw_connector::wait_for_steel_connector;
 use league_of_steel::*;
 use std::time::Duration;
@@ -13,8 +15,10 @@ fn main() {
     #[cfg(debug_assertions)]
     activate_logger();
 
-    let mut game_connector = GameConnector::new();
-    let game_infos = game_connector.get_games();
+    let games: Vec<Box<dyn GameTrait>> = vec![Box::new(LolLib::new())];
+
+    let mut game_connector = GamesConnector::new(games);
+    let game_infos = game_connector.get_games_info();
     let steel_connector = wait_for_steel_connector(SSE_SEEK_INTERVAL, &game_infos);
 
     loop {
