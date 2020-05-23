@@ -7,28 +7,25 @@
 class PixelRect
 {
 public:
-  explicit PixelRect(HDC hdc, const RECT &captureRect)
+  explicit PixelRect(HDC hdc, uint32_t width, uint32_t hight)
       : m_hdc(hdc),
-        m_x(captureRect.left),
-        m_y(captureRect.top),
-        m_width(captureRect.right - captureRect.left),
-        m_hight(captureRect.bottom - captureRect.top)
+        m_width(width),
+        m_hight(hight)
   {
   }
 
-  BackendColor getColor(int row, int column) const
+  BackendColor getColor(uint32_t x, uint32_t y) const
   {
-    //printf("%d,%d=", column + m_x, row + m_y);
-    auto pixel = GetPixel(m_hdc, column + m_x, row + m_y);
+    auto pixel = GetPixel(m_hdc, x, y);
 
     return makeColor(pixel);
   }
 
-  int getHight() const
+  uint32_t getHight() const
   {
     return m_hight;
   }
-  int getWidth() const
+  uint32_t getWidth() const
   {
     return m_width;
   }
@@ -37,11 +34,9 @@ private:
   static const uint8_t BYTESPERPIXEL = 32 / 8;
 
   HDC m_hdc;
-  const int32_t m_x;
-  const int32_t m_y;
 
-  const int32_t m_width;
-  const int32_t m_hight;
+  const uint32_t m_width;
+  const uint32_t m_hight;
 
   static BackendColor makeColor(const uint32_t pixel)
   {

@@ -32,16 +32,5 @@ public:
     return getDisplayMode();
   }
 
-  void setCaptureRect(const BackendCaptureRect &captureRect)
-  {
-    m_captureRect.top = captureRect.top;
-    m_captureRect.bottom = captureRect.bottom;
-    m_captureRect.left = captureRect.left;
-    m_captureRect.right = captureRect.right;
-  }
-
   void analyzeScreenshot(AnalysisFunction analyzeFunction);
-
-private:
-  RECT m_captureRect{0};
 };

@@ -1,5 +1,9 @@
 use crate::bindings::*;
 
+pub struct AnalyzerHolder<'a> {
+    pub pixel_rect_analyzer: &'a mut dyn PixelRectAnalyzer,
+}
+
 pub trait PixelRectAnalyzer {
     fn analyze_function(&mut self, rect: &PixelRect);
 }
@@ -25,11 +29,6 @@ impl Backend {
         unsafe { lollib_backend_getMode(self.backend_screen_analyzer) }
     }
 
-    pub fn set_capture_rect(&mut self, capture_rect: &BackendCaptureRect) {
-        unsafe {
-            lollib_backend_setCaptureRect(self.backend_screen_analyzer, capture_rect);
-        }
-    }
     pub fn analyze_screenshot(&self, pixel_rect_analyzer: &mut dyn PixelRectAnalyzer) {
         let mut analyzer_holder = AnalyzerHolder {
             pixel_rect_analyzer,
@@ -78,14 +77,14 @@ impl PixelRect {
         Self { rect }
     }
 
-    pub fn get_hight(&self) -> i32 {
+    pub fn get_hight(&self) -> u32 {
         unsafe { lollib_backend_pixelRect_getHight(self.rect) }
     }
-    pub fn get_width(&self) -> i32 {
+    pub fn get_width(&self) -> u32 {
         unsafe { lollib_backend_pixelRect_getWidth(self.rect) }
     }
-    pub fn get_color(&self, row: i32, column: i32) -> Color {
-        Color::from_backend(unsafe { lollib_backend_pixelRect_getColor(self.rect, row, column) })
+    pub fn get_color(&self, x: u32, y: u32) -> Color {
+        Color::from_backend(unsafe { lollib_backend_pixelRect_getColor(self.rect, x, y) })
     }
 }
 

@@ -24,13 +24,6 @@ extern "C" BackendScreenResolution lollib_backend_getMode(BackendScreenAnalyzer 
         return reinterpret_cast<ScreenAnalyzer *>(screenAnalyzer)->getMode();
     });
 }
-extern "C" void lollib_backend_setCaptureRect(BackendScreenAnalyzer *screenAnalyzer, const BackendCaptureRect *captureRect)
-{
-    callSafely_member<int32_t>(screenAnalyzer, [=]() {
-        reinterpret_cast<ScreenAnalyzer *>(screenAnalyzer)->setCaptureRect(*captureRect);
-        return 0;
-    });
-}
 extern "C" void lollib_backend_analyzeScreenshot(BackendScreenAnalyzer *screenAnalyzer,
                                                  AnalyzerHolder *analyzer_holder,
                                                  FrontendAnalysisFunction analyzeFunction)
@@ -43,21 +36,21 @@ extern "C" void lollib_backend_analyzeScreenshot(BackendScreenAnalyzer *screenAn
     });
 }
 
-extern "C" int32_t lollib_backend_pixelRect_getHight(const BackendPixelRect *rect)
+extern "C" uint32_t lollib_backend_pixelRect_getHight(const BackendPixelRect *rect)
 {
-    return callSafely_member<int32_t>(rect, [=]() {
+    return callSafely_member<uint32_t>(rect, [=]() {
         return reinterpret_cast<const PixelRect *>(rect)->getHight();
     });
 }
-extern "C" int32_t lollib_backend_pixelRect_getWidth(const BackendPixelRect *rect)
+extern "C" uint32_t lollib_backend_pixelRect_getWidth(const BackendPixelRect *rect)
 {
-    return callSafely_member<int32_t>(rect, [=]() {
+    return callSafely_member<uint32_t>(rect, [=]() {
         return reinterpret_cast<const PixelRect *>(rect)->getWidth();
     });
 }
-extern "C" BackendColor lollib_backend_pixelRect_getColor(const BackendPixelRect *rect, int32_t row, int32_t column)
+extern "C" BackendColor lollib_backend_pixelRect_getColor(const BackendPixelRect *rect, uint32_t x, uint32_t y)
 {
     return callSafely_member<BackendColor>(rect, [=]() {
-        return reinterpret_cast<const PixelRect *>(rect)->getColor(row, column);
+        return reinterpret_cast<const PixelRect *>(rect)->getColor(x, y);
     });
 }

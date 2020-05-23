@@ -2,8 +2,8 @@
 extern crate bencher;
 use bencher::Bencher;
 
-use games::*;
 use game_lib::GameTrait;
+use games::*;
 
 fn bench_pool_events(b: &mut Bencher) {
     let mut sut = LolLib::new().create_game_analyzer();

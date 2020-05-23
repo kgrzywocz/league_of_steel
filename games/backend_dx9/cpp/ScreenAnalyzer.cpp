@@ -83,11 +83,14 @@ void ScreenAnalyzer::analyzeScreenshot(AnalysisFunction analyzeFunction)
         reinitDxDevice();
 
     D3DLOCKED_RECT rc;
+    RECT captureRect{0};
+    captureRect.right = m_mode.Width;
+    captureRect.bottom = m_mode.Height;
 
     RES_CHECK(m_device->GetFrontBufferData(0, m_surface));
-    RES_CHECK(m_surface->LockRect(&rc, &m_captureRect, 0));
+    RES_CHECK(m_surface->LockRect(&rc, &captureRect, 0));
 
-    analyzeFunction(PixelRect{rc, m_captureRect});
+    analyzeFunction(PixelRect{rc, captureRect});
 
     RES_CHECK(m_surface->UnlockRect());
 }

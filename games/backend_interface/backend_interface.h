@@ -29,13 +29,6 @@ struct BackendColor {
   uint8_t a;
 };
 
-struct BackendCaptureRect {
-  int32_t left;
-  int32_t top;
-  int32_t right;
-  int32_t bottom;
-};
-
 extern "C" {
 
 extern void lollib_backend_analyzeScreenshot(BackendScreenAnalyzer *s,
@@ -49,14 +42,11 @@ extern void lollib_backend_destroyBackendScreenAnalyzer(BackendScreenAnalyzer *s
 extern BackendScreenResolution lollib_backend_getMode(BackendScreenAnalyzer *s);
 
 extern BackendColor lollib_backend_pixelRect_getColor(const BackendPixelRect *rect,
-                                                      int32_t row,
-                                                      int32_t column);
+                                                      uint32_t x,
+                                                      uint32_t y);
 
-extern int32_t lollib_backend_pixelRect_getHight(const BackendPixelRect *rect);
+extern uint32_t lollib_backend_pixelRect_getHight(const BackendPixelRect *rect);
 
-extern int32_t lollib_backend_pixelRect_getWidth(const BackendPixelRect *rect);
-
-extern void lollib_backend_setCaptureRect(BackendScreenAnalyzer *s,
-                                          const BackendCaptureRect *captureRect);
+extern uint32_t lollib_backend_pixelRect_getWidth(const BackendPixelRect *rect);
 
 } // extern "C"

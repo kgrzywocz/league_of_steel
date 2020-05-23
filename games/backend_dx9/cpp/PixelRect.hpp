@@ -15,26 +15,26 @@ public:
   {
   }
 
-  BackendColor getColor(int row, int column) const
+  BackendColor getColor(uint32_t x, uint32_t y) const
   {
-    auto pRow = m_pBits + m_pitch * row;
+    auto pRow = m_pBits + m_pitch * y;
 
-    return makeColor(&pRow[column * BYTESPERPIXEL]);
+    return makeColor(&pRow[x * BYTESPERPIXEL]);
   }
 
-  int getHight() const
+  uint32_t getHight() const
   {
     return m_hight;
   }
-  int getWidth() const
+  uint32_t getWidth() const
   {
     return m_width;
   }
 
 private:
-  static const uint8_t BYTESPERPIXEL = 32/8;
+  static const uint8_t BYTESPERPIXEL = 32 / 8;
 
-  const uint8_t * const m_pBits;
+  const uint8_t *const m_pBits;
   const int32_t m_pitch;
 
   const int32_t m_width;

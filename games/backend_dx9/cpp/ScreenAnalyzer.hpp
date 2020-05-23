@@ -20,14 +20,6 @@ public:
 
   BackendScreenResolution getMode();
 
-  void setCaptureRect(const BackendCaptureRect &captureRect)
-  {
-    m_captureRect.top = captureRect.top;
-    m_captureRect.bottom = captureRect.bottom;
-    m_captureRect.left = captureRect.left;
-    m_captureRect.right = captureRect.right;
-  }
-
   void analyzeScreenshot(AnalysisFunction analyzeFunction);
 
 private:
@@ -42,6 +34,4 @@ private:
   DxObj<IDirect3DDevice9Ex *> m_device;
   DxObj<IDirect3DSurface9 *> m_surface;
   D3DDISPLAYMODE m_mode;
-
-  RECT m_captureRect{0};
 };

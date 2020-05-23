@@ -16,7 +16,9 @@ void ScreenAnalyzer::analyzeScreenshot(AnalysisFunction analyzeFunction)
     auto hwnd = FindWindow(NULL, "League of Legends (TM) Client");
     //printf("LOL window = %d\n", hwnd);
 
+    auto mode = getMode();
+
     auto hdc = GetDC(hwnd);
-    analyzeFunction(PixelRect{hdc, m_captureRect});
+    analyzeFunction(PixelRect{hdc, mode.width, mode.height});
     ReleaseDC(hwnd, hdc);
 }
