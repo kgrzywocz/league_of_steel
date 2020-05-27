@@ -5,7 +5,7 @@ pub struct BarsPosition {
 
     health: u32,
     mana: u32,
-    range: (u32,u32),
+    range: (u32, u32),
 }
 impl BarsPosition {
     pub fn new(width: u32, height: u32, hud_global_scale: f32) -> Self {
@@ -14,7 +14,7 @@ impl BarsPosition {
         let mut ratio = (width as f32 / height as f32) / 1.77777777777;
         ratio = (ratio + 2.0) / 3.0;
 
-        let range = Self::calculate_range(width,ratio);
+        let range = Self::calculate_range(width, ratio);
         let mana = ((1.0 - 0.015 * ratio) * (height as f32)) as u32 - 1;
         let health = mana - (ratio * ratio * 0.025 * (height as f32)) as u32 + 1;
 
@@ -40,11 +40,11 @@ impl BarsPosition {
         self.mana
     }
 
-    fn calculate_range(width:u32, ratio:f32)->(u32,u32) {
+    fn calculate_range(width: u32, ratio: f32) -> (u32, u32) {
         let range_left = (ratio * 0.356 * (width as f32)) as u32;
         let mut range_right = (ratio * 0.57 * (width as f32)) as u32;
         range_right = ((width as f32) - (ratio * (width - range_right) as f32)) as u32;
-        (range_left,range_right)
+        (range_left, range_right)
     }
 
     fn rescale_for_hud_scaling(&mut self) {

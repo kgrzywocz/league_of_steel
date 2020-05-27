@@ -3,7 +3,6 @@
 members = [
     "games",
     "games/backend_interface",
-    "games/backend_win",
     "steel-lib",
     "league_of_steel",
     "testlib/app",

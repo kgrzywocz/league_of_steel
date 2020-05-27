@@ -1,6 +1,6 @@
 [package]
 name = "backend"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Krzysztof Grzywocz <kgrzywocz@wp.pl>"]
 edition = "2018"
 
@@ -11,3 +11,4 @@ cc = "1.0"
 libc = "0.2"
 winapi = { version = "0.3", features = ["d3d9"] }
 backend_interface = { path = "../backend_interface" }
+

@@ -2,6 +2,7 @@
 
 #include "ScreenAnalyzer.hpp"
 #include "PixelRect.hpp"
+#include "ProcessHelper.hpp"
 #include "callSafely.hpp"
 
 extern "C" BackendScreenAnalyzer *lollib_backend_createBackendScreenAnalyzer()
@@ -53,4 +54,15 @@ extern "C" BackendColor lollib_backend_pixelRect_getColor(const BackendPixelRect
     return callSafely_member<BackendColor>(rect, [=]() {
         return reinterpret_cast<const PixelRect *>(rect)->getColor(x, y);
     });
+}
+
+extern "C" int32_t lollib_backend_is_process_running(const char exe_name[])
+{
+    return callSafely<int32_t>([=]() { return isProcessRunning(exe_name); });
+}
+
+extern "C" void lollib_backend_get_process_exe_path(const char exe_name[], char *output, size_t output_length)
+{
+    auto path = callSafely<std::string>([=]() { return getProcessRunningPath(exe_name); });
+    path.copy(output, output_length);
 }

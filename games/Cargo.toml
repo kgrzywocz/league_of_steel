@@ -7,11 +7,10 @@ edition = "2018"
 [dependencies]
 log = "0.4"
 regex = "1.0"
-
-[target.'cfg(windows)'.dependencies]
 game-lib = { path = "../game-lib"}
 backend_interface = { path = "backend_interface" }
-backend_win = { path = "backend_win" }
+
+[target.'cfg(windows)'.dependencies]
 backend = { path = "backend_dx9" }
 
 [dev-dependencies]

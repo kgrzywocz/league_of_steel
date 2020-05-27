@@ -1,9 +1,8 @@
 use super::bars_position::BarsPosition;
-use super::lollib::GAME_NAME;
+use super::lollib::{GAME_EXE, GAME_NAME};
 
 use super::lol_pixel_analyzer::LolPixelAnalyzer;
-use backend_interface::{Backend, BackendScreenResolution};
-use backend_win::*;
+use backend_interface::*;
 use game_lib::game_events::*;
 use game_lib::GameAnalyzer;
 
@@ -64,7 +63,7 @@ impl LolGameAnalyzer {
     }
 
     fn get_hud_global_scale_from_config(&self) -> Option<f32> {
-        let lol_path = get_process_exe_path("League of Legends.exe");
+        let lol_path = get_process_exe_path(GAME_EXE);
         log::debug!("lol_path={}", lol_path);
         crate::lol::lolconfig::get_hud_global_scale(&lol_path)
     }

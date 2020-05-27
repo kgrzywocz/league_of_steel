@@ -1,9 +1,10 @@
 use super::lol_game_analyzer;
-use backend_win::*;
+use backend_interface::is_process_running;
 use game_lib::game_events::*;
 use game_lib::{GameAnalyzer, GameTrait};
 
 pub const GAME_NAME: &str = "LEAGUE_OF_STEEL";
+pub const GAME_EXE: &str = "League of Legends.exe";
 
 pub struct LolLib {}
 
@@ -27,7 +28,7 @@ impl GameTrait for LolLib {
         )
     }
     fn is_running(&self) -> bool {
-        is_process_running("League of Legends.exe")
+        is_process_running(GAME_EXE)
     }
 
     fn create_game_analyzer(&self) -> Box<dyn GameAnalyzer> {

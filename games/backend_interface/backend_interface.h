@@ -41,6 +41,12 @@ extern void lollib_backend_destroyBackendScreenAnalyzer(BackendScreenAnalyzer *s
 
 extern BackendScreenResolution lollib_backend_getMode(BackendScreenAnalyzer *s);
 
+extern void lollib_backend_get_process_exe_path(const char *exe_name,
+                                                char *output,
+                                                size_t output_length);
+
+extern int32_t lollib_backend_is_process_running(const char *exe_name);
+
 extern BackendColor lollib_backend_pixelRect_getColor(const BackendPixelRect *rect,
                                                       uint32_t x,
                                                       uint32_t y);

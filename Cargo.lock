@@ -77,9 +77,9 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "backend"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
- "backend_interface 0.2.0",
+ "backend_interface 0.3.0",
  "cc 1.0.48 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
  "winapi 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -87,19 +87,10 @@ dependencies = [
 
 [[package]]
 name = "backend_interface"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "cbindgen 0.14.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "backend_win"
-version = "0.1.0"
-dependencies = [
- "cc 1.0.48 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -407,9 +398,8 @@ version = "0.1.0"
 name = "games"
 version = "0.8.0"
 dependencies = [
- "backend 0.1.0",
- "backend_interface 0.2.0",
- "backend_win 0.1.0",
+ "backend 0.2.0",
+ "backend_interface 0.3.0",
  "bencher 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "game-lib 0.1.0",
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",

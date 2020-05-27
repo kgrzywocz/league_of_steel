@@ -44,4 +44,11 @@ extern "C" {
         x: u32,
         y: u32,
     ) -> BackendColor;
+
+    pub fn lollib_backend_is_process_running(exe_name: *const std::os::raw::c_char) -> i32;
+    pub fn lollib_backend_get_process_exe_path(
+        exe_name: *const std::os::raw::c_char,
+        output: *mut std::os::raw::c_char,
+        output_length: libc::size_t,
+    );
 }
