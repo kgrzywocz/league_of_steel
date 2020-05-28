@@ -5,21 +5,18 @@ use games::*;
 use games_connector::*;
 use hw_connector::wait_for_steel_connector;
 use league_of_steel::*;
-use std::time::Duration;
-
-const SSE_SEEK_INTERVAL: Duration = Duration::from_millis(1000);
-const GAME_SEEK_INTERVAL: Duration = Duration::from_millis(1000);
-const UPDATE_INTERVAL: Duration = Duration::from_millis(150);
+use league_of_steel_config::*;
 
 fn main() {
     #[cfg(debug_assertions)]
     activate_logger();
 
     let games: Vec<Box<dyn GameTrait>> = vec![Box::new(LolLib::new())];
+    let config = LeagueOfSteelConfig::new();
 
     let mut game_connector = GamesConnector::new(games);
     let game_infos = game_connector.get_games_info();
-    let steel_connector = wait_for_steel_connector(SSE_SEEK_INTERVAL, &game_infos);
+    let steel_connector = wait_for_steel_connector(config.sse_seek_interval, &game_infos);
 
     loop {
         let is_game_running = game_connector.is_game_running();
@@ -27,10 +24,10 @@ fn main() {
 
         if is_game_running {
             game_connector.on_game_running(&steel_connector);
-            std::thread::sleep(UPDATE_INTERVAL);
+            std::thread::sleep(config.update_interval);
         } else {
             game_connector.on_game_stop();
-            std::thread::sleep(GAME_SEEK_INTERVAL);
+            std::thread::sleep(config.game_seek_interval);
         }
     }
 }
