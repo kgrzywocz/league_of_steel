@@ -1,3 +1,4 @@
+use crate::league_of_steel_config::LeagueOfSteelConfig;
 use game_lib::*;
 use log;
 use std::borrow::BorrowMut;
@@ -22,6 +23,23 @@ impl GamesConnector {
             res.push(game.get_game_info())
         }
         res
+    }
+
+    pub fn check_game_status(
+        &mut self,
+        steel_connector: &steel_lib::SteelConnector,
+        config: &LeagueOfSteelConfig,
+    ) {
+        let is_game_running = self.is_game_running();
+        log::debug!("game running:{}", is_game_running);
+
+        if is_game_running {
+            self.on_game_running(steel_connector);
+            std::thread::sleep(config.update_interval);
+        } else {
+            self.on_game_stop();
+            std::thread::sleep(config.game_seek_interval);
+        }
     }
 
     pub fn is_game_running(&self) -> bool {
@@ -91,6 +109,7 @@ mod tests {
         let mut game_mock = MockGame::new();
         game_mock
             .expect_get_game_info()
+            .times(0..2)
             .returning(|| GameInfo::new("g1", "game1", "dev", vec![]));
         game_mock
     }

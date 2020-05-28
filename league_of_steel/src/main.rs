@@ -11,24 +11,15 @@ fn main() {
     #[cfg(debug_assertions)]
     activate_logger();
 
-    let games: Vec<Box<dyn GameTrait>> = vec![Box::new(LolLib::new())];
     let config = LeagueOfSteelConfig::new();
+    let games: Vec<Box<dyn GameTrait>> = vec![Box::new(LolLib::new())];
 
     let mut game_connector = GamesConnector::new(games);
+
     let game_infos = game_connector.get_games_info();
     let steel_connector = wait_for_steel_connector(config.sse_seek_interval, &game_infos);
-
     loop {
-        let is_game_running = game_connector.is_game_running();
-        log::debug!("game running:{}", is_game_running);
-
-        if is_game_running {
-            game_connector.on_game_running(&steel_connector);
-            std::thread::sleep(config.update_interval);
-        } else {
-            game_connector.on_game_stop();
-            std::thread::sleep(config.game_seek_interval);
-        }
+        game_connector.check_game_status(&steel_connector, &config);
     }
 }
 
