@@ -20,9 +20,6 @@ impl ImageWindow {
         iw.run_till_on_screen();
         iw
     }
-    pub fn next(&mut self) -> Option<piston_window::Event> {
-        self.window.next()
-    }
 
     fn create_window(width: u32, height: u32) -> PistonWindow {
         WindowSettings::new("League of Legends (TM) Client", [width, height])
@@ -41,18 +38,47 @@ impl ImageWindow {
         .expect("Unable to open picture")
     }
 
-    pub fn window_draw(&mut self, event: &piston_window::Event) {
+    fn window_draw(&mut self, event: &piston_window::Event) {
         let picture = &self.picture;
         self.window.draw_2d(event, |context, graphics, _device| {
             image(picture, context.transform, graphics);
         });
     }
-    pub fn run_till_on_screen(&mut self) {
+    fn run_till_on_screen(&mut self) {
         while let Some(e) = self.window.next() {
             self.window_draw(&e);
             if let piston_window::Event::Loop(Loop::AfterRender(_)) = e {
                 break;
             }
         }
+    }
+}
+
+pub struct ImageDisplay {
+    handle: std::thread::JoinHandle<()>,
+    stop_tx: std::sync::mpsc::Sender<()>,
+}
+
+impl ImageDisplay {
+    pub fn new(width: u32, height: u32, file: &'static str) -> Self {
+        let (start_tx, start_rx) = std::sync::mpsc::channel();
+        let (stop_tx, stop_rx) = std::sync::mpsc::channel();
+
+        let handle = std::thread::spawn(move || {
+            let mut window = ImageWindow::new(width, height, file);
+            start_tx.send("ready").unwrap();
+            loop {
+                if stop_rx.try_recv().is_ok() {
+                    break;
+                }
+                window.run_till_on_screen();
+            }
+        });
+        start_rx.recv().unwrap();
+        Self { handle, stop_tx }
+    }
+    pub fn stop(self) {
+        self.stop_tx.send(()).unwrap();
+        self.handle.join().unwrap();
     }
 }

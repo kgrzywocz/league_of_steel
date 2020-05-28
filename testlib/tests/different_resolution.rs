@@ -68,8 +68,8 @@ fn test_800x600_hud_0() {
     test_resolution(800, 600, "screens/800x600_hud0_hp100_mana100.png");
 }
 
-fn test_resolution(width: u32, height: u32, file: &str) {
-    let _window = image::ImageWindow::new(width, height, file);
+fn test_resolution(width: u32, height: u32, file: &'static str) {
+    let window = image::ImageDisplay::new(width, height, file);
     let gamesensestub = server::ServerStub::new();
 
     let _sut = start_sut();
@@ -77,6 +77,8 @@ fn test_resolution(width: u32, height: u32, file: &str) {
     let _lol = start_lol();
     expect_game_register(&gamesensestub);
     expect_game_events(&gamesensestub, [100, 100, 0]);
+
+    window.stop();
 }
 
 #[ignore]
