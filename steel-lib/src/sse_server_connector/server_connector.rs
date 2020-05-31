@@ -1,13 +1,13 @@
-use super::SteelLibError;
 use crate::SSEEvent;
 use crate::SSEEventSender;
+use game_lib::HwError;
 
 pub struct ServerConnector {
     address: String,
 }
 
 impl SSEEventSender for ServerConnector {
-    fn send(&self, event: &dyn SSEEvent) -> Result<(), SteelLibError> {
+    fn send(&self, event: &dyn SSEEvent) -> Result<(), HwError> {
         let mut writer = Vec::new();
         let body = event.body();
         let bytes = body.as_bytes();
@@ -31,14 +31,10 @@ impl SSEEventSender for ServerConnector {
                 log::debug!("{:?}", writer);
                 Ok(())
             } else {
-                Err(SteelLibError::SentError(
-                    "Unable to read response!".to_string(),
-                ))
+                Err(HwError::SentError("Unable to read response!".to_string()))
             }
         } else {
-            Err(SteelLibError::SentError(
-                "Unable to send event!".to_string(),
-            ))
+            Err(HwError::SentError("Unable to send event!".to_string()))
         }
     }
 }

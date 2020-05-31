@@ -3,7 +3,6 @@ use game_lib::*;
 use log;
 use std::borrow::BorrowMut;
 use std::ops::DerefMut;
-use steel_lib;
 
 pub struct GamesConnector {
     games: Vec<Box<dyn GameTrait>>,
@@ -27,7 +26,7 @@ impl GamesConnector {
 
     pub fn check_game_status(
         &mut self,
-        steel_connector: &steel_lib::SteelConnector,
+        steel_connector: &dyn HwConnector,
         config: &LeagueOfSteelConfig,
     ) {
         let is_game_running = self.is_game_running();
@@ -46,7 +45,7 @@ impl GamesConnector {
         self.games[0].is_running()
     }
 
-    pub fn on_game_running(&mut self, steel_connector: &steel_lib::SteelConnector) {
+    pub fn on_game_running(&mut self, steel_connector: &dyn HwConnector) {
         let events = self.do_with_game(|analyzer: &mut dyn GameAnalyzer| analyzer.pool_events());
         let res = steel_connector.send_events(events);
         if let Err(e) = res {

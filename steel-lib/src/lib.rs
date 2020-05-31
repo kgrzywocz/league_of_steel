@@ -1,9 +1,7 @@
-pub use steel_lib_error::SteelLibError;
 pub use steelseries_engine_connector::SteelSeriesEngineConnector as SteelConnector;
 
 mod sse_events;
 mod sse_server_connector;
-mod steel_lib_error;
 mod steelseries_engine_connector;
 
 trait SSEEvent {
@@ -12,5 +10,5 @@ trait SSEEvent {
 }
 
 trait SSEEventSender {
-    fn send(&self, event: &dyn SSEEvent) -> Result<(), SteelLibError>;
+    fn send(&self, event: &dyn SSEEvent) -> Result<(), game_lib::HwError>;
 }

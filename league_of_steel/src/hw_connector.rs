@@ -1,4 +1,5 @@
 use game_lib;
+use game_lib::HwConnector;
 use steel_lib;
 
 pub fn wait_for_steel_connector(

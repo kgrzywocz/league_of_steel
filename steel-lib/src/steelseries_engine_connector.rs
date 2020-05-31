@@ -2,28 +2,23 @@ use crate::sse_events;
 use crate::sse_server_connector;
 
 use crate::SSEEventSender;
-use crate::SteelLibError;
 use game_lib::game_events::{GameInfo, MultipleGameEvents};
+use game_lib::HwConnector;
+use game_lib::HwError;
 
 pub struct SteelSeriesEngineConnector {
     server_connector: Box<dyn SSEEventSender>,
 }
 
-impl SteelSeriesEngineConnector {
-    pub fn new() -> Result<Self, SteelLibError> {
-        Ok(Self {
-            server_connector: Box::new(sse_server_connector::create_server_connector()?),
-        })
-    }
-
-    pub fn register_games(&self, game_infos: &Vec<GameInfo>) -> Result<(), SteelLibError> {
+impl HwConnector for SteelSeriesEngineConnector {
+    fn register_games(&self, game_infos: &Vec<GameInfo>) -> Result<(), HwError> {
         for game in game_infos {
             self.register(game)?;
         }
         Ok(())
     }
 
-    pub fn register(&self, game_info: &GameInfo) -> Result<(), SteelLibError> {
+    fn register(&self, game_info: &GameInfo) -> Result<(), HwError> {
         log::info!("Game register sent");
         self.server_connector
             .send(&sse_events::RegisterGame::from(game_info))?;
@@ -39,9 +34,16 @@ impl SteelSeriesEngineConnector {
         Ok(())
     }
 
-    pub fn send_events(&self, events: MultipleGameEvents) -> Result<(), SteelLibError> {
+    fn send_events(&self, events: MultipleGameEvents) -> Result<(), HwError> {
         Self::log_events(&events);
         self.server_connector.send(&events)
+    }
+}
+impl SteelSeriesEngineConnector {
+    pub fn new() -> Result<Self, HwError> {
+        Ok(Self {
+            server_connector: Box::new(sse_server_connector::create_server_connector()?),
+        })
     }
 
     fn log_events(events: &MultipleGameEvents) {
@@ -195,7 +197,7 @@ mod tests {
     mock! {
         ServerConnector{}
         trait SSEEventSender{
-            fn send<'a>(&self, event: &'a (dyn SSEEvent + 'a)) -> Result<(), SteelLibError>;
+            fn send<'a>(&self, event: &'a (dyn SSEEvent + 'a)) -> Result<(), HwError>;
         }
     }
     fn expect_event(mock_server: &mut MockServerConnector, endpoint: String, body: String) {
