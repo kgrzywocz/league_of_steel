@@ -12,7 +12,8 @@ fn main() {
     activate_logger();
 
     let config = LeagueOfSteelConfig::new();
-    let games: Vec<Box<dyn GameTrait>> = vec![Box::new(LolLib::new())];
+    let lollib = LolLib::new();
+    let games: Vec<&dyn GameTrait> = vec![&lollib];
 
     let mut game_connector = GamesConnector::new(games);
 
