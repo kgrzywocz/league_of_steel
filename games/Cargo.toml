@@ -1,6 +1,6 @@
 [package]
 name = "games"
-version = "0.8.0"
+version = "0.9.0"
 authors = ["Krzysztof Grzywocz <kgrzywocz@wp.pl>"]
 edition = "2018"
 

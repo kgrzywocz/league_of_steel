@@ -14,7 +14,7 @@ inline bool ends_with(std::string const & where, std::string const & what)
 
 std::string getProcessFile(DWORD pid)
 {
-    TCHAR filename[MAX_PATH] = "";
+    CHAR filename[MAX_PATH] = "";
 
     HANDLE processHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
     if (processHandle != NULL)

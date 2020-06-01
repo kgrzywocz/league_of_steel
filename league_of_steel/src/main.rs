@@ -13,7 +13,8 @@ fn main() {
 
     let config = LeagueOfSteelConfig::new();
     let lollib = LolLib::new();
-    let games: Vec<&dyn GameTrait> = vec![&lollib];
+    let fortnitelib = FortniteLib::new();
+    let games: Vec<&dyn GameTrait> = vec![&lollib, &fortnitelib];
 
     let mut game_connector = GamesConnector::new(games);
 

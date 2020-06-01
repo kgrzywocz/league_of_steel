@@ -396,7 +396,7 @@ version = "0.1.0"
 
 [[package]]
 name = "games"
-version = "0.8.0"
+version = "0.9.0"
 dependencies = [
  "backend 0.2.0",
  "backend_interface 0.3.0",
@@ -632,7 +632,7 @@ name = "league_of_steel"
 version = "0.6.0"
 dependencies = [
  "game-lib 0.1.0",
- "games 0.8.0",
+ "games 0.9.0",
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "mockall 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "simple-logging 2.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
