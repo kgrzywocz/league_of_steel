@@ -9,5 +9,6 @@ cc = "1.0"
 
 [target.'cfg(windows)'.dependencies]
 libc = "0.2"
-winapi = { version = "0.3", features = ["wingdi"] }
-backend_interface = { path = "../backend_interface" }
+winapi = { version = "0.3", features = ["d3d9"] }
+backend_interface = { path = "../interface" }
+

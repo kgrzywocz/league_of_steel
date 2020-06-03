@@ -1,5 +1,5 @@
 use crate::SSEEvent;
-use game_lib::game_events::*;
+use interfaces::game_events::*;
 
 pub struct RegisterGame {
     body: String,

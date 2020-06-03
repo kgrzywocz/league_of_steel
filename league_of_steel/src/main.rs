@@ -1,11 +1,12 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use game_lib::GameTrait;
-use games::*;
+use fortnite::*;
 use games_connector::*;
 use hw_connector::wait_for_steel_connector;
+use interfaces::GameTrait;
 use league_of_steel::*;
 use league_of_steel_config::*;
+use lol::*;
 
 fn main() {
     #[cfg(debug_assertions)]

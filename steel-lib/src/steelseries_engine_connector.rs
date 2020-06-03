@@ -2,9 +2,9 @@ use crate::sse_events;
 use crate::sse_server_connector;
 
 use crate::SSEEventSender;
-use game_lib::game_events::{GameInfo, MultipleGameEvents};
-use game_lib::HwConnector;
-use game_lib::HwError;
+use interfaces::game_events::{GameInfo, MultipleGameEvents};
+use interfaces::HwConnector;
+use interfaces::HwError;
 
 pub struct SteelSeriesEngineConnector {
     server_connector: Box<dyn SSEEventSender>,
@@ -59,7 +59,7 @@ impl SteelSeriesEngineConnector {
 mod tests {
     use super::*;
     use crate::SSEEvent;
-    use game_lib::game_events::*;
+    use interfaces::game_events::*;
     use mockall::*;
 
     #[test]

@@ -1,7 +1,7 @@
-use crate::screen_elements::*;
-use backend_interface::*;
-use game_lib::game_events::*;
-use game_lib::{GameAnalyzer, GameTrait};
+use game_lib::screen_elements::*;
+use game_lib::*;
+use interfaces::game_events::*;
+use interfaces::{GameAnalyzer, GameTrait};
 
 pub const GAME_NAME: &str = "FORTNITE";
 

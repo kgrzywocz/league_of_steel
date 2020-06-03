@@ -1,7 +1,7 @@
 use super::bars_position::BarsPosition;
 use super::spells::{Spells, SpellsValues};
-use crate::screen_elements::Bar;
-use backend_interface::*;
+use game_lib::screen_elements::Bar;
+use game_lib::*;
 
 pub struct LolStats {
     pub health: u8,

@@ -1,5 +1,5 @@
 use crate::league_of_steel_config::LeagueOfSteelConfig;
-use game_lib::*;
+use interfaces::*;
 use log;
 
 pub struct GamesConnector<'a> {
@@ -91,7 +91,7 @@ impl<'a> ActiveGame<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use game_lib::game_events::*;
+    use interfaces::game_events::*;
     use mockall::*;
 
     #[test]

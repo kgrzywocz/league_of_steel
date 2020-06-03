@@ -381,6 +381,15 @@ version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
+name = "fortnite"
+version = "0.1.0"
+dependencies = [
+ "game-lib 0.1.0",
+ "interfaces 0.1.0",
+ "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "fragile"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -393,17 +402,9 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "game-lib"
 version = "0.1.0"
-
-[[package]]
-name = "games"
-version = "0.9.0"
 dependencies = [
  "backend 0.2.0",
  "backend_interface 0.3.0",
- "bencher 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "game-lib 0.1.0",
- "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
- "regex 1.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -594,6 +595,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "interfaces"
+version = "0.1.0"
+
+[[package]]
 name = "interpolation"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -631,9 +636,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "league_of_steel"
 version = "0.6.0"
 dependencies = [
- "game-lib 0.1.0",
- "games 0.9.0",
+ "fortnite 0.1.0",
+ "interfaces 0.1.0",
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
+ "lol 0.9.0",
  "mockall 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "simple-logging 2.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "steel-lib 0.7.0",
@@ -676,6 +682,17 @@ version = "0.4.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "cfg-if 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "lol"
+version = "0.9.0"
+dependencies = [
+ "bencher 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "game-lib 0.1.0",
+ "interfaces 0.1.0",
+ "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
+ "regex 1.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -1543,8 +1560,8 @@ dependencies = [
 name = "steel-lib"
 version = "0.7.0"
 dependencies = [
- "game-lib 0.1.0",
  "http_req 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "interfaces 0.1.0",
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "mockall 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_json 1.0.44 (registry+https://github.com/rust-lang/crates.io-index)",

@@ -1,7 +1,7 @@
 use super::lol_game_analyzer;
-use backend_interface::is_process_running;
-use game_lib::game_events::*;
-use game_lib::{GameAnalyzer, GameTrait};
+use game_lib::is_process_running;
+use interfaces::game_events::*;
+use interfaces::{GameAnalyzer, GameTrait};
 
 pub const GAME_NAME: &str = "LEAGUE_OF_STEEL";
 pub const GAME_EXE: &str = "League of Legends.exe";

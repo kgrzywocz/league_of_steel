@@ -1,4 +1,4 @@
-use game_lib::HwError;
+use interfaces::HwError;
 
 pub struct Config {
     config_json: serde_json::Value,

@@ -1,9 +1,9 @@
 use super::lollib::{GAME_EXE, GAME_NAME};
 
 use super::lol_pixel_analyzer::LolPixelAnalyzer;
-use backend_interface::*;
-use game_lib::game_events::*;
-use game_lib::GameAnalyzer;
+use game_lib::*;
+use interfaces::game_events::*;
+use interfaces::GameAnalyzer;
 
 pub struct LolGameAnalyzer {
     backend: Backend,
@@ -53,6 +53,6 @@ impl LolGameAnalyzer {
     fn get_hud_global_scale_from_config(&self) -> Option<f32> {
         let lol_path = get_process_exe_path(GAME_EXE);
         log::debug!("lol_path={}", lol_path);
-        crate::lol::lolconfig::get_hud_global_scale(&lol_path)
+        crate::lolconfig::get_hud_global_scale(&lol_path)
     }
 }

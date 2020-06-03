@@ -10,5 +10,5 @@ trait SSEEvent {
 }
 
 trait SSEEventSender {
-    fn send(&self, event: &dyn SSEEvent) -> Result<(), game_lib::HwError>;
+    fn send(&self, event: &dyn SSEEvent) -> Result<(), interfaces::HwError>;
 }

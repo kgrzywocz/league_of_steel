@@ -1,5 +1,5 @@
 use super::hud_rescale::Rescaler;
-use backend_interface::PixelRect;
+use game_lib::PixelRect;
 
 pub struct SpellsValues {
     pub q: u8,

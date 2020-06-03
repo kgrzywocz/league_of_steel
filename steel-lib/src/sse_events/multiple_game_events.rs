@@ -1,5 +1,5 @@
 use crate::SSEEvent;
-use game_lib::game_events::*;
+use interfaces::game_events::*;
 
 impl SSEEvent for MultipleGameEvents {
     fn endpoint(&self) -> String {

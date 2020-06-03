@@ -10,7 +10,7 @@ edition = "2018"
 serde_json = "1.0"
 http_req = "0.6"
 log = "0.4"
-game-lib = { path = "../game-lib"}
+interfaces = { path = "../interfaces"}
 
 [dev-dependencies]
 mockall = "0.7"

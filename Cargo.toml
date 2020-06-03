@@ -1,8 +1,9 @@
 [workspace]
 
 members = [
-    "games",
-    "games/backend_interface",
+    "game-lib",
+    "games/lol",
+    "games/fortnite",
     "steel-lib",
     "league_of_steel",
     "testlib/app",

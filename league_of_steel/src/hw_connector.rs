@@ -1,10 +1,10 @@
-use game_lib;
-use game_lib::HwConnector;
+use interfaces;
+use interfaces::HwConnector;
 use steel_lib;
 
 pub fn wait_for_steel_connector(
     sse_seek_interval: std::time::Duration,
-    games: &Vec<game_lib::game_events::GameInfo>,
+    games: &Vec<interfaces::game_events::GameInfo>,
 ) -> steel_lib::SteelConnector {
     let mut steel_connector;
     loop {

@@ -1,6 +1,6 @@
 use crate::SSEEvent;
 use crate::SSEEventSender;
-use game_lib::HwError;
+use interfaces::HwError;
 
 pub struct ServerConnector {
     address: String,
