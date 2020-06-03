@@ -161,10 +161,10 @@ fn expect_lol_register(gamesensestub: &server::ServerStub) {
     gamesensestub.expect_request("/register_game_event", "HEALTH");
     gamesensestub.expect_request("/register_game_event", "MANA");
     gamesensestub.expect_request("/register_game_event", "HIT");
-    gamesensestub.expect_request("/register_game_event", "Q_SPELL");
-    gamesensestub.expect_request("/register_game_event", "W_SPELL");
-    gamesensestub.expect_request("/register_game_event", "E_SPELL");
-    gamesensestub.expect_request("/register_game_event", "R_SPELL");
+    gamesensestub.expect_request("/register_game_event", "SPELL_Q");
+    gamesensestub.expect_request("/register_game_event", "SPELL_W");
+    gamesensestub.expect_request("/register_game_event", "SPELL_E");
+    gamesensestub.expect_request("/register_game_event", "SPELL_R");
 }
 
 fn expect_fortnite_register(gamesensestub: &server::ServerStub) {

@@ -23,10 +23,10 @@ impl GameAnalyzer for LolGameAnalyzer {
                 GameEvent::new("HEALTH", stats.health),
                 GameEvent::new("MANA", stats.mana),
                 GameEvent::new("HIT", stats.hit),
-                GameEvent::new("Q_SPELL", spells.q),
-                GameEvent::new("W_SPELL", spells.w),
-                GameEvent::new("E_SPELL", spells.e),
-                GameEvent::new("R_SPELL", spells.r),
+                GameEvent::new("SPELL_Q", spells.q),
+                GameEvent::new("SPELL_W", spells.w),
+                GameEvent::new("SPELL_E", spells.e),
+                GameEvent::new("SPELL_R", spells.r),
             ],
         )
     }
