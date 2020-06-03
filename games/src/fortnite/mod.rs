@@ -73,16 +73,27 @@ impl PixelRectAnalyzer for FortnitePixelAnalyzer {
         let positions = BarsPosition::new(pixels.get_width(), pixels.get_hight());
         let range = positions.get_range();
 
-        let mut health_bar = Bar::new();
-        health_bar.set_position(positions.get_health_height());
-        health_bar.set_range(range);
-        let mut armor_bar = Bar::new();
-        armor_bar.set_position(positions.get_armor_height());
-        armor_bar.set_range(range);
+        if are_bars_present(pixels, &positions) {
+            let mut health_bar = Bar::new();
+            health_bar.set_position(positions.get_health_height());
+            health_bar.set_range(range);
+            let mut armor_bar = Bar::new();
+            armor_bar.set_position(positions.get_armor_height());
+            armor_bar.set_range(range);
 
-        self.health = health_bar.analyze_pixels(pixels, |c| c.is_green(), 0);
-        self.armor = armor_bar.analyze_pixels(pixels, |c| c.is_blue(), 0);
+            self.health = health_bar.analyze_pixels(pixels, |c| c.is_green(), 0);
+            self.armor = armor_bar.analyze_pixels(pixels, |c| c.is_blue(), 0);
+        } else {
+            self.health = 0;
+            self.armor = 0;
+        }
     }
+}
+
+fn are_bars_present(pixels: &PixelRect, bars: &BarsPosition) -> bool {
+    pixels
+        .get_color(bars.get_range().0, bars.get_health_height())
+        .is_green()
 }
 
 impl FortnitePixelAnalyzer {
