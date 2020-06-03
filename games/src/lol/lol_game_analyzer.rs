@@ -27,6 +27,8 @@ impl GameAnalyzer for LolGameAnalyzer {
                 GameEvent::new("SPELL_W", spells.w),
                 GameEvent::new("SPELL_E", spells.e),
                 GameEvent::new("SPELL_R", spells.r),
+                GameEvent::new("SPELL_D", spells.d),
+                GameEvent::new("SPELL_F", spells.f),
             ],
         )
     }

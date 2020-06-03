@@ -28,6 +28,8 @@ impl GameTrait for LolLib {
                 GameEventInfo::new("SPELL_W").set_max_value(1),
                 GameEventInfo::new("SPELL_E").set_max_value(1),
                 GameEventInfo::new("SPELL_R").set_max_value(1),
+                GameEventInfo::new("SPELL_D").set_max_value(1),
+                GameEventInfo::new("SPELL_F").set_max_value(1),
             ],
         )
     }

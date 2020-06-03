@@ -6,6 +6,8 @@ pub struct SpellsValues {
     pub w: u8,
     pub e: u8,
     pub r: u8,
+    pub d: u8,
+    pub f: u8,
 }
 impl SpellsValues {
     pub fn new() -> Self {
@@ -14,6 +16,8 @@ impl SpellsValues {
             w: 0,
             e: 0,
             r: 0,
+            d: 0,
+            f: 0,
         }
     }
 }
@@ -46,6 +50,8 @@ impl Spells {
             w: self.spell_value(pixels, self.get_spell_w_width()),
             e: self.spell_value(pixels, self.get_spell_e_width()),
             r: self.spell_value(pixels, self.get_spell_r_width()),
+            d: self.spell_value(pixels, self.get_spell_d_width()),
+            f: self.spell_value(pixels, self.get_spell_f_width()),
         }
     }
     fn spell_value(&self, pixels: &PixelRect, x: u32) -> u8 {
@@ -67,6 +73,12 @@ impl Spells {
     fn get_spell_r_width(&self) -> u32 {
         self.rescaler.rescale_width_from_fhd(958)
     }
+    fn get_spell_d_width(&self) -> u32 {
+        self.rescaler.rescale_width_from_fhd(1025)
+    }
+    fn get_spell_f_width(&self) -> u32 {
+        self.rescaler.rescale_width_from_fhd(1075)
+    }
 }
 
 #[cfg(test)]
@@ -83,6 +95,8 @@ mod tests {
         assert_eq!(sut.get_spell_w_width(), 825);
         assert_eq!(sut.get_spell_e_width(), 891);
         assert_eq!(sut.get_spell_r_width(), 958);
+        assert_eq!(sut.get_spell_d_width(), 1025);
+        assert_eq!(sut.get_spell_f_width(), 1075);
     }
     #[test]
     fn test_1280x720_hud_1() {
@@ -94,6 +108,8 @@ mod tests {
         assert_eq!(sut.get_spell_w_width(), 550);
         assert_eq!(sut.get_spell_e_width(), 594);
         assert_eq!(sut.get_spell_r_width(), 638);
+        assert_eq!(sut.get_spell_d_width(), 683);
+        assert_eq!(sut.get_spell_f_width(), 716);
     }
     #[test]
     fn test_1920x1080_hud_001() {
@@ -105,6 +121,8 @@ mod tests {
         assert_eq!(sut.get_spell_w_width(), 871);
         assert_eq!(sut.get_spell_e_width(), 914);
         assert_eq!(sut.get_spell_r_width(), 958);
+        assert_eq!(sut.get_spell_d_width(), 1002);
+        assert_eq!(sut.get_spell_f_width(), 1035);
     }
     #[test]
     fn test_1920x1080_hud_50() {
@@ -116,6 +134,8 @@ mod tests {
         assert_eq!(sut.get_spell_w_width(), 848);
         assert_eq!(sut.get_spell_e_width(), 903);
         assert_eq!(sut.get_spell_r_width(), 958);
+        assert_eq!(sut.get_spell_d_width(), 1013);
+        assert_eq!(sut.get_spell_f_width(), 1054);
     }
 
     #[test]
@@ -128,6 +148,8 @@ mod tests {
         assert_eq!(sut.get_spell_w_width(), 532);
         assert_eq!(sut.get_spell_e_width(), 585);
         assert_eq!(sut.get_spell_r_width(), 638);
+        assert_eq!(sut.get_spell_d_width(), 691);
+        assert_eq!(sut.get_spell_f_width(), 731);
     }
     #[test]
     fn test_800x600_hud_1() {
@@ -139,6 +161,8 @@ mod tests {
         assert_eq!(sut.get_spell_w_width(), 324);
         assert_eq!(sut.get_spell_e_width(), 362);
         assert_eq!(sut.get_spell_r_width(), 399);
+        assert_eq!(sut.get_spell_d_width(), 436);
+        assert_eq!(sut.get_spell_f_width(), 462);
     }
     #[test]
     fn test_1024x768_hud_1() {
@@ -150,6 +174,8 @@ mod tests {
         assert_eq!(sut.get_spell_w_width(), 416);
         assert_eq!(sut.get_spell_e_width(), 463);
         assert_eq!(sut.get_spell_r_width(), 510);
+        assert_eq!(sut.get_spell_d_width(), 557);
+        assert_eq!(sut.get_spell_f_width(), 593);
     }
     #[test]
     fn test_1152x864_hud_1() {
@@ -161,6 +187,8 @@ mod tests {
         assert_eq!(sut.get_spell_w_width(), 468);
         assert_eq!(sut.get_spell_e_width(), 520);
         assert_eq!(sut.get_spell_r_width(), 574);
+        assert_eq!(sut.get_spell_d_width(), 628);
+        assert_eq!(sut.get_spell_f_width(), 668);
     }
     #[test]
     fn test_1600x1024_hud_001() {
@@ -172,6 +200,8 @@ mod tests {
         assert_eq!(sut.get_spell_w_width(), 716);
         assert_eq!(sut.get_spell_e_width(), 757);
         assert_eq!(sut.get_spell_r_width(), 798);
+        assert_eq!(sut.get_spell_d_width(), 839);
+        assert_eq!(sut.get_spell_f_width(), 870);
     }
     #[test]
     fn test_1680x1050_hud_001() {
@@ -183,5 +213,7 @@ mod tests {
         assert_eq!(sut.get_spell_w_width(), 753);
         assert_eq!(sut.get_spell_e_width(), 796);
         assert_eq!(sut.get_spell_r_width(), 838);
+        assert_eq!(sut.get_spell_d_width(), 880);
+        assert_eq!(sut.get_spell_f_width(), 912);
     }
 }
