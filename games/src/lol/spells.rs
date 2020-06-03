@@ -1,4 +1,4 @@
-use super::hud_rescale::rescale;
+use super::hud_rescale::Rescaler;
 use backend_interface::PixelRect;
 
 pub struct SpellsValues {
@@ -22,6 +22,7 @@ pub struct Spells {
     screen_width: u32,
     screen_height: u32,
     hud_scale: f32,
+    rescaler: Rescaler,
 }
 
 impl Spells {
@@ -30,12 +31,14 @@ impl Spells {
             screen_width: 0,
             screen_height: 0,
             hud_scale: 1.0,
+            rescaler: Rescaler::new(0, 0, 1.0),
         }
     }
     pub fn update_positions(&mut self, width: u32, height: u32, hud_scale: f32) {
         self.screen_width = width;
         self.screen_height = height;
         self.hud_scale = hud_scale;
+        self.rescaler = Rescaler::new(width, height, hud_scale);
     }
     pub fn get_spells_values(&self, pixels: &PixelRect) -> SpellsValues {
         SpellsValues {
@@ -50,55 +53,19 @@ impl Spells {
     }
 
     fn get_spells_height(&self) -> u32 {
-        let value = self.apply_ratio_on_height(self.screen_height * 948 / 1080);
-
-        rescale(self.hud_scale, value, self.screen_height)
+        self.rescaler.rescale_height_from_fhd(948)
     }
     fn get_q_spells_width(&self) -> u32 {
-        rescale(
-            self.hud_scale,
-            self.apply_ratio_on_width(self.screen_width * 760 / 1920),
-            self.screen_width / 2,
-        )
+        self.rescaler.rescale_width_from_fhd(760)
     }
     fn get_w_spells_width(&self) -> u32 {
-        rescale(
-            self.hud_scale,
-            self.apply_ratio_on_width(self.screen_width * 825 / 1920),
-            self.screen_width / 2,
-        )
+        self.rescaler.rescale_width_from_fhd(825)
     }
     fn get_e_spells_width(&self) -> u32 {
-        rescale(
-            self.hud_scale,
-            self.apply_ratio_on_width(self.screen_width * 891 / 1920),
-            self.screen_width / 2,
-        )
+        self.rescaler.rescale_width_from_fhd(891)
     }
     fn get_r_spells_width(&self) -> u32 {
-        rescale(
-            self.hud_scale,
-            self.apply_ratio_on_width(self.screen_width * 958 / 1920),
-            self.screen_width / 2,
-        )
-    }
-    fn apply_ratio_on_height(&self, value: u32) -> u32 {
-        let ratio = self.screen_width as f64 / self.screen_height as f64;
-        if ratio < 1.3 {
-            return value * 918 / 898;
-        }
-        value
-    }
-    fn apply_ratio_on_width(&self, value: u32) -> u32 {
-        let ratio = self.screen_width as f64 / self.screen_height as f64;
-        let ratio_normalized = ratio / (1920.0 / 1080.0);
-        let mid = self.screen_width / 2;
-        let mut from_mid = (mid - value) as f64;
-        if ratio < 1.3 {
-            from_mid *= 0.85;
-        }
-        let value = mid - (from_mid / ratio_normalized) as u32;
-        value
+        self.rescaler.rescale_width_from_fhd(958)
     }
 }
 

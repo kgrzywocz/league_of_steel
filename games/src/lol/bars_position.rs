@@ -1,33 +1,26 @@
-use super::hud_rescale::rescale;
+use super::hud_rescale::Rescaler;
 
 pub struct BarsPosition {
-    hud_scale: f32,
-    width: u32,
-    height: u32,
-
     health: u32,
     mana: u32,
     range: (u32, u32),
 }
 impl BarsPosition {
     pub fn new(width: u32, height: u32, hud_scale: f32) -> Self {
-        let mut ratio = (width as f32 / height as f32) / 1.77777777777;
-        ratio = (ratio + 2.0) / 3.0;
+        let rescaler = Rescaler::new(width, height, hud_scale);
 
-        let range = Self::calculate_range(width, ratio);
-        let mana = ((1.0 - 0.015 * ratio) * (height as f32)) as u32 - 1;
-        let health = mana - (ratio * ratio * 0.025 * (height as f32)) as u32 + 1;
+        let health = rescaler.rescale_height_from_fhd(1031);
+        let mana = rescaler.rescale_height_from_fhd(1052);
+        let range = (
+            rescaler.rescale_width_from_fhd(682),
+            rescaler.rescale_width_from_fhd(1094),
+        );
 
-        let mut res = Self {
-            hud_scale,
-            width,
-            height,
+        Self {
             health,
             mana,
             range,
-        };
-        res.rescale_for_hud_scaling();
-        res
+        }
     }
 
     pub fn get_range(&self) -> (u32, u32) {
@@ -38,20 +31,6 @@ impl BarsPosition {
     }
     pub fn get_mana_height(&self) -> u32 {
         self.mana
-    }
-
-    fn calculate_range(width: u32, ratio: f32) -> (u32, u32) {
-        let range_left = (ratio * 0.356 * (width as f32)) as u32;
-        let mut range_right = (ratio * 0.57 * (width as f32)) as u32;
-        range_right = ((width as f32) - (ratio * (width - range_right) as f32)) as u32;
-        (range_left, range_right)
-    }
-
-    fn rescale_for_hud_scaling(&mut self) {
-        self.range.0 = rescale(self.hud_scale, self.range.0, self.width / 2);
-        self.range.1 = rescale(self.hud_scale, self.range.1, self.width / 2);
-        self.health = rescale(self.hud_scale, self.health, self.height);
-        self.mana = rescale(self.hud_scale, self.mana, self.height);
     }
 }
 
@@ -84,7 +63,7 @@ mod tests {
         assert_in_range(sut.get_health_height(), 983, 996);
         assert_in_range(sut.get_mana_height(), 999, 1011);
         assert_eq_with_tolerance(sut.get_range().0, 416);
-        // assert_eq_with_tolerance(sut.get_range().1, 748);
+        assert_eq_with_tolerance(sut.get_range().1, 748);
     }
     #[test]
     fn test_bar_position_1024x768_hud_1() {
@@ -92,8 +71,8 @@ mod tests {
 
         assert_in_range(sut.get_health_height(), 732, 742);
         assert_in_range(sut.get_mana_height(), 746, 756);
-        // assert_eq_with_tolerance(sut.get_range().0, 314);
-        // assert_eq_with_tolerance(sut.get_range().1, 608);
+        assert_eq_with_tolerance(sut.get_range().0, 314);
+        assert_eq_with_tolerance(sut.get_range().1, 608);
     }
     #[test]
     fn test_bar_position_1152x864_hud_1() {
@@ -101,8 +80,8 @@ mod tests {
 
         assert_in_range(sut.get_health_height(), 824, 835);
         assert_in_range(sut.get_mana_height(), 840, 851);
-        // assert_eq_with_tolerance(sut.get_range().0, 353);
-        // assert_eq_with_tolerance(sut.get_range().1, 683);
+        assert_eq_with_tolerance(sut.get_range().0, 353);
+        assert_eq_with_tolerance(sut.get_range().1, 683);
     }
     #[test]
     fn test_bar_position_800x600_hud_1() {
@@ -110,8 +89,8 @@ mod tests {
 
         assert_in_range(sut.get_health_height(), 572, 580);
         assert_in_range(sut.get_mana_height(), 583, 591);
-        // assert_eq_with_tolerance(sut.get_range().0, 275);
-        // assert_eq_with_tolerance(sut.get_range().1, 474);
+        assert_eq_with_tolerance(sut.get_range().0, 245);
+        assert_eq_with_tolerance(sut.get_range().1, 474);
     }
 
     #[test]
@@ -138,8 +117,8 @@ mod tests {
 
         assert_in_range(sut.get_health_height(), 744, 751);
         assert_in_range(sut.get_mana_height(), 754, 760);
-        // assert_eq_with_tolerance(sut.get_range().0, 381);
-        // assert_eq_with_tolerance(sut.get_range().1, 575);
+        assert_eq_with_tolerance(sut.get_range().0, 381);
+        assert_eq_with_tolerance(sut.get_range().1, 575);
     }
     #[test]
     fn test_bar_position_800x600_hud_001() {
@@ -147,8 +126,8 @@ mod tests {
 
         assert_in_range(sut.get_health_height(), 581, 586);
         assert_in_range(sut.get_mana_height(), 589, 593);
-        // assert_eq_with_tolerance(sut.get_range().0, 273);
-        // assert_eq_with_tolerance(sut.get_range().1, 449);
+        assert_eq_with_tolerance(sut.get_range().0, 297);
+        assert_eq_with_tolerance(sut.get_range().1, 449);
     }
     #[test]
     fn test_bar_position_1600x1024_hud_001() {
@@ -156,8 +135,8 @@ mod tests {
 
         assert_in_range(sut.get_health_height(), 992, 1001);
         assert_in_range(sut.get_mana_height(), 1005, 1013);
-        // assert_eq_with_tolerance(sut.get_range().0, 625);
-        // assert_eq_with_tolerance(sut.get_range().1, 884);
+        assert_eq_with_tolerance(sut.get_range().0, 625);
+        assert_eq_with_tolerance(sut.get_range().1, 884);
     }
     #[test]
     fn test_bar_position_1680x1050_hud_001() {
@@ -165,8 +144,8 @@ mod tests {
 
         assert_in_range(sut.get_health_height(), 1017, 1026);
         assert_in_range(sut.get_mana_height(), 1030, 1039);
-        // assert_eq_with_tolerance(sut.get_range().0, 660);
-        // assert_eq_with_tolerance(sut.get_range().1, 926);
+        assert_eq_with_tolerance(sut.get_range().0, 660);
+        assert_eq_with_tolerance(sut.get_range().1, 926);
     }
 
     fn assert_in_range(real_val: u32, min: u32, max: u32) {
