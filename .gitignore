@@ -3,6 +3,7 @@
 **/*.obj
 **/*.exe
 
+installer/versions.nsi
 league_of_steel.log
 
 .vscode
