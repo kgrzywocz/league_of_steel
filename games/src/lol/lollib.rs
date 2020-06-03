@@ -24,6 +24,10 @@ impl GameTrait for LolLib {
                 GameEventInfo::new("HEALTH").set_type(GameEventType::Health),
                 GameEventInfo::new("MANA").set_type(GameEventType::Mana),
                 GameEventInfo::new("HIT").set_type(GameEventType::Boom),
+                GameEventInfo::new("Q_SPELL").set_max_value(1),
+                GameEventInfo::new("W_SPELL").set_max_value(1),
+                GameEventInfo::new("E_SPELL").set_max_value(1),
+                GameEventInfo::new("R_SPELL").set_max_value(1),
             ],
         )
     }

@@ -65,6 +65,10 @@ impl GameEventInfo {
         self.event_type = event_type;
         self
     }
+    pub fn set_max_value(mut self, max_value: i32) -> Self {
+        self.max_value = max_value;
+        self
+    }
 }
 
 pub enum GameEventType {

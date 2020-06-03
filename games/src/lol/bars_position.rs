@@ -1,3 +1,5 @@
+use super::hud_rescale::rescale;
+
 pub struct BarsPosition {
     hud_scale: f32,
     width: u32,
@@ -8,9 +10,7 @@ pub struct BarsPosition {
     range: (u32, u32),
 }
 impl BarsPosition {
-    pub fn new(width: u32, height: u32, hud_global_scale: f32) -> Self {
-        let hud_scale = 0.333 * hud_global_scale + 0.666;
-
+    pub fn new(width: u32, height: u32, hud_scale: f32) -> Self {
         let mut ratio = (width as f32 / height as f32) / 1.77777777777;
         ratio = (ratio + 2.0) / 3.0;
 
@@ -48,13 +48,10 @@ impl BarsPosition {
     }
 
     fn rescale_for_hud_scaling(&mut self) {
-        self.range.0 = self.rescale(self.range.0, self.width / 2);
-        self.range.1 = self.rescale(self.range.1, self.width / 2);
-        self.health = self.rescale(self.health, self.height);
-        self.mana = self.rescale(self.mana, self.height);
-    }
-    fn rescale(&self, value: u32, scale_point: u32) -> u32 {
-        (scale_point as f32 - self.hud_scale * (scale_point as f32 - value as f32)) as u32
+        self.range.0 = rescale(self.hud_scale, self.range.0, self.width / 2);
+        self.range.1 = rescale(self.hud_scale, self.range.1, self.width / 2);
+        self.health = rescale(self.hud_scale, self.health, self.height);
+        self.mana = rescale(self.hud_scale, self.mana, self.height);
     }
 }
 

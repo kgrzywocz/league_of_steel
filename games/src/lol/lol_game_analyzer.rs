@@ -1,4 +1,3 @@
-use super::bars_position::BarsPosition;
 use super::lollib::{GAME_EXE, GAME_NAME};
 
 use super::lol_pixel_analyzer::LolPixelAnalyzer;
@@ -17,12 +16,17 @@ impl GameAnalyzer for LolGameAnalyzer {
         self.backend.analyze_screenshot(&mut self.pixel_analyzer);
 
         let stats = self.pixel_analyzer.get_stats();
+        let spells = self.pixel_analyzer.get_spells();
         MultipleGameEvents::new(
             GAME_NAME,
             vec![
                 GameEvent::new("HEALTH", stats.health),
                 GameEvent::new("MANA", stats.mana),
                 GameEvent::new("HIT", stats.hit),
+                GameEvent::new("Q_SPELL", spells.q),
+                GameEvent::new("W_SPELL", spells.w),
+                GameEvent::new("E_SPELL", spells.e),
+                GameEvent::new("R_SPELL", spells.r),
             ],
         )
     }
@@ -40,26 +44,8 @@ impl LolGameAnalyzer {
         let hud_scale = self.get_hud_global_scale_from_config().unwrap_or(1.0);
         let mode = self.backend.get_mode();
 
-        let bars_position = BarsPosition::new(mode.width, mode.height, hud_scale);
-        self.pixel_analyzer.update_bars_positions(&bars_position);
-
-        Self::log_analyze_params(&mode, hud_scale, &bars_position);
-    }
-    fn log_analyze_params(
-        mode: &BackendScreenResolution,
-        hud_scale: f32,
-        bars_position: &BarsPosition,
-    ) {
-        log::info!(
-            "Screen {}x{} hud_scale={} pos(range={}-{} hp={} mana={})",
-            mode.width,
-            mode.height,
-            hud_scale,
-            bars_position.get_range().0,
-            bars_position.get_range().1,
-            bars_position.get_health_height(),
-            bars_position.get_mana_height(),
-        );
+        self.pixel_analyzer
+            .update_hud_positions(mode.width, mode.height, hud_scale);
     }
 
     fn get_hud_global_scale_from_config(&self) -> Option<f32> {
