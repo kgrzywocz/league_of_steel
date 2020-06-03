@@ -152,10 +152,25 @@ fn show_critical_hit_image() -> image::ImageWindow {
 }
 
 fn expect_game_register(gamesensestub: &server::ServerStub) {
+    expect_lol_register(gamesensestub);
+    expect_fortnite_register(gamesensestub);
+}
+
+fn expect_lol_register(gamesensestub: &server::ServerStub) {
     gamesensestub.expect_request("/game_metadata", "League of Legends");
     gamesensestub.expect_request("/register_game_event", "HEALTH");
     gamesensestub.expect_request("/register_game_event", "MANA");
     gamesensestub.expect_request("/register_game_event", "HIT");
+    gamesensestub.expect_request("/register_game_event", "Q_SPELL");
+    gamesensestub.expect_request("/register_game_event", "W_SPELL");
+    gamesensestub.expect_request("/register_game_event", "E_SPELL");
+    gamesensestub.expect_request("/register_game_event", "R_SPELL");
+}
+
+fn expect_fortnite_register(gamesensestub: &server::ServerStub) {
+    gamesensestub.expect_request("/game_metadata", "Fortnite");
+    gamesensestub.expect_request("/register_game_event", "HEALTH");
+    gamesensestub.expect_request("/register_game_event", "ARMOR");
 }
 
 fn expect_game_events(gamesensestub: &server::ServerStub, stats: [u8; 3]) {
