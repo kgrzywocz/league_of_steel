@@ -47,16 +47,10 @@ section "install"
     Execwait "taskkill /F /IM league_of_steel.exe"
     SetOutPath "$INSTDIR"
     File "..\target\x86_64-pc-windows-msvc\release\league_of_steel.exe"
-	File "..\target\x86_64-pc-windows-msvc\release\fortnite.dll"
-	File "$%UserProfile%\.rustup\toolchains\stable-x86_64-pc-windows-msvc\lib\rustlib\x86_64-pc-windows-msvc\lib\std-bc2b04b7c9a44f97.dll"
     Exec "$INSTDIR\${APPNAME}.exe"
 
     #Autostart
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "${APPNAME}" "$INSTDIR\${APPNAME}.exe"
- 
-	# Start Menu
-	#createDirectory "$SMPROGRAMS\${APPNAME}"
-	#createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk" "$INSTDIR\${APPNAME}.exe" "" "$INSTDIR\logo.ico"
 
 	# Uninstaller - See function un.onInit and section "uninstall" for configuration
 	writeUninstaller "$INSTDIR\uninstall.exe"
@@ -89,17 +83,14 @@ function un.onInit
 functionEnd
  
 section "uninstall"
-	#delete "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk"
-	#rmDir /R "$SMPROGRAMS\${APPNAME}"
- 
+	#Kill if running
+    Execwait "taskkill /F /IM league_of_steel.exe"
+
     #Remove autostart
     DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Run\${APPNAME}"
 
     #TODO deregister games
 
-	#Kill if running
-    Execwait "taskkill /F /IM league_of_steel.exe"
-	
 	# Remove files
 	delete "$INSTDIR\${APPNAME}.exe"
 	delete "$INSTDIR\logo.ico"
