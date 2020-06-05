@@ -98,21 +98,27 @@ impl Color {
             color: backend_color,
         }
     }
+    pub fn get_rgb(&self) -> (u8, u8, u8) {
+        return (self.color.r, self.color.g, self.color.b);
+    }
     pub fn is_red(&self) -> bool {
-        return self.color.r as i32 > self.color.b as i32 + 50
-            && self.color.r as i32 > self.color.g as i32 + 50;
+        return is_much_higher(self.color.r, self.color.b)
+            && is_much_higher(self.color.r, self.color.g);
     }
     pub fn is_green(&self) -> bool {
-        return self.color.g as i32 > self.color.b as i32 + 50
-            && self.color.g as i32 > self.color.r as i32 + 50;
+        return is_much_higher(self.color.g, self.color.b)
+            && is_much_higher(self.color.g, self.color.r);
     }
     pub fn is_blue(&self) -> bool {
-        return self.color.b as i32 > self.color.g as i32 + 50
-            && self.color.b as i32 > self.color.r as i32 + 50;
+        return is_much_higher(self.color.b, self.color.g)
+            && is_much_higher(self.color.b, self.color.r);
     }
     pub fn is_yellow(&self) -> bool {
-        return self.color.r as i32 > self.color.b as i32 + 50
-            && self.color.g as i32 > self.color.b as i32 + 50
+        return is_much_higher(self.color.r, self.color.b)
+            && is_much_higher(self.color.g, self.color.b)
             && (self.color.r as i32 - self.color.g as i32).abs() < 50;
     }
+}
+fn is_much_higher(a: u8, b: u8) -> bool {
+    ((a as i32 > b as i32 + 22) || (0.7 * a as f32 > b as f32))
 }

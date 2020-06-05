@@ -11,7 +11,7 @@ impl ImageWindow {
         super::resolution::set_resolution(width, height);
         let mut window = Self::create_window(width, height);
         let picture = Self::create_picture(&mut window, file);
-        window.set_lazy(true);
+        window.set_lazy(false);
 
         let mut iw = Self { window, picture };
         iw.run_till_on_screen();

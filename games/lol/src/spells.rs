@@ -43,6 +43,13 @@ impl Spells {
         self.screen_height = height;
         self.hud_scale = hud_scale;
         self.rescaler = Rescaler::new(width, height, hud_scale);
+
+        log::debug!(
+            "spells pos=(h={} Q={} F={})",
+            self.get_spells_height(),
+            self.get_spell_q_width(),
+            self.get_spell_f_width()
+        );
     }
     pub fn get_spells_values(&self, pixels: &PixelRect) -> SpellsValues {
         SpellsValues {
@@ -55,7 +62,9 @@ impl Spells {
         }
     }
     fn spell_value(&self, pixels: &PixelRect, x: u32) -> u8 {
-        pixels.get_color(x, self.get_spells_height()).is_yellow() as u8
+        let color = pixels.get_color(x, self.get_spells_height());
+        log::debug!("spells color=(x={} RGB={:?})", x, color.get_rgb());
+        color.is_yellow() as u8
     }
 
     fn get_spells_height(&self) -> u32 {

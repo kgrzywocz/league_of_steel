@@ -3,7 +3,12 @@ use testlib::*;
 #[ignore]
 #[test]
 fn test_1280x720() {
-    test_resolution(1280, 720, "screens/1280x720_zed_hp100_energy100.jpg");
+    test_resolution_with_spells(
+        1280,
+        720,
+        "screens/1280x720_zed_hp100_energy100.jpg",
+        [1, 0, 0, 0, 1, 1],
+    );
 }
 #[ignore]
 #[test]
@@ -23,7 +28,12 @@ fn test_800x600() {
 #[ignore]
 #[test]
 fn test_1024x768() {
-    test_resolution(1024, 768, "screens/1024x768_hp100_mana100.png");
+    test_resolution_with_spells(
+        1024,
+        768,
+        "screens/1024x768_hp100_mana100.png",
+        [1, 0, 0, 0, 1, 1],
+    );
 }
 #[ignore]
 #[test]
@@ -69,6 +79,9 @@ fn test_800x600_hud_0() {
 }
 
 fn test_resolution(width: u32, height: u32, file: &'static str) {
+    test_resolution_with_spells(width, height, file, [1, 1, 1, 1, 1, 1]);
+}
+fn test_resolution_with_spells(width: u32, height: u32, file: &'static str, spells: [u8; 6]) {
     let window = image::ImageDisplay::new(width, height, file);
     let gamesensestub = server::ServerStub::new();
 
@@ -76,7 +89,7 @@ fn test_resolution(width: u32, height: u32, file: &'static str) {
 
     let _lol = start_lol();
     expect_game_register(&gamesensestub);
-    expect_game_events(&gamesensestub, [100, 100, 0]);
+    expect_game_events(&gamesensestub, [100, 100, 0], spells);
 
     window.stop();
 }
@@ -91,7 +104,7 @@ fn test_critical_hit() {
     let _sut = start_sut();
 
     expect_game_register(&gamesensestub);
-    expect_game_events(&gamesensestub, [49, 100, 19]);
+    expect_game_events(&gamesensestub, [49, 100, 19], [0, 0, 0, 0, 1, 1]);
 }
 
 #[ignore]
@@ -104,12 +117,12 @@ fn should_work_after_game_restart() {
     let _sut = start_sut();
 
     expect_game_register(&gamesensestub);
-    expect_game_events(&gamesensestub, [49, 100, 19]);
+    expect_game_events(&gamesensestub, [49, 100, 19], [0, 0, 0, 0, 1, 1]);
 
     lol.stop();
     let _window = image::ImageWindow::new(1920, 1080, "screens/1920x1080_hp100_mana100.png");
     lol = start_lol();
-    expect_game_events(&gamesensestub, [100, 100, 0]);
+    expect_game_events(&gamesensestub, [100, 100, 0], [1, 1, 1, 1, 1, 1]);
     lol.stop();
 }
 
@@ -123,12 +136,12 @@ fn should_work_after_resolution_change() {
     let _sut = start_sut();
 
     expect_game_register(&gamesensestub);
-    expect_game_events(&gamesensestub, [49, 100, 19]);
+    expect_game_events(&gamesensestub, [49, 100, 19], [0, 0, 0, 0, 1, 1]);
 
     let _window = image::ImageWindow::new(1280, 1024, "screens/1280x1024_hp100_mana100.png");
     ignore_game_events(&gamesensestub);
 
-    expect_game_events(&gamesensestub, [100, 100, 0]);
+    expect_game_events(&gamesensestub, [100, 100, 0], [1, 1, 1, 1, 1, 1]);
 }
 
 #[ignore]
@@ -140,7 +153,7 @@ fn should_wait_for_sse3() {
     let gamesensestub = server::ServerStub::new();
 
     expect_game_register(&gamesensestub);
-    expect_game_events(&gamesensestub, [49, 100, 19]);
+    expect_game_events(&gamesensestub, [49, 100, 19], [0, 0, 0, 0, 1, 1]);
 }
 
 fn start_sut() -> Process {
@@ -165,6 +178,8 @@ fn expect_lol_register(gamesensestub: &server::ServerStub) {
     gamesensestub.expect_request("/register_game_event", "SPELL_W");
     gamesensestub.expect_request("/register_game_event", "SPELL_E");
     gamesensestub.expect_request("/register_game_event", "SPELL_R");
+    gamesensestub.expect_request("/register_game_event", "SPELL_D");
+    gamesensestub.expect_request("/register_game_event", "SPELL_F");
 }
 
 fn expect_fortnite_register(gamesensestub: &server::ServerStub) {
@@ -173,13 +188,16 @@ fn expect_fortnite_register(gamesensestub: &server::ServerStub) {
     gamesensestub.expect_request("/register_game_event", "ARMOR");
 }
 
-fn expect_game_events(gamesensestub: &server::ServerStub, stats: [u8; 3]) {
+fn expect_game_events(gamesensestub: &server::ServerStub, stats: [u8; 3], spells: [u8; 6]) {
     gamesensestub.expect_request(
         "/multiple_game_events",
-        &format!(
+        &(format!(
             "HEALTH.*value.* {}.*MANA.*value.* {}.*HIT.*value.* {}",
             stats[0], stats[1], stats[2]
-        ),
+        ) + &format!(
+            ".*SPELL_Q.* {}.*SPELL_W.* {}.*SPELL_E.* {}.*SPELL_R.* {}.*SPELL_D.* {}.*SPELL_F.* {}",
+            spells[0], spells[1], spells[2], spells[3], spells[4], spells[5]
+        )),
     );
 }
 
