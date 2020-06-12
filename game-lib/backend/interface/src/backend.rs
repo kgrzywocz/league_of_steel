@@ -120,5 +120,5 @@ impl Color {
     }
 }
 fn is_much_higher(a: u8, b: u8) -> bool {
-    ((a as i32 > b as i32 + 22) || (0.7 * a as f32 > b as f32))
+    (a as i32 > b as i32 + 22) || (0.7 * a as f32 > b as f32)
 }

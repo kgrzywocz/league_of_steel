@@ -1540,7 +1540,7 @@ dependencies = [
 name = "ssestub"
 version = "0.1.0"
 dependencies = [
- "testlib 0.1.0",
+ "testlib 0.6.0",
 ]
 
 [[package]]
@@ -1607,7 +1607,7 @@ dependencies = [
 
 [[package]]
 name = "testlib"
-version = "0.1.0"
+version = "0.6.0"
 dependencies = [
  "app 0.2.0",
  "piston_window 0.98.0 (registry+https://github.com/rust-lang/crates.io-index)",
