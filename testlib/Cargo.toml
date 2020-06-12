@@ -1,6 +1,6 @@
 [package]
 name = "testlib"
-version = "0.6.0"
+version = "0.6.1"
 authors = ["Krzysztof Grzywocz <kgrzywocz@wp.pl>"]
 edition = "2018"
 
