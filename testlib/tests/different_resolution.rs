@@ -82,7 +82,7 @@ fn test_resolution(width: u32, height: u32, file: &'static str) {
     test_resolution_with_spells(width, height, file, [1, 1, 1, 1, 1, 1]);
 }
 fn test_resolution_with_spells(width: u32, height: u32, file: &'static str, spells: [u8; 6]) {
-    let window = image::ImageDisplay::new(width, height, file);
+    let window = image::ImageWindow::new(width, height, file);
     let gamesensestub = server::ServerStub::new();
 
     let _sut = start_sut();
