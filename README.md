@@ -1,6 +1,7 @@
 # League of Steel
 
 Make [SteelSeries GameSense](https://steelseries.com/engine/apps) work with [League of Legends](https://leagueoflegends.com/) !!!
+Now also work with [Fortnite](https://www.epicgames.com/fortnite) - maybe more is coming;)
 
 [![How to install league_of_steel_video](http://img.youtube.com/vi/87hzCs3y4Yo/0.jpg)](http://www.youtube.com/watch?v=87hzCs3y4Yo "How to install league_of_steel")
 
@@ -26,4 +27,5 @@ And if every thing went correct you will find app in ```target/release/league_of
 
 Program support only fullscreen mode and was tested under resolution 1920x1080.
 
-Special thanks to ~~Kasia~~Karolina (fabuleuse) and bandrews3030150(TheBrian666) ;)
+Special thanks to ~~Kasia~~Karolina (fabuleuse), bandrews3030150(TheBrian666), Muratcan Öztürk, Marcel Ortgies, 김민준, Martijn Gribnau (foresterre)
+ ;)
