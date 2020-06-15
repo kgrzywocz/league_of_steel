@@ -5,7 +5,11 @@ Now also work with [Fortnite](https://www.epicgames.com/fortnite) - maybe more i
 
 [![How to install league_of_steel_video](http://img.youtube.com/vi/87hzCs3y4Yo/0.jpg)](http://www.youtube.com/watch?v=87hzCs3y4Yo "How to install league_of_steel")
 
-It currently supports events: HEALTH, MANA and HIT.
+### League of Legends
+It supports events: HEALTH, MANA and HIT. Version v0.6 adds QWER DF spells.
+
+### Fortnite
+It supports events: HEALTH and ARMOR.
 
 ## How to run
 
