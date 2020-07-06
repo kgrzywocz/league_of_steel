@@ -390,7 +390,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "fortnite"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "game-lib 0.1.0",
  "interfaces 0.1.0",
@@ -665,9 +665,9 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "league_of_steel"
-version = "0.6.1"
+version = "0.7.0-pre"
 dependencies = [
- "fortnite 0.1.0",
+ "fortnite 0.2.0",
  "interfaces 0.1.0",
  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "lol 0.9.1",

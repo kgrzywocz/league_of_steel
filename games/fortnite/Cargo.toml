@@ -1,6 +1,6 @@
 [package]
 name = "fortnite"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Krzysztof Grzywocz <kgrzywocz@wp.pl>"]
 edition = "2018"
 

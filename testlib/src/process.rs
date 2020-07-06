@@ -7,9 +7,9 @@ pub struct Process {
 
 impl Process {
     pub fn start(cmd: &str) -> Self {
-        Self::start_with_args(cmd,vec![])
+        Self::start_with_args(cmd, vec![])
     }
-    pub fn start_with_args(cmd: &str, args:Vec<&str>) -> Self {
+    pub fn start_with_args(cmd: &str, args: Vec<&str>) -> Self {
         Self {
             process: std::process::Command::new(cmd)
                 .args(&args)

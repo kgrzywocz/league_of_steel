@@ -22,6 +22,7 @@ impl GameTrait for FortniteLib {
             vec![
                 GameEventInfo::new("HEALTH").set_type(GameEventType::Health),
                 GameEventInfo::new("ARMOR").set_type(GameEventType::Armor),
+                GameEventInfo::new("HIT").set_type(GameEventType::Boom),
             ],
         )
     }
@@ -49,6 +50,7 @@ impl GameAnalyzer for FortniteGameAnalyzer {
             vec![
                 GameEvent::new("HEALTH", self.pixel_analyzer.get_health()),
                 GameEvent::new("ARMOR", self.pixel_analyzer.get_armor()),
+                GameEvent::new("HIT", self.pixel_analyzer.get_hit()),
             ],
         )
     }
@@ -66,6 +68,7 @@ impl FortniteGameAnalyzer {
 pub struct FortnitePixelAnalyzer {
     health: u8,
     armor: u8,
+    prev_health: u8,
 }
 
 impl PixelRectAnalyzer for FortnitePixelAnalyzer {
@@ -81,11 +84,13 @@ impl PixelRectAnalyzer for FortnitePixelAnalyzer {
             armor_bar.set_position(positions.get_armor_height());
             armor_bar.set_range(range);
 
+            self.prev_health = self.health;
             self.health = health_bar.analyze_pixels(pixels, |c| c.is_green(), 0);
             self.armor = armor_bar.analyze_pixels(pixels, |c| c.is_blue(), 0);
         } else {
             self.health = 0;
             self.armor = 0;
+            self.prev_health = 0;
         }
     }
 }
@@ -101,6 +106,7 @@ impl FortnitePixelAnalyzer {
         Self {
             health: 0,
             armor: 0,
+            prev_health: 0,
         }
     }
     pub fn get_health(&self) -> u8 {
@@ -108,6 +114,14 @@ impl FortnitePixelAnalyzer {
     }
     pub fn get_armor(&self) -> u8 {
         self.armor
+    }
+    pub fn get_hit(&self) -> u8 {
+        let hit = self.prev_health as i8 - self.health as i8;
+        if hit > 0 {
+            return hit as u8;
+        } else {
+            return 0;
+        }
     }
 }
 
