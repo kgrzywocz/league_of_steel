@@ -137,10 +137,10 @@ impl BarsPosition {
         (self.width * 100 / 1920, self.width * 510 / 1920)
     }
     fn get_health_height(&self) -> u32 {
-        self.apply_ratio(self.height * 965 / 1080)
+        self.apply_ratio(self.height * 987 / 1080)
     }
     fn get_armor_height(&self) -> u32 {
-        self.apply_ratio(self.height * 960 / 1080)
+        self.apply_ratio(self.height * 984 / 1080)
     }
     fn apply_ratio(&self, value: u32) -> u32 {
         let ratio = (self.width as f64 / self.height as f64) / (1920.0 / 1080.0);
@@ -159,8 +159,8 @@ mod tests {
 
         assert_eq!(sut.get_range().0, 100);
         assert_eq!(sut.get_range().1, 510);
-        assert_eq!(sut.get_health_height(), 965);
-        assert_eq!(sut.get_armor_height(), 960);
+        assert_eq!(sut.get_health_height(), 987);
+        assert_eq!(sut.get_armor_height(), 984);
     }
     #[test]
     fn test_bars_position_1280x720() {
@@ -168,8 +168,8 @@ mod tests {
 
         assert_eq!(sut.get_range().0, 66);
         assert_eq!(sut.get_range().1, 340);
-        assert_eq!(sut.get_health_height(), 643);
-        assert_eq!(sut.get_armor_height(), 640);
+        assert_eq!(sut.get_health_height(), 658);
+        assert_eq!(sut.get_armor_height(), 656);
     }
     #[test]
     fn test_bars_position_1366x768() {
@@ -177,8 +177,8 @@ mod tests {
 
         assert_eq!(sut.get_range().0, 71);
         assert_eq!(sut.get_range().1, 362);
-        assert_eq!(sut.get_health_height(), 686);
-        assert_eq!(sut.get_armor_height(), 682);
+        assert_eq!(sut.get_health_height(), 701);
+        assert_eq!(sut.get_armor_height(), 699);
     }
     #[test]
     fn test_bars_position_1280x1024() {
@@ -186,8 +186,8 @@ mod tests {
 
         assert_eq!(sut.get_range().0, 66);
         assert_eq!(sut.get_range().1, 340);
-        assert_eq!(sut.get_health_height(), 947);
-        assert_eq!(sut.get_armor_height(), 944);
+        assert_eq!(sut.get_health_height(), 962);
+        assert_eq!(sut.get_armor_height(), 960);
     }
     #[test]
     fn test_bars_position_1600x900() {
@@ -195,8 +195,8 @@ mod tests {
 
         assert_eq!(sut.get_range().0, 83);
         assert_eq!(sut.get_range().1, 425);
-        assert_eq!(sut.get_health_height(), 804);
-        assert_eq!(sut.get_armor_height(), 800);
+        assert_eq!(sut.get_health_height(), 822);
+        assert_eq!(sut.get_armor_height(), 820);
     }
     #[test]
     fn test_bars_position_1600x1024() {
@@ -204,8 +204,8 @@ mod tests {
 
         assert_eq!(sut.get_range().0, 83);
         assert_eq!(sut.get_range().1, 425);
-        assert_eq!(sut.get_health_height(), 928);
-        assert_eq!(sut.get_armor_height(), 924);
+        assert_eq!(sut.get_health_height(), 946);
+        assert_eq!(sut.get_armor_height(), 944);
     }
     #[test]
     fn test_bars_position_1680x1050() {
@@ -213,7 +213,7 @@ mod tests {
 
         assert_eq!(sut.get_range().0, 87);
         assert_eq!(sut.get_range().1, 446);
-        assert_eq!(sut.get_health_height(), 950);
-        assert_eq!(sut.get_armor_height(), 945);
+        assert_eq!(sut.get_health_height(), 969);
+        assert_eq!(sut.get_armor_height(), 966);
     }
 }
