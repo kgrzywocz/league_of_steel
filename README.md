@@ -1,3 +1,10 @@
+> **NOTE**
+> 
+> It seems we now have offical support on LoL for GameSense... [read more](https://steelseries.com/blog/league-legends-RGB-notifications-gamesense-engine-295)
+> 
+> This project is archived ;)
+
+
 # League of Steel
 
 Make [SteelSeries GameSense](https://steelseries.com/engine/apps) work with [League of Legends](https://leagueoflegends.com/) !!!
